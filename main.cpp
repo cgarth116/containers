@@ -2030,32 +2030,46 @@ int main()
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test reverse not empty list<int> ******************" << std::endl;
 
+    A.push_back(42);
+    AOrigin.push_back(42);
     viewAll(A);
     viewAllOriginal(AOrigin);
-    
+
+    ft::list<int>::iterator itRev;
+    std::list<int>::iterator itRevOrigin;
+    itRev = A.begin();
+    itRevOrigin = AOrigin.begin();
+    ++itRev;
+    ++itRevOrigin;
+
     A.reverse();
     AOrigin.reverse();
+    ++itRev;
+    ++itRevOrigin;
     std::cout << "*reverse*" << std::endl;
     viewAll(A);
     viewAllOriginal(AOrigin);
+    if (*itRev == *itRevOrigin)
     if (A.front() == AOrigin.front())
         std::cout << "✅ OK" << std::endl;
     else
     {
         std::cout << "❌FALSE❌ : expected ";
+        std::cout << *itRevOrigin << std::endl;
         viewAllOriginal(AOrigin);
         std::cout << "received ";
+        std::cout << *itRev << std::endl;
         viewAll(A);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test reverse empty list<int> ******************" << std::endl;
 
     viewAll(AEmpty);
     viewAllOriginal(AEmptyOrigin);
-    
+
     AEmpty.reverse();
     AEmptyOrigin.reverse();
     std::cout << "*reverse*" << std::endl;
@@ -2069,10 +2083,10 @@ int main()
         viewAllOriginal(AEmptyOrigin);
         std::cout << "received ";
         viewAll(AEmpty);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test reverse not empty list<std::string> ******************" << std::endl;
 
@@ -2086,10 +2100,10 @@ int main()
     BOrigin.push_front("qwerty");
     BOrigin.push_front("ZxZcZ");
     BOrigin.push_front("lkjhg");
-    
+
     viewAll(B);
     viewAllOriginal(BOrigin);
-    
+
     B.reverse();
     BOrigin.reverse();
     std::cout << "*reverse*" << std::endl;
@@ -2103,16 +2117,16 @@ int main()
         viewAllOriginal(BOrigin);
         std::cout << "received ";
         viewAll(B);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test reverse empty list<std::string> ******************" << std::endl;
 
     viewAll(BEmpty);
     viewAllOriginal(BEmptyOrigin);
-    
+
     BEmpty.reverse();
     BEmptyOrigin.reverse();
     std::cout << "*reverse*" << std::endl;
@@ -2126,7 +2140,7 @@ int main()
         viewAllOriginal(BEmptyOrigin);
         std::cout << "received ";
         viewAll(BEmpty);
-        
+
         mistakes++;
     }
     
@@ -2366,7 +2380,8 @@ int main()
         mistakes++;
     }
 
-
+    std::cout << "\nTest " << i++ << std::endl;
+    std::cout << "****************** Test insert list<std::int> ******************" << std::endl;
     ft::list<int> mylistIns;
     ft::list<int>::iterator itIns;
 
@@ -2376,8 +2391,7 @@ int main()
     itIns = mylistIns.begin();
     ++itIns;       // it points now to number 2           ^
 
-    std::cout << *(mylistIns.insert (itIns,10)) << std::endl;                        // 1 10 2 3 4 5
-    std::cout << *itIns << std::endl;
+    mylistIns.insert (itIns,10);                        // 1 10 2 3 4 5
 
     std::list<int> mylistInsOriginal;
     std::list<int>::iterator itInsOriginal;
@@ -2389,8 +2403,7 @@ int main()
 
     itInsOriginal = mylistInsOriginal.begin();
     ++itInsOriginal;       // it points now to number 2           ^
-    std::cout << *(mylistInsOriginal.insert(itInsOriginal,10)) << std::endl;
-    std::cout << *itInsOriginal << std::endl;
+    mylistInsOriginal.insert(itInsOriginal,10);
     viewAllOriginal(mylistInsOriginal);
     // "it" still points to number 2                      ^
     mylistIns.insert(itIns,2,20);
@@ -2406,6 +2419,18 @@ int main()
 
     viewAll(mylistIns);
     viewAllOriginal(mylistInsOriginal);
+
+    if (mylistIns.size() == mylistInsOriginal.size())
+        std::cout << "✅ OK" << std::endl;
+    else
+    {
+        std::cout << "❌FALSE❌ : expected ";
+        viewAllOriginal(mylistInsOriginal);
+        std::cout << "received ";
+        viewAll(mylistIns);
+
+        mistakes++;
+    }
 
 //	  double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
 //						   12.77, 73.35, 72.25, 15.3,  72.25 };

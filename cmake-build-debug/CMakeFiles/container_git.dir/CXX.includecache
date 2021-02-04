@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/cgarth/project/container_git/list.hpp
+iostream
+-
+
+/Users/cgarth/project/container_git/main.cpp
+list
+-
+vector
+-
+list.hpp
+/Users/cgarth/project/container_git/list.hpp
+cmath
+-
+

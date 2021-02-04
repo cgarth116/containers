@@ -294,19 +294,31 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 }
             }
             void reverse(){
-                T tmp;
+                Node * tmp;
+                Node * tmpB = _listEnd->nodeNext;
+                Node * tmpE = _listEnd->nodePrevious;
+//                T tmp;
                 size_t count = 0;
                 list<T>::iterator it = _listEnd->nodeNext;
                 list<T>::reverse_iterator itRev = _listEnd->nodePrevious;
 
                 while (count != _sizelist / 2)
                 {
-                    tmp = *it;
-                    *it = *itRev;
-                    *itRev = tmp;
-                    ++it;
-                    ++itRev;
+                    tmp->nodeNext = tmpB->nodeNext;
+                    tmp->nodePrevious =tmpB->nodePrevious;
+                    tmpB->nodeNext = tmpE->nodeNext;
+                    tmpB->nodePrevious = tmpE->nodePrevious;
+                    tmpE->nodeNext = tmp->nodeNext;
+                    tmpE->nodePrevious = tmp->nodePrevious;
+                    tmpE = tmpB->nodePrevious;
+                    tmpB = tmp->nodeNext;
                     count++;
+//                    tmp = *it;
+//                    *it = *itRev;
+//                    *itRev = tmp;
+//                    ++it;
+//                    ++itRev;
+//                    count++;
                 }
             }
             void unique(){
@@ -463,7 +475,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             iterator insert (iterator position, const value_type& val){
                 ft::list<T>::iterator begin = _listEnd->nodeNext;
                 ft::list<T>::iterator end = _listEnd;
-                Node * tmp = _listEnd->nodeNext;;
+                Node * tmp = _listEnd->nodeNext;
 
                 while (begin != position && begin != end) {
                     tmp = tmp->nodeNext;
