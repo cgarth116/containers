@@ -44,7 +44,7 @@ bool same_integral_part2 (double first, double second)
 // a binary predicate implemented as a class:
 struct is_near {
   bool operator() (double first, double second)
-  { return (fabs(first-second)<5.0); }
+  { return (fabs(first-second) < 5.0); }
 };
 
 
@@ -2049,16 +2049,16 @@ int main()
     std::cout << "*reverse*" << std::endl;
     viewAll(A);
     viewAllOriginal(AOrigin);
-    if (*itRev == *itRevOrigin)
+
     if (A.front() == AOrigin.front())
         std::cout << "✅ OK" << std::endl;
     else
     {
         std::cout << "❌FALSE❌ : expected ";
-        std::cout << *itRevOrigin << std::endl;
+        std::cout << AOrigin.front() << std::endl;
         viewAllOriginal(AOrigin);
         std::cout << "received ";
-        std::cout << *itRev << std::endl;
+        std::cout << A.front() << std::endl;
         viewAll(A);
 
         mistakes++;
@@ -2456,31 +2456,22 @@ int main()
 //	  std::cout << '\n';
 
 
-//	double mydoubles[] = { 2.72,  3.14, 12.15, 12.77, 12.77, 15.3,  72.25, 72.25, 73.0,  73.35 };
-//	std::list<double> std_list (mydoubles,mydoubles + 10);
-//	ft::list<double> ft_list (mydoubles, mydoubles + 10);
-//
-//		std::cout << "mylist contains:";
-//		for (ft::list<double>::iterator itm=ft_list.begin(); itm!=ft_list.end(); ++itm)
-//		  std::cout << ' ' << *itm;
-//		std::cout << '\n';
-//
-//		  std::cout << "list contains:";
-//		  for (std::list<double>::iterator it=std_list.begin(); it!=std_list.end(); ++it)
-//			std::cout << ' ' << *it;
-//		  std::cout << '\n';
-//	std_list.unique (is_near());
-//	ft_list.unique (is_near());
-//
-//		std::cout << "mylist contains:";
-//		for (ft::list<double>::iterator itm=ft_list.begin(); itm!=ft_list.end(); ++itm)
-//		  std::cout << ' ' << *itm;
-//		std::cout << '\n';
-//
-//		  std::cout << "list contains:";
-//		  for (std::list<double>::iterator it=std_list.begin(); it!=std_list.end(); ++it)
-//			std::cout << ' ' << *it;
-//		  std::cout << '\n';
+	double mydoubles[] = { 2.72,  3.14, 12.15, 12.77, 12.77, 15.3,  72.25, 72.25, 73.0,  73.35 };
+	std::list<double> std_list (mydoubles,mydoubles + 10);
+	ft::list<double> ft_list (mydoubles, mydoubles + 10);
+
+	viewAll(ft_list);
+	viewAllOriginal(std_list);
+
+	std::cout << "uniq:\n";
+
+	std_list.unique (is_near());
+	ft_list.unique (is_near());
+
+    viewAll(ft_list);
+    viewAllOriginal(std_list);
+
+
 	
     std::cout << "\nMistakes=" << mistakes << std::endl;
     

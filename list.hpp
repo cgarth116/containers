@@ -295,61 +295,43 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             }
             void reverse(){
                 Node * tmp;
-                Node * tmpB = _listEnd->nodeNext;
-                Node * tmpE = _listEnd->nodePrevious;
-//                T tmp;
-                size_t count = 0;
-                list<T>::iterator it = _listEnd->nodeNext;
-                list<T>::reverse_iterator itRev = _listEnd->nodePrevious;
+                Node * tmpNode;
+                list<T>::iterator begin = _listEnd->nodeNext;
 
-                while (count != _sizelist / 2)
+                tmpNode = _listEnd->nodeNext;
+                while (begin != _listEnd)
                 {
-                    tmp->nodeNext = tmpB->nodeNext;
-                    tmp->nodePrevious =tmpB->nodePrevious;
-                    tmpB->nodeNext = tmpE->nodeNext;
-                    tmpB->nodePrevious = tmpE->nodePrevious;
-                    tmpE->nodeNext = tmp->nodeNext;
-                    tmpE->nodePrevious = tmp->nodePrevious;
-                    tmpE = tmpB->nodePrevious;
-                    tmpB = tmp->nodeNext;
-                    count++;
-//                    tmp = *it;
-//                    *it = *itRev;
-//                    *itRev = tmp;
-//                    ++it;
-//                    ++itRev;
-//                    count++;
+                    begin++;
+                    tmp = tmpNode->nodeNext;
+                    tmpNode->nodeNext = tmpNode->nodePrevious;
+                    tmpNode->nodePrevious = tmp;
+                    tmpNode = tmp;
                 }
+                tmp= _listEnd->nodeNext;
+                _listEnd->nodeNext = _listEnd->nodePrevious;
+                _listEnd->nodePrevious = tmp;
             }
             void unique(){
                 T tmp;
                 list<T>::iterator it = _listEnd->nodeNext;
-                while (it != _listEnd->nodePrevious)
+                while (it != _listEnd)
                 {
                     tmp = *it;
                     if (*(++it) == tmp)
                         while (*it == tmp)
-                        {
-                            erase(it);
-                            ++it;
-                        }
+                            erase(it++);
                 }
             }
             template <class BinaryPredicate>
             void unique (BinaryPredicate binary_pred){
                 T tmp;
                 list<T>::iterator it = _listEnd->nodeNext;
-                while (it != _listEnd->nodePrevious)
+                while (it != _listEnd)
                 {
                     tmp = *it;
-                    if (binary_pred(*(++it), tmp))
-                        while (it != _listEnd && binary_pred(*it, tmp))
-                        {
-                            std::cout <<"in="<<*it<< " tmp="<<tmp<< std::endl;
-                            erase(it);
-                            ++it;
-                            std::cout <<"out="<<*it<< std::endl;
-                        }
+                    if (binary_pred(tmp, *(++it)))
+                        while ( binary_pred(tmp, *it))
+                            erase(it++);
                 }
             }
 
