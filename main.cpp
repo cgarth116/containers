@@ -2246,7 +2246,36 @@ int main()
         
         mistakes++;
     }
-    
+
+    std::cout << "\nTest " << i++ << std::endl;
+    std::cout << "****************** Test uniq list<std::int> ******************" << std::endl;
+    double mydoubles[] = { 2.72,  3.14, 12.15, 12.77, 12.77, 15.3,  72.25, 72.25, 73.0,  73.35 };
+    std::list<double> std_list (mydoubles,mydoubles + 10);
+    ft::list<double> ft_list (mydoubles, mydoubles + 10);
+
+    viewAll(ft_list);
+    viewAllOriginal(std_list);
+
+    std::cout << "uniq:\n";
+
+    std_list.unique (is_near());
+    ft_list.unique (is_near());
+
+    viewAll(ft_list);
+    viewAllOriginal(std_list);
+
+    if (ft_list.back() == std_list.back())
+        std::cout << "✅ OK" << std::endl;
+    else
+    {
+        std::cout << "❌FALSE❌ : expected ";
+        viewAllOriginal(std_list);
+        std::cout << "received ";
+        viewAll(ft_list);
+
+        mistakes++;
+    }
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test unique BinaryPredicate not empty list<int> ******************" << std::endl;
 
@@ -2432,47 +2461,36 @@ int main()
         mistakes++;
     }
 
-//	  double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
-//						   12.77, 73.35, 72.25, 15.3,  72.25 };
-//	  std::list<double> mylist (mydoubles,mydoubles+10);
-//	  ft::list<double> mylistm(mydoubles,mydoubles+10);
-//	  mylist.sort();             //  2.72,  3.14, 12.15, 12.77, 12.77,
-//
-//	mylistm.sort();
-//	mylistm.unique();// 15.3,  72.25, 72.25, 73.0,  73.35
-//
-//	  mylist.unique();           //  2.72,  3.14, 12.15, 12.77
-//								 // 15.3,  72.25, 73.0,  73.35
-//
-//
-//	std::cout << "mylist contains:";
-//	for (ft::list<double>::iterator itm=mylistm.begin(); itm!=mylistm.end(); ++itm)
-//	  std::cout << ' ' << *itm;
-//	std::cout << '\n';
-//
-//	  std::cout << "list contains:";
-//	  for (std::list<double>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
-//		std::cout << ' ' << *it;
-//	  std::cout << '\n';
+    std::cout << "\nTest " << i++ << std::endl;
+    std::cout << "****************** Test sort2not empty list<int> ******************" << std::endl;
+
+    ft::list<int>::iterator itSort = A.begin();
+    std::list<int>::iterator itSortOriginal = AOrigin.begin();
+
+    viewAll(A);
+    viewAllOriginal(AOrigin);
+    ++itSort;
+    ++itSortOriginal;
+
+    A.sort();
+    AOrigin.sort();
+    std::cout << "*Sort*" << std::endl;
+    viewAll(A);
+    viewAllOriginal(AOrigin);
+    if (A.front() == AOrigin.front())
+        std::cout << "✅ OK" << std::endl;
+    else
+    {
+        std::cout << "❌FALSE❌ : expected ";
+        viewAllOriginal(AOrigin);
+        std::cout << "received ";
+        viewAll(A);
+
+        mistakes++;
+    }
 
 
-	double mydoubles[] = { 2.72,  3.14, 12.15, 12.77, 12.77, 15.3,  72.25, 72.25, 73.0,  73.35 };
-	std::list<double> std_list (mydoubles,mydoubles + 10);
-	ft::list<double> ft_list (mydoubles, mydoubles + 10);
 
-	viewAll(ft_list);
-	viewAllOriginal(std_list);
-
-	std::cout << "uniq:\n";
-
-	std_list.unique (is_near());
-	ft_list.unique (is_near());
-
-    viewAll(ft_list);
-    viewAllOriginal(std_list);
-
-
-	
     std::cout << "\nMistakes=" << mistakes << std::endl;
     
     return 0;
