@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include <iostream>
+#include "listIterator.hpp"
 
 namespace ft
 {
@@ -13,137 +14,59 @@ template<class T> struct enable_if<true, T> { typedef T type; };
     {
         typedef T   value_type;
 
-        struct Node{
-            Node(): nodeNext(NULL), nodePrevious(NULL) {}
-            Node(const T& t){
-                node = t;
-                nodeNext = NULL;
-                nodePrevious = NULL;
-            }
-            T node; //сама нода
-            Node *nodeNext; //следующий элемент
-            Node *nodePrevious; //предыдущий элемент
-        };
-
         public:
-            class iterator: public std::iterator<std::input_iterator_tag, value_type>{
-                public:
-                    iterator(): _index(NULL) {};
-                    iterator(Node* index): _index(index) {};
-                    bool operator==(iterator const & rhs){
-                        return _index == rhs._index;
-                    };
-                    bool operator!=(iterator const & rhs){
-                        return _index != rhs._index;
-                    };
-                    iterator & operator++(){
-                        _index = _index->nodeNext;
-                        return *this;
-                    };
-                    iterator operator++(int){
-                        iterator tmp(_index);
-                        _index = _index->nodeNext;
-                        return tmp;
-                    }
-                    iterator & operator--(){
-                        _index= _index->nodePrevious;
-                        return *this;
-                    };
-                    iterator operator--(int){
-                        iterator tmp(_index);
-                        _index= _index->nodePrevious;
-                        return tmp;
-                    }
-                    T & operator*(){
-                        return _index->node;
-                    };
 
-                private:
-                    Node* _index;
-            };
-            class reverse_iterator{
-                public:
-                    reverse_iterator(): _index(NULL) {};
-                    reverse_iterator(Node* index): _index(index) {};
-                    bool operator==(reverse_iterator const & rhs){
-                        return _index == rhs._index;
-                    };
-                    bool operator!=(reverse_iterator const & rhs){
-                        return _index != rhs._index;
-                    };
-                    reverse_iterator & operator++(){
-                        _index= _index->nodePrevious;
-                        return *this;
-                    };
-                    reverse_iterator operator++(int){
-                        reverse_iterator tmp(_index);
-                        _index= _index->nodePrevious;
-                        return tmp;
-                    }
-                    reverse_iterator & operator--(){
-                        _index = _index->nodeNext;
-                        return *this;
-                    };
-                    reverse_iterator operator--(int){
-                        reverse_iterator tmp(_index);
-                        _index = _index->nodeNext;
-                        return tmp;
-                    }
-                    T & operator*(){
-                        return _index->node;
-                    };
-
-                private:
-                    Node* _index;
-            };
+			typedef ft::Node<T> 			Node;
+			typedef ft::iterator<T>  		iterator;
+			typedef ft::reverse_iterator<T> reverse_iterator;
 
             explicit list (const std::allocator<value_type>& alloc = std::allocator<value_type>()){
-				Node *nodeEnd = new Node();
+				ft::Node<T> *nodeEnd = new ft::Node<T>();
 				
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(Node);
+				_sizeNode = sizeof(ft::Node<T>);
 			};
             explicit list (size_t n, const value_type& val = value_type(), const std::allocator<value_type>& alloc = std::allocator<value_type>()){
-				Node *nodeEnd = new Node();
+				ft::Node<T> *nodeEnd = new ft::Node<T>();
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(Node);
+				_sizeNode = sizeof(ft::Node<T>);
 				while (n-- > 0)
 					push_front(val);
 			};
             template <class InputIterator>
             list (InputIterator first, InputIterator last, const std::allocator<value_type>& alloc = std::allocator<value_type>(), typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
 			{
-				Node *nodeEnd = new Node();
+				ft::Node<T> *nodeEnd = new ft::Node<T>();
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(Node);
+				_sizeNode = sizeof(ft::Node<T>);
 				while (first != last ){
 					push_back(*first);
 					++first;
 				}
 			};
             list (const list & rhs){
-				Node *nodeEnd = new Node();
+				ft::Node<T> *nodeEnd = new ft::Node<T>();
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(Node);
+				_sizeNode = sizeof(ft::Node<T>);
 				*this = rhs;
 			};
             list & operator=(const list & rhs){
@@ -151,7 +74,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 					return *this;
 				clear();
 				if (rhs._sizelist != 0){
-					Node* tmp = rhs._listEnd->nodeNext;
+					ft::Node<T>* tmp = rhs._listEnd->nodeNext;
 					while (tmp != rhs._listEnd){
 						push_back(tmp->node);
 						tmp = tmp->nodeNext;
@@ -214,7 +137,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 }
             }
             void push_front(const value_type& t){
-                if (Node *node = new Node(t)){
+                if (ft::Node<T> *node = new ft::Node<T>(t)){
                     if (_sizelist != 0){
                         node->nodeNext = _listEnd->nodeNext;
                         node->nodeNext->nodePrevious = node;
@@ -239,7 +162,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 }
             }
             void push_back(const value_type& t){
-                if (Node *node = new Node(t)){
+                if (ft::Node<T> *node = new ft::Node<T>(t)){
                     if (_sizelist != 0){
                         node->nodePrevious = _listEnd->nodePrevious;
                         node->nodePrevious->nodeNext = node;
@@ -266,13 +189,13 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             iterator insert (iterator position, const value_type& val){
                 ft::list<T>::iterator begin = _listEnd->nodeNext;
                 ft::list<T>::iterator end = _listEnd;
-                Node * tmp = _listEnd->nodeNext;
+                ft::Node<T> * tmp = _listEnd->nodeNext;
 
                 while (begin != position && begin != end) {
                     tmp = tmp->nodeNext;
                     begin++;
                 }
-                if (Node *node = new Node(val)){
+                if (ft::Node<T> *node = new ft::Node<T>(val)){
                     node->nodeNext = tmp;
                     node->nodePrevious = tmp->nodePrevious;
                     tmp->nodePrevious->nodeNext = node;
@@ -302,8 +225,8 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             iterator erase(iterator first, iterator last){
                 list<T>::iterator it = _listEnd->nodeNext;
                 if (_sizelist != 0 && first != _listEnd){
-                    Node * tmp;
-                    Node * tmpB;
+                    ft::Node<T> * tmp;
+                    ft::Node<T> * tmpB;
                     tmp = _listEnd->nodeNext;
                     while (it != first && it != _listEnd){
                         tmp = tmp->nodeNext;
