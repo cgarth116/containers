@@ -2489,7 +2489,6 @@ int main()
     }
 
 
-
     std::cout << "\nMistakes=" << mistakes << std::endl;
     
     return 0;

@@ -16,9 +16,11 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 
         public:
 
-			typedef ft::Node<T> 			Node;
-			typedef ft::iterator<T>  		iterator;
-			typedef ft::reverse_iterator<T> reverse_iterator;
+			typedef ft::Node<T> 					Node;
+			typedef ft::iterator<T>  				iterator;
+			typedef ft::const_iterator<T>  			const_iterator;
+			typedef ft::reverse_iterator<T>			reverse_iterator;
+			typedef ft::const_reverse_iterator<T>	const_reverse_iterator;
 
 			static bool compare(const T & x, const T & y) {
 				return x < y;
@@ -88,22 +90,34 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 			};
 
             iterator begin(){
-              return _listEnd->nodeNext;
+              return iterator(_listEnd->nodeNext);
             };
+			const_iterator begin() const{
+				return const_iterator(_listEnd->nodeNext);
+			};
             iterator end(){
-              return _listEnd;
+              return iterator(_listEnd);
             };
+			const_iterator end() const{
+				return const_iterator(_listEnd);
+			};
             reverse_iterator rbegin(){
-                return _listEnd->nodePrevious;
+                return reverse_iterator(_listEnd->nodePrevious);
             };
+			const_reverse_iterator rbegin() const{
+			return const_reverse_iterator(_listEnd->nodePrevious);
+		};
             reverse_iterator rend(){
-                return _listEnd;
+                return reverse_iterator(_listEnd);
             };
+			const_reverse_iterator rend() const{
+				return const_reverse_iterator(_listEnd);
+			};
 
             bool empty() const{
                 return _sizelist == 0;
             }
-            size_t size(){
+            size_t size() const{
                 return _sizelist;
             }
             size_t max_size() const{
@@ -156,7 +170,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                     _listEnd->node = _sizelist;
                 }
             }
-            void pop_front (){
+            void pop_front(){
                 if (_sizelist != 0){
                     _listEnd->nodeNext = _listEnd->nodeNext->nodeNext;
                     delete _listEnd->nodeNext->nodePrevious;
@@ -271,7 +285,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 erase(_listEnd->nodeNext, _listEnd);
             }
 
-            void remove (const T& val){
+            void remove (const value_type& val){
                 list<T>::iterator it = _listEnd->nodeNext;
                 while (it != _listEnd)
                 {
