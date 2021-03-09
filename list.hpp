@@ -299,7 +299,6 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 					x.erase(first++);
 				}
             }
-
             void remove (const value_type& val){
                 list<T>::iterator it = _listEnd->nodeNext;
                 while (it != _listEnd)
@@ -340,6 +339,32 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                         while ( binary_pred(tmp, *it))
                             erase(it++);
                 }
+            }
+
+			void merge (list& x){
+            	splice(begin(), x);
+            	sort();
+            }
+
+			template <class Compare>
+			void merge (list & x, Compare comp){
+				sort();
+            	x.sort();
+            	iterator it = begin();
+				iterator ite = end();
+				iterator itX = x.begin();
+				iterator itXe = x.end();
+            	while(itX != itXe){
+            		while (it != ite){
+            			if (comp(*itX, *it) > 0){
+            				insert(it,*itX);
+            				x.erase(itX);
+							break;
+            			}
+            			++it;
+            		}
+					++itX;
+				}
             }
 
             void sort(){

@@ -27,6 +27,10 @@ bool compare_nocase (const std::string& first, const std::string& second)
   return ( first.length() < second.length() );
 }
 
+bool mycomparison (double first, double second){
+	return ( int(first)<int(second) );
+}
+
 bool compare_int(const int& x, const int& y) {return x < y;}
 
 // a binary predicate implemented as a function:
@@ -2590,6 +2594,75 @@ int main()
 
 		mistakes++;
 	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test merge1 list<std::int> ******************" << std::endl;
+	std::list<double> firstMOriginal, secondMOriginal;
+	ft::list<double> firstM, secondM;
+
+	firstM.push_back (3.1);
+	firstM.push_back (2.2);
+	firstM.push_back (2.9);
+	secondM.push_back (3.7);
+	secondM.push_back (7.1);
+	secondM.push_back (1.4);
+	viewAll(firstM);
+	viewAll(secondM);
+
+	firstM.sort();
+	secondM.sort();
+	firstM.merge(secondM);
+
+	firstMOriginal.push_back (3.1);
+	firstMOriginal.push_back (2.2);
+	firstMOriginal.push_back (2.9);
+	secondMOriginal.push_back (3.7);
+	secondMOriginal.push_back (7.1);
+	secondMOriginal.push_back (1.4);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+	firstMOriginal.sort();
+	secondMOriginal.sort();
+	firstMOriginal.merge(secondMOriginal);
+
+	std::cout << "*Merge*" << std::endl;
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+	if (*firstM.begin() == *firstMOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstMOriginal);
+		std::cout << "received ";
+		viewAll(firstM);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test merge2 list<std::int> ******************" << std::endl;
+	// compare only integral part:
+	secondM.push_back (2.1);
+	secondM.push_back (2.3);
+	secondMOriginal.push_back (2.1);
+	secondMOriginal.push_back (2.3);
+
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+
+	firstM.merge(secondM, mycomparison);
+	firstMOriginal.merge(secondMOriginal, mycomparison);
+
+	std::cout << "*Merge*" << std::endl;
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
 
     std::cout << "\nMistakes=" << mistakes << std::endl;
     
