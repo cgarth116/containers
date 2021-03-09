@@ -20,6 +20,10 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 			typedef ft::iterator<T>  		iterator;
 			typedef ft::reverse_iterator<T> reverse_iterator;
 
+			static bool compare(const T & x, const T & y) {
+				return x < y;
+			}
+
             explicit list (const std::allocator<value_type>& alloc = std::allocator<value_type>()){
 				ft::Node<T> *nodeEnd = new ft::Node<T>();
 				
@@ -310,40 +314,13 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             }
 
             void sort(){
-				Node * tmp;
-				Node * tmpN;
-                list<T>::iterator it = _listEnd->nodeNext;
-                list<T>::iterator countIn = _listEnd;
-                while (countIn != _listEnd->nodeNext)
-                {
-                    it = _listEnd->nodeNext;
-					tmp = _listEnd->nodeNext;
-                    while (it != countIn)
-                    {
-                        if (++it != countIn && tmp->node > tmp->nodeNext->node)
-                        {
-                        	tmpN = tmp->nodeNext->nodeNext;
-                        	tmp->nodeNext->nodeNext->nodePrevious = tmp;
-                        	tmp->nodePrevious->nodeNext = tmp->nodeNext;
-                        	tmp->nodeNext->nodePrevious = tmp->nodePrevious;
-                        	tmp->nodeNext->nodeNext = tmp;
-                        	tmp->nodePrevious = tmp->nodeNext;
-                        	tmp->nodeNext = tmpN;
-							--it;
-                        	it = tmp;
-                        }
-                        else{
-							tmp = tmp->nodeNext;
-                        }
-                    }
-                    --countIn;
-                }
+				sort(compare);
             }
             template <class Compare>
             void sort(Compare comp){
 				Node * tmp;
 				Node * tmpN;
-                list<T>::iterator it = _listEnd->nodeNext;
+                list<T>::iterator it;
                 list<T>::iterator countIn = _listEnd;
                 while (countIn != _listEnd->nodeNext)
                 {
