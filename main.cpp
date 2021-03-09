@@ -2489,6 +2489,108 @@ int main()
     }
 
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test splice1 list<std::int> ******************" << std::endl;
+
+	ft::list<int> firstSs;
+	ft::list<int> secondSs;
+	std::list<int> firstSsOriginal;
+	std::list<int> secondSsOriginal;
+
+	ft::list<int>::iterator itS;
+	std::list<int>::iterator it;
+	// set some initial values:
+	for (int i=1; i<=4; ++i)
+		firstSs.push_back(i);      // mylist1: 1 2 3 4
+	for (int i=1; i<=3; ++i)
+		secondSs.push_back(i*10);   // mylist2: 10 20 30
+	itS = firstSs.begin();
+	++itS;                         // points to 2
+	viewAll(firstSs);
+	firstSs.splice (itS, secondSs);
+
+	for (int i=1; i<=4; ++i)
+		firstSsOriginal.push_back(i);      // mylist1: 1 2 3 4
+	for (int i=1; i<=3; ++i)
+		secondSsOriginal.push_back(i*10);   // mylist2: 10 20 30
+	it = firstSsOriginal.begin();
+	++it;                         // points to 2
+	viewAllOriginal(firstSsOriginal);
+	firstSsOriginal.splice (it, secondSsOriginal);
+	std::cout << "*Splice*" << std::endl;
+	viewAll(firstSs);
+	viewAll(secondSs);
+	viewAllOriginal(firstSsOriginal);
+	viewAllOriginal(secondSsOriginal);
+
+	if (firstAs.size() == firstAsOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstAsOriginal);
+		std::cout << "received ";
+		viewAll(firstSs);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test splice2 list<std::int> ******************" << std::endl;
+	viewAll(firstSs);
+	viewAll(secondSs);
+	viewAllOriginal(firstSsOriginal);
+	viewAllOriginal(secondSsOriginal);
+	secondSs.splice (secondSs.begin(),firstSs, itS);
+	secondSsOriginal.splice (secondSsOriginal.begin(),firstSsOriginal, it);
+	std::cout << "*Splice*" << std::endl;
+	viewAll(firstSs);
+	viewAll(secondSs);
+	viewAllOriginal(firstSsOriginal);
+	viewAllOriginal(secondSsOriginal);
+	if (*secondSs.begin() == *secondSsOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstAsOriginal);
+		std::cout << "received ";
+		viewAll(firstSs);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test splice3 list<std::int> ******************" << std::endl;
+	viewAll(firstSs);
+	viewAllOriginal(firstSsOriginal);
+
+	itS = firstSs.begin();
+	std::advance(itS,3);           // "it" points now to 30
+
+	firstSs.splice(firstSs.begin(), firstSs, itS, firstSs.end());
+	// mylist1: 30 3 4 1 10 20
+
+	it = firstSsOriginal.begin();
+	std::advance(it,3);           // "it" points now to 30
+
+	firstSsOriginal.splice ( firstSsOriginal.begin(), firstSsOriginal, it, firstSsOriginal.end());
+	// mylist1: 30 3 4 1 10 20
+	std::cout << "*Splice*" << std::endl;
+	viewAll(firstSs);
+	viewAllOriginal(firstSsOriginal);
+	if (*firstSs.begin() == *firstSsOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstAsOriginal);
+		std::cout << "received ";
+		viewAll(firstSs);
+
+		mistakes++;
+	}
+
     std::cout << "\nMistakes=" << mistakes << std::endl;
     
     return 0;

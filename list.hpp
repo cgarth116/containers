@@ -285,6 +285,21 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 erase(_listEnd->nodeNext, _listEnd);
             }
 
+
+			void splice (iterator position, list & x){
+				splice(position, x, x.begin(), x.end());
+            }
+			void splice (iterator position, list& x, iterator i){
+				iterator in = i;
+            	splice(position, x, i, ++in);
+            }
+			void splice (iterator position, list& x, iterator first, iterator last){
+				while (first != last){
+					insert(position, *first);
+					x.erase(first++);
+				}
+            }
+
             void remove (const value_type& val){
                 list<T>::iterator it = _listEnd->nodeNext;
                 while (it != _listEnd)
