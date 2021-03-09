@@ -310,52 +310,66 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             }
 
             void sort(){
-                T tmp;
-                T tmpNext;
+				Node * tmp;
+				Node * tmpN;
                 list<T>::iterator it = _listEnd->nodeNext;
-                list<T>::iterator count = _listEnd->nodeNext;
-                list<T>::iterator countIn = _listEnd->nodePrevious;
-                while (count != _listEnd->nodePrevious)
+                list<T>::iterator countIn = _listEnd;
+                while (countIn != _listEnd->nodeNext)
                 {
                     it = _listEnd->nodeNext;
+					tmp = _listEnd->nodeNext;
                     while (it != countIn)
                     {
-                        tmp = *(it);
-                        if (it != _listEnd->nodePrevious && tmp > *(++it))
+                        if (++it != countIn && tmp->node > tmp->nodeNext->node)
                         {
-                            tmpNext = *it;
-                            *(--it) = tmpNext;
-                            *(++it) = tmp;
+                        	tmpN = tmp->nodeNext->nodeNext;
+                        	tmp->nodeNext->nodeNext->nodePrevious = tmp;
+                        	tmp->nodePrevious->nodeNext = tmp->nodeNext;
+                        	tmp->nodeNext->nodePrevious = tmp->nodePrevious;
+                        	tmp->nodeNext->nodeNext = tmp;
+                        	tmp->nodePrevious = tmp->nodeNext;
+                        	tmp->nodeNext = tmpN;
+							--it;
+                        	it = tmp;
+                        }
+                        else{
+							tmp = tmp->nodeNext;
                         }
                     }
                     --countIn;
-                    ++count;
                 }
-            } //переделать на ноды а не на значения
+            }
             template <class Compare>
             void sort(Compare comp){
-                T tmp;
-                T tmpNext;
+				Node * tmp;
+				Node * tmpN;
                 list<T>::iterator it = _listEnd->nodeNext;
-                list<T>::iterator count = _listEnd->nodeNext;
-                list<T>::iterator countIn = _listEnd->nodePrevious;
-                while (count != _listEnd->nodePrevious)
+                list<T>::iterator countIn = _listEnd;
+                while (countIn != _listEnd->nodeNext)
                 {
                     it = _listEnd->nodeNext;
+					tmp = _listEnd->nodeNext;
                     while (it != countIn)
                     {
-                        tmp = *(it);
-                        if (it != _listEnd->nodePrevious && comp(*(++it), tmp) > 0)
-                        {
-                            tmpNext = *it;
-                            *(--it) = tmpNext;
-                            *(++it) = tmp;
-                        }
+                        if (++it != countIn && comp(tmp->nodeNext->node, tmp->node) > 0)
+						{
+							tmpN = tmp->nodeNext->nodeNext;
+							tmp->nodeNext->nodeNext->nodePrevious = tmp;
+							tmp->nodePrevious->nodeNext = tmp->nodeNext;
+							tmp->nodeNext->nodePrevious = tmp->nodePrevious;
+							tmp->nodeNext->nodeNext = tmp;
+							tmp->nodePrevious = tmp->nodeNext;
+							tmp->nodeNext = tmpN;
+							--it;
+							it = tmp;
+						}
+						else{
+							tmp = tmp->nodeNext;
+						}
                     }
                     --countIn;
-                    ++count;
                 }
-            } //переделать на ноды а не на значения
+            }
             void reverse(){
                 Node * tmp;
                 Node * tmpNode;
@@ -378,10 +392,10 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             //~list();
 
         private:
-            Node *_listBegin;
-            Node *_listEnd;
-            size_t _sizelist;
-            size_t _sizeNode;
+            Node *	_listBegin;
+            Node *	_listEnd;
+            size_t	_sizelist;
+            size_t	_sizeNode;
     };
 }
 

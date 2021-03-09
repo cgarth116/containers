@@ -1819,7 +1819,7 @@ int main()
 
     viewAll(A);
     viewAllOriginal(AOrigin);
-    
+
     A.sort();
     AOrigin.sort();
     std::cout << "*Sort*" << std::endl;
@@ -1833,16 +1833,16 @@ int main()
         viewAllOriginal(AOrigin);
         std::cout << "received ";
         viewAll(A);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort empty list<int> ******************" << std::endl;
 
     viewAll(AEmpty);
     viewAllOriginal(AEmptyOrigin);
-    
+
     AEmpty.sort();
     AEmptyOrigin.sort();
     std::cout << "*Sort*" << std::endl;
@@ -1856,16 +1856,16 @@ int main()
         viewAllOriginal(AEmptyOrigin);
         std::cout << "received ";
         viewAll(AEmpty);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort not empty list<std::string> ******************" << std::endl;
 
     viewAll(B);
     viewAllOriginal(BOrigin);
-    
+
     B.sort();
     BOrigin.sort();
     std::cout << "*Sort*" << std::endl;
@@ -1879,16 +1879,16 @@ int main()
         viewAllOriginal(BOrigin);
         std::cout << "received ";
         viewAll(B);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort empty list<std::string> ******************" << std::endl;
 
     viewAll(BEmpty);
     viewAllOriginal(BEmptyOrigin);
-    
+
     BEmpty.sort();
     BEmptyOrigin.sort();
     std::cout << "*Sort*" << std::endl;
@@ -1902,10 +1902,10 @@ int main()
         viewAllOriginal(BEmptyOrigin);
         std::cout << "received ";
         viewAll(BEmpty);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort2 not empty list<int> ******************" << std::endl;
 
@@ -1929,7 +1929,7 @@ int main()
     AOrigin.push_front(4);
     viewAll(A);
     viewAllOriginal(AOrigin);
-    
+
     A.sort(compare_int);
     AOrigin.sort(compare_int);
     std::cout << "*Sort*" << std::endl;
@@ -1943,16 +1943,16 @@ int main()
         viewAllOriginal(AOrigin);
         std::cout << "received ";
         viewAll(A);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort2 empty list<int> ******************" << std::endl;
 
     viewAll(AEmpty);
     viewAllOriginal(AEmptyOrigin);
-    
+
     AEmpty.sort(compare_int);
     AEmptyOrigin.sort(compare_int);
     std::cout << "*Sort*" << std::endl;
@@ -1966,10 +1966,10 @@ int main()
         viewAllOriginal(AEmptyOrigin);
         std::cout << "received ";
         viewAll(AEmpty);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort2 not empty list<std::string> ******************" << std::endl;
 
@@ -1983,10 +1983,10 @@ int main()
     BOrigin.push_front("qwerty");
     BOrigin.push_front("ZxZcZ");
     BOrigin.push_front("lkjhg");
-    
+
     viewAll(B);
     viewAllOriginal(BOrigin);
-    
+
     B.sort(compare_nocase);
     BOrigin.sort(compare_nocase);
     std::cout << "*Sort*" << std::endl;
@@ -2000,16 +2000,16 @@ int main()
         viewAllOriginal(BOrigin);
         std::cout << "received ";
         viewAll(B);
-        
+
         mistakes++;
     }
-    
+
     std::cout << "\nTest " << i++ << std::endl;
     std::cout << "****************** Test sort2 empty list<std::string> ******************" << std::endl;
 
     viewAll(BEmpty);
     viewAllOriginal(BEmptyOrigin);
-    
+
     BEmpty.sort(compare_nocase);
     BEmptyOrigin.sort(compare_nocase);
     std::cout << "*Sort*" << std::endl;
@@ -2023,7 +2023,7 @@ int main()
         viewAllOriginal(BEmptyOrigin);
         std::cout << "received ";
         viewAll(BEmpty);
-        
+
         mistakes++;
     }
     
@@ -2485,7 +2485,6 @@ int main()
         viewAllOriginal(AOrigin);
         std::cout << "received ";
         viewAll(A);
-
         mistakes++;
     }
 
