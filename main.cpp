@@ -2663,7 +2663,7 @@ int main()
 	viewAll(secondM);
 	viewAllOriginal(firstMOriginal);
 	viewAllOriginal(secondMOriginal);
-	if (*firstM.begin() == *firstMOriginal.begin())
+	if (*(++++++firstM.begin()) == *(++++++firstMOriginal.begin()))
 		std::cout << "✅ OK" << std::endl;
 	else
 	{

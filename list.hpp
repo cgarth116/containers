@@ -6,8 +6,8 @@
 
 namespace ft
 {
-template<bool Cond, class T = void> struct enable_if {};
-template<class T> struct enable_if<true, T> { typedef T type; };
+//template<bool Cond, class T = void> struct enable_if {};
+//template<class T> struct enable_if<true, T> { typedef T type; };
 
     template <class T>
     class list
@@ -27,7 +27,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 			}
 
             explicit list (const std::allocator<value_type>& alloc = std::allocator<value_type>()){
-				ft::Node<T> *nodeEnd = new ft::Node<T>();
+				Node *nodeEnd = new Node();
 				
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
@@ -37,7 +37,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 				_sizeNode = sizeof(ft::Node<T>);
 			};
             explicit list (size_t n, const value_type& val = value_type(), const std::allocator<value_type>& alloc = std::allocator<value_type>()){
-				ft::Node<T> *nodeEnd = new ft::Node<T>();
+				Node *nodeEnd = new Node();
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
@@ -51,7 +51,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
             template <class InputIterator>
             list (InputIterator first, InputIterator last, const std::allocator<value_type>& alloc = std::allocator<value_type>(), typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
 			{
-				ft::Node<T> *nodeEnd = new ft::Node<T>();
+				Node *nodeEnd = new Node();
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
@@ -65,7 +65,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 				}
 			};
             list (const list & rhs){
-				ft::Node<T> *nodeEnd = new ft::Node<T>();
+				Node *nodeEnd = new Node();
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
@@ -105,8 +105,8 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 return reverse_iterator(_listEnd->nodePrevious);
             };
 			const_reverse_iterator rbegin() const{
-			return const_reverse_iterator(_listEnd->nodePrevious);
-		};
+				return const_reverse_iterator(_listEnd->nodePrevious);
+			};
             reverse_iterator rend(){
                 return reverse_iterator(_listEnd);
             };
@@ -155,7 +155,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 }
             }
             void push_front(const value_type& t){
-                if (ft::Node<T> *node = new ft::Node<T>(t)){
+                if (Node *node = new Node(t)){
                     if (_sizelist != 0){
                         node->nodeNext = _listEnd->nodeNext;
                         node->nodeNext->nodePrevious = node;
@@ -180,7 +180,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 }
             }
             void push_back(const value_type& t){
-                if (ft::Node<T> *node = new ft::Node<T>(t)){
+                if (Node *node = new Node(t)){
                     if (_sizelist != 0){
                         node->nodePrevious = _listEnd->nodePrevious;
                         node->nodePrevious->nodeNext = node;
@@ -213,7 +213,7 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                     tmp = tmp->nodeNext;
                     begin++;
                 }
-                if (ft::Node<T> *node = new ft::Node<T>(val)){
+                if (Node *node = new Node(val)){
                     node->nodeNext = tmp;
                     node->nodePrevious = tmp->nodePrevious;
                     tmp->nodePrevious->nodeNext = node;
@@ -285,7 +285,6 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 erase(_listEnd->nodeNext, _listEnd);
             }
 
-
 			void splice (iterator position, list & x){
 				splice(position, x, x.begin(), x.end());
             }
@@ -340,12 +339,10 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                             erase(it++);
                 }
             }
-
 			void merge (list& x){
             	splice(begin(), x);
             	sort();
             }
-
 			template <class Compare>
 			void merge (list & x, Compare comp){
 				sort();
@@ -374,7 +371,6 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 					}
 				}
             }
-
             void sort(){
 				sort(compare);
             }
@@ -388,10 +384,8 @@ template<class T> struct enable_if<true, T> { typedef T type; };
                 {
                     it = _listEnd->nodeNext;
 					tmp = _listEnd->nodeNext;
-                    while (it != countIn)
-                    {
-                        if (++it != countIn && comp(tmp->nodeNext->node, tmp->node) > 0)
-						{
+                    while (it != countIn){
+                        if (++it != countIn && comp(tmp->nodeNext->node, tmp->node) > 0){
 							tmpN = tmp->nodeNext->nodeNext;
 							tmp->nodeNext->nodeNext->nodePrevious = tmp;
 							tmp->nodePrevious->nodeNext = tmp->nodeNext;
@@ -399,7 +393,6 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 							tmp->nodeNext->nodeNext = tmp;
 							tmp->nodePrevious = tmp->nodeNext;
 							tmp->nodeNext = tmpN;
-							--it;
 							it = tmp;
 						}
 						else{
