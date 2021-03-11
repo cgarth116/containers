@@ -6,23 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/Users/cgarth/project/container_git/list.hpp
-iostream
--
-listIterator.hpp
-/Users/cgarth/project/container_git/listIterator.hpp
-
-/Users/cgarth/project/container_git/listIterator.hpp
-iostream
--
-
-/Users/cgarth/project/container_git/main.cpp
-list
--
+/Users/cgarth/project/container_git/main_vector.cpp
 vector
 -
-list.hpp
-/Users/cgarth/project/container_git/list.hpp
-cmath
+vector.hpp
+/Users/cgarth/project/container_git/vector.hpp
+
+/Users/cgarth/project/container_git/vector.hpp
+iostream
+-
+stdexcept
+-
+vectorIterator.hpp
+/Users/cgarth/project/container_git/vectorIterator.hpp
+
+/Users/cgarth/project/container_git/vectorIterator.hpp
+iostream
 -
 

@@ -34,9 +34,10 @@ namespace ft
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(ft::Node<T>);
+				_sizeNode = sizeof(Node);
 			};
-            explicit list (size_t n, const value_type& val = value_type(), const std::allocator<value_type>& alloc = std::allocator<value_type>()){
+            explicit list (size_t n, const value_type& val = value_type(),
+						   const std::allocator<value_type>& alloc = std::allocator<value_type>()){
 				Node *nodeEnd = new Node();
 
 				nodeEnd->nodePrevious = nodeEnd;
@@ -44,13 +45,15 @@ namespace ft
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(ft::Node<T>);
+				_sizeNode = sizeof(Node);
 				while (n-- > 0)
 					push_front(val);
 			};
             template <class InputIterator>
-            list (InputIterator first, InputIterator last, const std::allocator<value_type>& alloc = std::allocator<value_type>(), typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
-			{
+            list (InputIterator first,
+				  InputIterator last,
+				  const std::allocator<value_type>& alloc = std::allocator<value_type>(),
+				  typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
 				Node *nodeEnd = new Node();
 
 				nodeEnd->nodePrevious = nodeEnd;
@@ -58,7 +61,7 @@ namespace ft
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(ft::Node<T>);
+				_sizeNode = sizeof(Node);
 				while (first != last ){
 					push_back(*first);
 					++first;
@@ -72,7 +75,7 @@ namespace ft
 				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
-				_sizeNode = sizeof(ft::Node<T>);
+				_sizeNode = sizeof(Node);
 				*this = rhs;
 			};
             list & operator=(const list & rhs){
