@@ -354,16 +354,24 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 				iterator ite = end();
 				iterator itX = x.begin();
 				iterator itXe = x.end();
-            	while(itX != itXe){
-            		while (it != ite){
-            			if (comp(*itX, *it) > 0){
-            				insert(it,*itX);
-            				x.erase(itX);
-							break;
-            			}
-            			++it;
-            		}
-					++itX;
+				if (size() == 0){
+					while(itX != itXe){
+						push_back(*itX);
+						x.erase(itX++);
+					}
+				}
+				else{
+            		while(itX != itXe) {
+						while (it != ite) {
+							if (comp(*itX, *it) > 0) {
+								insert(it, *itX);
+								x.erase(itX);
+								break;
+							}
+							++it;
+						}
+						++itX;
+					}
 				}
             }
 

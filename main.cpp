@@ -2663,6 +2663,129 @@ int main()
 	viewAll(secondM);
 	viewAllOriginal(firstMOriginal);
 	viewAllOriginal(secondMOriginal);
+	if (*firstM.begin() == *firstMOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstMOriginal);
+		std::cout << "received ";
+		viewAll(firstM);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test merge1 empty first list<std::int> ******************" << std::endl;
+	// compare only integral part:
+	firstM.clear();
+	secondM.clear();
+	secondM.push_back (2.1);
+	secondM.push_back (2.4);
+	firstMOriginal.clear();
+	secondMOriginal.clear();
+	secondMOriginal.push_back (2.1);
+	secondMOriginal.push_back (2.4);
+
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+
+	firstM.merge(secondM);
+	firstMOriginal.merge(secondMOriginal);
+
+	std::cout << "*Merge*" << std::endl;
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+	if (*firstM.begin() == *firstMOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstMOriginal);
+		std::cout << "received ";
+		viewAll(firstM);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test merge2 empty first list<std::int> ******************" << std::endl;
+	// compare only integral part:
+	firstM.clear();
+	secondM.clear();
+	secondM.push_back (2.1);
+	secondM.push_back (2.5);
+	firstMOriginal.clear();
+	secondMOriginal.clear();
+	secondMOriginal.push_back (2.1);
+	secondMOriginal.push_back (2.5);
+
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+
+	firstM.merge(secondM, mycomparison);
+	firstMOriginal.merge(secondMOriginal,mycomparison);
+
+	std::cout << "*Merge*" << std::endl;
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+	if (*firstM.begin() == *firstMOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstMOriginal);
+		std::cout << "received ";
+		viewAll(firstM);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test merge2 empty second list<std::int> ******************" << std::endl;
+	// compare only integral part:
+	firstM.clear();
+	secondM.clear();
+	firstM.push_back (2.1);
+	firstM.push_back (2.6);
+	firstMOriginal.clear();
+	secondMOriginal.clear();
+	firstMOriginal.push_back (2.1);
+	firstMOriginal.push_back (2.6);
+
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+
+	firstM.merge(secondM, mycomparison);
+	firstMOriginal.merge(secondMOriginal,mycomparison);
+
+	std::cout << "*Merge*" << std::endl;
+	viewAll(firstM);
+	viewAll(secondM);
+	viewAllOriginal(firstMOriginal);
+	viewAllOriginal(secondMOriginal);
+	if (*firstM.begin() == *firstMOriginal.begin())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(firstMOriginal);
+		std::cout << "received ";
+		viewAll(firstM);
+
+		mistakes++;
+	}
+
 
     std::cout << "\nMistakes=" << mistakes << std::endl;
     
