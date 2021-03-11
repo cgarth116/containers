@@ -20,6 +20,19 @@ namespace ft{
 		bool operator!=(iterator const & rhs){
 			return _index != rhs._index;
 		};
+		iterator & operator+=(size_t n) {
+			_index += n;
+			return *this;
+		};
+		iterator & operator-=(size_t n) {
+			_index -= n;
+			return *this;
+		};
+		iterator operator+(size_t n) {
+			iterator it(*this);
+			it += n;
+			return it;
+		};
 		iterator & operator++() {
 			++_index;
 			return *this;
@@ -30,6 +43,11 @@ namespace ft{
 			++_index;
 			return tmp;
 		}
+		iterator operator-(size_t n) {
+			iterator it(*this);
+			it -= n;
+			return it;
+		};
 		iterator & operator--() {
 			--_index;
 			return *this;
@@ -59,24 +77,42 @@ namespace ft{
 		bool operator!=(reverse_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		reverse_iterator & operator+=(size_t n) {
+			_index -= n;
+			return *this;
+		};
+		reverse_iterator & operator-=(size_t n) {
+			_index += n;
+			return *this;
+		};
+		reverse_iterator operator+(size_t n) {
+			reverse_iterator it(*this);
+			it -= n;
+			return it;
+		};
 		reverse_iterator & operator++() {
-			++_index;
+			--_index;
 			return *this;
 		};
 		reverse_iterator operator++(int)
 		{
 			reverse_iterator tmp(_index);
-			++_index;
+			--_index;
 			return tmp;
 		}
+		reverse_iterator operator-(size_t n) {
+			reverse_iterator it(*this);
+			it += n;
+			return it;
+		};
 		reverse_iterator & operator--() {
-			--_index;
+			++_index;
 			return *this;
 		};
 		reverse_iterator operator--(int)
 		{
 			reverse_iterator tmp(_index);
-			--_index;
+			++_index;
 			return tmp;
 		}
 		T & operator*(){
@@ -98,6 +134,14 @@ namespace ft{
 		bool operator!=(const_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		const_iterator & operator+=(size_t n) {
+			_index += n;
+			return *this;
+		};
+		const_iterator & operator-=(size_t n) {
+			_index -= n;
+			return *this;
+		};
 		const_iterator & operator++() {
 			++_index;
 			return *this;
@@ -111,6 +155,11 @@ namespace ft{
 		const_iterator & operator--() {
 			--_index;
 			return *this;
+		};
+		const_iterator operator-(size_t n) {
+			const_iterator it(*this);
+			it -= n;
+			return it;
 		};
 		const_iterator operator--(int)
 		{
@@ -137,24 +186,42 @@ namespace ft{
 		bool operator!=(const_reverse_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		const_reverse_iterator & operator+=(size_t n) {
+			_index -= n;
+			return *this;
+		};
+		const_reverse_iterator & operator-=(size_t n) {
+			_index += n;
+			return *this;
+		};
+		const_reverse_iterator operator+(size_t n) {
+			const_reverse_iterator it(*this);
+			it -= n;
+			return it;
+		};
 		const_reverse_iterator & operator++() {
-			++_index;
+			--_index;
 			return *this;
 		};
 		const_reverse_iterator operator++(int)
 		{
 			const_reverse_iterator tmp(_index);
-			++_index;
+			--_index;
 			return tmp;
 		}
+		const_reverse_iterator operator-(size_t n) {
+			const_reverse_iterator it(*this);
+			it += n;
+			return it;
+		};
 		const_reverse_iterator & operator--() {
-			--_index;
+			++_index;
 			return *this;
 		};
 		const_reverse_iterator operator--(int)
 		{
 			const_reverse_iterator tmp(_index);
-			--_index;
+			++_index;
 			return tmp;
 		}
 		T & operator*(){

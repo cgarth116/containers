@@ -24,14 +24,17 @@ namespace ft
 
 			explicit vector (const allocator_type& alloc = allocator_type()){
 				_size = 0;
-				_capasity = 0;
+				_capasity = 1;
 				_buffer = new T[_size];
 			}
 			explicit vector (size_t n,
 							const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type()){
 				_size = n;
-				_capasity = n;
+				_capasity = 1;
+				if (n != 0) {
+					_capasity = n;
+				}
 				_buffer = new T[_size];
 				while (n != 0){
 					_buffer[--n] = val;
@@ -75,33 +78,45 @@ namespace ft
 			}
 			reverse_iterator rbegin(){
 				if (_size > 0){
-					return iterator(_buffer + _size - 1);
+					return reverse_iterator(_buffer + _size - 1);
 				}
-				return iterator(_buffer);
+				return reverse_iterator(_buffer);
 			}
 			const_reverse_iterator rbegin() const{
 				if (_size > 0) {
-					return const_iterator(_buffer + _size - 1);
+					return const_reverse_iterator(_buffer + _size - 1);
 				}
-				return const_iterator(_buffer);
+				return const_reverse_iterator(_buffer);
+			}
+			reverse_iterator rend(){
+				return reverse_iterator(_buffer - 1);
+			}
+			const_reverse_iterator rend() const{
+				return const_reverse_iterator(_buffer - 1);
 			}
 
 			size_t size() const{
 				return _size;
 			}
 			size_t max_size() const{
-				return std::numeric_limits<size_t>::max() / sizeof(T);
+				return allocator_type().max_size();
 			}
 			void resize (size_t n, value_type val = value_type()){
+				if (_size == n){
+					return;
+				}
+				if (n > _capasity){
+					reserve(n);
+				}
 				if (_size < n) {
-					insert(_size, n - _size, val);
+					insert(_buffer + _size, n - _size, val);
 				}
 				else{
-					erase(n, _size);
+					erase(_buffer + n);
 				}
 			}
 			size_t capacity() const{
-				return std::numeric_limits<size_t>::max() / sizeof(_buffer[0]);
+				return _capasity;
 			}
 			bool empty() const{
 				return _size == 0;
@@ -109,8 +124,8 @@ namespace ft
 			void reserve (size_t n){
 				if (_capasity < n){
 					//todo change _capadity
-					_capasity = n;
 				}
+				_capasity = n;
 			}
 
 			reference operator[] (size_t n){
@@ -180,21 +195,24 @@ namespace ft
 			}
 			void push_back (const value_type& val){
 				if (_size == _capasity) {
-					//todo change _capasity
+					reserve(_capasity * 2);
 				}
 				insert(end(), val);
 			}
 			void pop_back(){
 				if (_size != 0){
-					delete _buffer[_size - 1];
+					//todo delete
+					*(end() - 1) = 0;
+					//delete _buffer[_size - 1];
 					_size--;
 				}
 			}
 			iterator insert (iterator position,
 							const value_type& val){
-				if (_size == _capasity) {
-					//todo change _capasity
+				if (_size + 1 > _capasity) {
+					reserve(_size * 2);
 				}
+
 				iterator it = end();
 				iterator tmp;
 				while (it != position){
@@ -209,33 +227,35 @@ namespace ft
 			void insert (iterator position,
 						size_t n,
 						const value_type& val) {
-				if (_size == _capasity) {
-					//todo change _capasity
+				if (_size + n > _capasity) {
+					reserve(_size + n);
 				}
-				iterator it = end() - 1;
-				while (it != position){
-					_buffer[it + n] = _buffer[it];
-					_buffer[it] = val;
-					_size++;
+				if (position == end()){
+					while (n > 0){
+						push_back(val);
+						--n;
+					}
+				}
+				else {
+					iterator it = end();
 					--it;
+					while (it != position) {
+						std::cout << *(it + n) << "|" << *(it) << std::endl;
+						*(it + n) = *it;
+						*it = val;
+						_size++;
+						--it;
+					}
 				}
 			}
 
 			template <class InputIterator>
 			void insert (iterator position,
 						InputIterator first,
-						InputIterator last){
-				if (_size == _capasity) {
-					//todo change _capasity
-				}
-				size_t n = last - first;
-				iterator it = end() - 1;
-				while (it != position){
-					_buffer[it + n] = _buffer[it];
-					_buffer[it] = *last;
-					_size++;
-					--it;
-					--last;
+						InputIterator last,
+						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+				while (first != last){
+					position = insert(position, *(first++)) + 1;
 				}
 			}
 			iterator erase (iterator position){
@@ -243,13 +263,15 @@ namespace ft
 					iterator it = end() - 1;
 					iterator res = position;
 					while (position != it) {
-						_buffer[position] = _buffer[position + 1];
+						*position = *(position + 1);
 						++position;
 					}
 					--_size;
-					delete _buffer[it];
+					//todo delete position
+					//delete it;
 					return res;
 				}
+				return _buffer;
 			}
 			iterator erase (iterator first, iterator last){
 				if (_size != 0) {
@@ -264,7 +286,12 @@ namespace ft
 				}
 			}
 			void clear(){
-				delete [] _buffer;
+				iterator it = begin();
+				iterator ite = end();
+				while (it != ite){
+					*(it++) = 0;
+				}
+				_size = 0;
 			}
 
 
