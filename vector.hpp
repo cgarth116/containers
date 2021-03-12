@@ -1,3 +1,7 @@
+//
+// Created by Caeneus Garth on 3/11/21.
+//
+
 #include <memory>
 #include <iostream>
 #include <stdexcept>
@@ -16,8 +20,8 @@ namespace ft
 			typedef ft::reverse_iterator<T>			reverse_iterator;
 			typedef ft::const_reverse_iterator<T>	const_reverse_iterator;
 			typedef Alloc							allocator_type;
-			typedef value_type &					reference;
-			typedef const value_type &				const_reference;
+			typedef typename Alloc::reference		reference;
+			typedef typename Alloc::const_reference	const_reference;
 			typedef typename Alloc::pointer			pointer;
 			typedef typename Alloc::const_pointer	const_pointer;
 			typedef memVector<T,
@@ -29,7 +33,8 @@ namespace ft
 			explicit vector (const allocator_type& alloc = allocator_type()){
 				_size = 0;
 				_capacity = 1;
-				_buffer = new T[_size];
+				_allocator = alloc;
+				_buffer = _allocator.allocate(_capacity);
 			}
 			explicit vector (size_t n,
 							const value_type& val = value_type(),
@@ -39,9 +44,10 @@ namespace ft
 				if (n != 0) {
 					_capacity = n;
 				}
-				_buffer = new T[_size];
+				_allocator = alloc;
+				_buffer = _allocator.allocate(_capacity);
 				while (n != 0){
-					_buffer[--n] = val;
+					_allocator.construct(_buffer + n--, val);
 				}
 			}
 			template <class InputIterator>
@@ -51,34 +57,29 @@ namespace ft
 				size_t i = 0;
 				_size = last - first;
 				_capacity = _size;
-				_buffer = new T[_size];
+				_allocator = alloc;
+				_buffer = _allocator.allocate(_capacity);
 				while (first != last){
 					_buffer[i++] = *first;
 					++first;
 				}
 			}
 			vector (const vector& x){
-				size_t i = 0;
-				_size = x.size();
-				_capacity = x.capacity();
-				_buffer = new T[_size];
-				while (i != _size){
-					_buffer[i] = x[i];
-					++i;
-				}
+				_buffer = nullptr;
+				*this = x;
 			}
 
 			vector & operator=(const vector & x) {
 				if (this != &x) {
 					if (_buffer) {
-						memVector::fullDestruct(_buffer, _size, _capacity, allocator);
+						memVector::deleteAll(_buffer, _size, _capacity, _allocator);
 					}
-					allocator = x.allocator;
+					_allocator = x._allocator;
 					_capacity = x.capacity();
 					_size = x.size();
-					_buffer = allocator.allocate(_capacity);
+					_buffer = _allocator.allocate(_capacity);
 					for (size_t i = 0; i < _size; ++i) {
-						allocator.construct(_buffer + i, *(x.m_array + i));
+						_allocator.construct(_buffer + i, *(x._buffer + i));
 					}
 				}
 				return *this;
@@ -129,7 +130,8 @@ namespace ft
 			size_t max_size() const{
 				return allocator_type().max_size();
 			}
-			void resize (size_t n, value_type val = value_type()){
+			void resize (size_t n,
+						value_type val = value_type()){
 				if (_size == n){
 					return;
 				}
@@ -151,18 +153,18 @@ namespace ft
 			}
 			void reserve (size_t n){
 				if (_capacity < n){
-					_buffer = memVector::realloc(_buffer, _size, _capacity, n, allocator);
+					_buffer = memVector::realloc(_buffer, _size, _capacity, n, _allocator);
 				}
 				_capacity = n;
 			}
 
-			reference at (size_t n){
+			reference at (size_t n) throw(std::out_of_range){
 				if (n >= _size){
 					throw std::out_of_range("Out of range!");
 				}
 				return operator[](n);
 			}
-			const_reference at (size_t n) const{
+			const_reference at (size_t n) const throw(std::out_of_range){
 				if (n >= _size){
 					throw std::out_of_range("Out of range!");
 				}
@@ -191,7 +193,7 @@ namespace ft
 			template <class InputIterator>
 			void assign (InputIterator first,
 						InputIterator last,
-						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+						typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
 				clear();
 				while (first != last){
 					push_back(*first);
@@ -211,12 +213,12 @@ namespace ft
 				if (_size == _capacity) {
 					reserve(_capacity * 2);
 				}
-				allocator.construct(_buffer + _size, val);
+				_allocator.construct(_buffer + _size, val);
 				++_size;
 			}
 			void pop_back(){
 				if (_size != 0){
-					allocator.destroy(_buffer + _size - 1);
+					_allocator.destroy(_buffer + _size - 1);
 					_size--;
 				}
 			}
@@ -231,7 +233,7 @@ namespace ft
 				std::memmove(_buffer + delta + 1,
 							_buffer + delta,
 							(_size - delta) * sizeof(value_type));
-				allocator.construct(_buffer + delta, val);
+				_allocator.construct(_buffer + delta, val);
 				_size++;
 				return iterator(_buffer + delta);
 			}
@@ -249,7 +251,7 @@ namespace ft
 						(_size - delta) * sizeof(value_type)
 				);
 				for (size_t i = 0; i < n; ++i) {
-					allocator.construct(_buffer + delta + i, val);
+					_allocator.construct(_buffer + delta + i, val);
 				}
 				_size += n;
 			}
@@ -258,7 +260,7 @@ namespace ft
 			void insert (iterator position,
 						InputIterator first,
 						InputIterator last,
-						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+						typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
 				while (first != last){
 					position = insert(position, *(first++)) + 1;
 				}
@@ -267,7 +269,7 @@ namespace ft
 				value_type * const		positionE = position.operator->();
 				const difference_type	delta = positionE - _buffer;
 
-				allocator.destroy(positionE);
+				_allocator.destroy(positionE);
 				std::memmove(_buffer + delta,
 							_buffer + delta + 1,
 							(_size - delta) * sizeof(value_type)
@@ -281,7 +283,7 @@ namespace ft
 				const difference_type	delta = firstE - _buffer;
 				const difference_type	size = lastE - firstE;
 
-				memVector::destruct(firstE, lastE, allocator);
+				memVector::destruct(firstE, lastE, _allocator);
 				std::memmove(_buffer + delta,
 							_buffer + delta + size,
 							(_size - delta - size) * sizeof(value_type)
@@ -303,29 +305,33 @@ namespace ft
 
 				size_type tmp_size = x._size;
 				size_type tmp_capacity = x._capacity;
-				allocator_type tmp_allocator = x.allocator;
+				allocator_type tmp_allocator = x._allocator;
 				value_type * tmp_buffer = x._buffer;
 
 				x._size = this->_size;
 				x._capacity = this->_capacity;
 				x._buffer = this->_buffer;
-				x.allocator = this->allocator;
+				x._allocator = this->_allocator;
 
 				this->_size = tmp_size;
 				this->_capacity = tmp_capacity;
 				this->_buffer = tmp_buffer;
-				this->allocator = tmp_allocator;
+				this->_allocator = tmp_allocator;
+			}
+
+			allocator_type get_allocator() const{
+				return _allocator;
 			}
 
 			~vector(){
-				memVector::deleteAll(_buffer, _size, _capacity, allocator);
+				memVector::deleteAll(_buffer, _size, _capacity, _allocator);
 			}
 
 		private:
 			size_t			_size;
 			size_t			_capacity;
 			value_type *	_buffer;
-			allocator_type	allocator;
+			allocator_type	_allocator;
 	};
 
 	template < class T, class Alloc >
@@ -389,5 +395,10 @@ namespace ft
 	template < class T, class Alloc >
 	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc> & rhs) {
 		return (!operator<(lhs, rhs));
+	}
+
+	template <class T, class Alloc>
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y){
+		x.swap(y);
 	}
 }

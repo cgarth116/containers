@@ -657,7 +657,6 @@ int main(){
 	viewAll(bar);
 	viewAllOriginal(barOriginal);
 
-	std::cout << '\n';
 	if (bar.front() == barOriginal.front() && foo.front() == fooOriginal.front())
 		std::cout << "✅ OK" << std::endl;
 	else
@@ -696,7 +695,6 @@ int main(){
 
 	viewAll(myvector);
 	viewAllOriginal(myvectorOriginal);
-	std::cout << '\n';
 	if (myvector.front() == myvectorOriginal.front() && myvector.front() == myvectorOriginal.front())
 		std::cout << "✅ OK" << std::endl;
 	else

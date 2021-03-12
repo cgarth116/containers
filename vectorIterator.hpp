@@ -37,6 +37,12 @@ namespace ft{
 		T *	operator->() const {
 			return _index;
 		};
+		iterator & operator=(const iterator & rhs) {
+			if (this != &rhs){
+				_index = rhs._index;
+			}
+			return *this;
+		};
 		iterator & operator+=(size_t n) {
 			_index += n;
 			return *this;
@@ -109,6 +115,12 @@ namespace ft{
 		T *	operator->() const {
 			return _index;
 		}
+		reverse_iterator & operator=(const reverse_iterator & rhs) {
+			if (this != &rhs){
+				_index = rhs._index;
+			}
+			return *this;
+		};
 		reverse_iterator & operator+=(size_t n) {
 			_index -= n;
 			return *this;
@@ -181,6 +193,12 @@ namespace ft{
 		T *	operator->() const {
 			return _index;
 		}
+		const_iterator & operator=(const const_iterator & rhs) {
+			if (this != &rhs){
+				_index = rhs._index;
+			}
+			return *this;
+		};
 		const_iterator & operator+=(size_t n) {
 			_index += n;
 			return *this;
@@ -248,6 +266,12 @@ namespace ft{
 		T *	operator->() const {
 			return _index;
 		}
+		const_reverse_iterator & operator=(const const_reverse_iterator & rhs) {
+			if (this != &rhs){
+				_index = rhs._index;
+			}
+			return *this;
+		};
 		const_reverse_iterator & operator+=(size_t n) {
 			_index -= n;
 			return *this;
