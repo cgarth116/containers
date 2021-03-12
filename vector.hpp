@@ -264,31 +264,30 @@ namespace ft
 				}
 			}
 			iterator erase (iterator position){
-				if (_size != 0) {
-					iterator it = end() - 1;
-					iterator res = position;
-					while (position != it) {
-						*position = *(position + 1);
-						++position;
-					}
-					--_size;
-					//todo delete position
-					//delete it;
-					return res;
-				}
-				return _buffer;
+				value_type * const		positionE = position.operator->();
+				const difference_type	delta = positionE - _buffer;
+
+				allocator.destroy(positionE);
+				std::memmove(_buffer + delta,
+							_buffer + delta + 1,
+							(_size - delta) * sizeof(value_type)
+				);
+				--_size;
+				return iterator(_buffer + delta);
 			}
 			iterator erase (iterator first, iterator last){
-				if (_size != 0) {
-					iterator res = last - first;
-					while (first != last) {
-						_buffer[first] = _buffer[first + res];
-						delete _buffer[first + res];
-						++first;
-						--_size;
-					}
-					return last - res;
-				}
+				value_type * const		firstE = first.operator->();
+				value_type * const		lastE	= last.operator->();
+				const difference_type	delta = firstE - _buffer;
+				const difference_type	size = lastE - firstE;
+
+				memVector::destruct(firstE, lastE, allocator);
+				std::memmove(_buffer + delta,
+							_buffer + delta + size,
+							(_size - delta - size) * sizeof(value_type)
+				);
+				_size -= size;
+				return iterator(_buffer + delta);
 			}
 			void clear(){
 				iterator it = begin();
@@ -297,6 +296,25 @@ namespace ft
 					*(it++) = 0;
 				}
 				_size = 0;
+			}
+			void swap (vector& x){
+				if (x == *this)
+					return;
+
+				size_type tmp_size = x._size;
+				size_type tmp_capacity = x._capacity;
+				allocator_type tmp_allocator = x.allocator;
+				value_type * tmp_buffer = x._buffer;
+
+				x._size = this->_size;
+				x._capacity = this->_capacity;
+				x._buffer = this->_buffer;
+				x.allocator = this->allocator;
+
+				this->_size = tmp_size;
+				this->_capacity = tmp_capacity;
+				this->_buffer = tmp_buffer;
+				this->allocator = tmp_allocator;
 			}
 
 			~vector(){
@@ -372,5 +390,4 @@ namespace ft
 	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc> & rhs) {
 		return (!operator<(lhs, rhs));
 	}
-
 }

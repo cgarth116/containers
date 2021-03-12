@@ -548,7 +548,7 @@ int main(){
 
 
 	std::cout << "Test " << i++ << std::endl;
-	std::cout << "****************** Test pop_back vector<int> ******************" << std::endl;
+	std::cout << "****************** Test insert vector<int> ******************" << std::endl;
 	myvector.clear();
 	myvector.resize(3, 100);
 	myvectorOriginal.clear();
@@ -583,6 +583,131 @@ int main(){
 	for (itOriginal=myvectorOriginal.begin(); itOriginal<myvectorOriginal.end(); itOriginal++)
 		std::cout << ' ' << *itOriginal;
 	std::cout << '\n';
+	if (myvector.front() == myvectorOriginal.front() && myvector.back() == myvectorOriginal.back())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(myvectorOriginal);
+		std::cout << "received ";
+		viewAll(myvector);
+
+		mistakes++;
+	}
+	std::cout << '\n';
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test erase vector<int> ******************" << std::endl;
+	myvector.clear();
+	myvectorOriginal.clear();
+
+	// set some values (from 1 to 10)
+	for (int i=1; i<=10; i++) myvector.push_back(i);
+	for (int i=1; i<=10; i++) myvectorOriginal.push_back(i);
+
+	// erase the 6th element
+	myvector.erase (myvector.begin()+5);
+	myvectorOriginal.erase (myvectorOriginal.begin()+5);
+
+	// erase the first 3 elements:
+	myvector.erase (myvector.begin(),myvector.begin()+3);
+	myvectorOriginal.erase (myvectorOriginal.begin(),myvectorOriginal.begin()+3);
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); ++i)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+	std::cout << "Original contains:";
+	for (unsigned i=0; i<myvectorOriginal.size(); ++i)
+		std::cout << ' ' << myvectorOriginal[i];
+
+	std::cout << '\n';
+	if (myvector.front() == myvectorOriginal.front() && myvector.back() == myvectorOriginal.back())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(myvectorOriginal);
+		std::cout << "received ";
+		viewAll(myvector);
+
+		mistakes++;
+	}
+	std::cout << '\n';
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test swap vector<int> ******************" << std::endl;
+	foo.clear();
+	foo.resize(3, 100);
+	fooOriginal.clear();
+	fooOriginal.resize(3, 100);
+	bar.clear();
+	bar.resize(5, 200);
+	barOriginal.clear();
+	barOriginal.resize(5, 200);
+	viewAll(foo);
+	viewAllOriginal(fooOriginal);
+	viewAll(bar);
+	viewAllOriginal(barOriginal);
+	std::cout << "SWAP\n";
+	foo.swap(bar);
+	fooOriginal.swap(barOriginal);
+
+	viewAll(foo);
+	viewAllOriginal(fooOriginal);
+	viewAll(bar);
+	viewAllOriginal(barOriginal);
+
+	std::cout << '\n';
+	if (bar.front() == barOriginal.front() && foo.front() == fooOriginal.front())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(fooOriginal);
+		viewAllOriginal(barOriginal);
+		std::cout << "received ";
+		viewAll(foo);
+		viewAll(bar);
+
+		mistakes++;
+	}
+	std::cout << '\n';
+
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test swap vector<int> ******************" << std::endl;
+	myvector.clear();
+	myvectorOriginal.clear();
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+	myvectorOriginal.push_back (100);
+	myvectorOriginal.push_back (200);
+	myvectorOriginal.push_back (300);
+	viewAll(myvector);
+	viewAllOriginal(myvectorOriginal);
+	std::cout << "Clear\n";
+	myvector.clear();
+	myvectorOriginal.clear();
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+	myvectorOriginal.push_back (1101);
+	myvectorOriginal.push_back (2202);
+
+	viewAll(myvector);
+	viewAllOriginal(myvectorOriginal);
+	std::cout << '\n';
+	if (myvector.front() == myvectorOriginal.front() && myvector.front() == myvectorOriginal.front())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(myvectorOriginal);
+		std::cout << "received ";
+		viewAll(myvector);
+
+		mistakes++;
+	}
 
 
 	std::cout << "\nMistakes=" << mistakes << std::endl;
