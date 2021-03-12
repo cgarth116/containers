@@ -17,12 +17,26 @@ namespace ft{
 		bool operator==(iterator const & rhs){
 			return _index == rhs._index;
 		};
-		bool operator!=(iterator const & rhs){
+		bool operator!=(const iterator & rhs){
 			return _index != rhs._index;
 		};
+
+		bool operator <(const iterator & rhs){
+			return _index < rhs._index;
+		}
+		bool operator >(const iterator & rhs){
+			return _index > rhs._index;
+		}
+		bool operator <=(const iterator & rhs){
+			return _index <= rhs._index;
+		}
+		bool operator >=(const iterator & rhs){
+			return _index >= rhs._index;
+		}
+
 		T *	operator->() const {
 			return _index;
-		}
+		};
 		iterator & operator+=(size_t n) {
 			_index += n;
 			return *this;
@@ -45,7 +59,7 @@ namespace ft{
 			iterator tmp(_index);
 			++_index;
 			return tmp;
-		}
+		};
 		iterator operator-(size_t n) {
 			iterator it(*this);
 			it -= n;
@@ -60,7 +74,7 @@ namespace ft{
 			iterator tmp(_index);
 			--_index;
 			return tmp;
-		}
+		};
 		T & operator*(){
 			return *_index;
 		};
@@ -80,6 +94,18 @@ namespace ft{
 		bool operator!=(reverse_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		bool operator <(const reverse_iterator & rhs){
+			return _index < rhs._index;
+		}
+		bool operator >(const reverse_iterator & rhs){
+			return _index > rhs._index;
+		}
+		bool operator <=(const reverse_iterator & rhs){
+			return _index <= rhs._index;
+		}
+		bool operator >=(const reverse_iterator & rhs){
+			return _index >= rhs._index;
+		}
 		T *	operator->() const {
 			return _index;
 		}
@@ -137,9 +163,21 @@ namespace ft{
 		bool operator==(const_iterator const & rhs){
 			return _index == rhs._index;
 		};
-		bool operator!=(const_iterator const & rhs){
+		bool operator!=(const const_iterator & rhs){
 			return _index != rhs._index;
 		};
+		bool operator <(const const_iterator & rhs){
+			return _index < rhs._index;
+		}
+		bool operator >(const const_iterator & rhs){
+			return _index > rhs._index;
+		}
+		bool operator <=(const const_iterator & rhs){
+			return _index <= rhs._index;
+		}
+		bool operator >=(const const_iterator & rhs){
+			return _index >= rhs._index;
+		}
 		T *	operator->() const {
 			return _index;
 		}
@@ -195,6 +233,18 @@ namespace ft{
 		bool operator!=(const_reverse_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		bool operator <(const const_reverse_iterator & rhs){
+			return _index < rhs._index;
+		}
+		bool operator >(const const_reverse_iterator & rhs){
+			return _index > rhs._index;
+		}
+		bool operator <=(const const_reverse_iterator & rhs){
+			return _index <= rhs._index;
+		}
+		bool operator >=(const const_reverse_iterator & rhs){
+			return _index >= rhs._index;
+		}
 		T *	operator->() const {
 			return _index;
 		}
@@ -243,5 +293,7 @@ namespace ft{
 	private:
 		T * _index;
 	};
+
 }
+
 #endif

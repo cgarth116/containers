@@ -344,11 +344,11 @@ int main(){
 
 	std::cout << "myvector contains:";
 	for (unsigned i=0; i<sz; i++)
-		std::cout << " i:" << myvector[i];
+		std::cout << ' ' << myvector[i];
 	std::cout << '\n';
 	std::cout << "Original contains:";
 	for (unsigned i=0; i<szOriginal; i++)
-		std::cout << " i:" << myvectorOriginal[i];
+		std::cout << ' ' << myvectorOriginal[i];
 	std::cout << '\n';
 
 	if (myvector[myvector.size() - 1] == myvectorOriginal[myvectorOriginal.size() - 1] && myvector[0] == myvectorOriginal[0])
@@ -362,6 +362,228 @@ int main(){
 
 		mistakes++;
 	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test at vector<int> ******************" << std::endl;
+	myvector.clear();
+	myvector.resize(10);
+	myvectorOriginal.clear();
+	myvectorOriginal.resize(10);
+	// assign some values:
+	for (unsigned i=0; i< myvector.size(); i++) {
+		myvector.at(i) = i;
+		myvectorOriginal.at(i) = i;
+	}
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i< myvector.size(); i++) {
+		std::cout << ' ' << myvector.at(i);
+	}
+	std::cout << "\nOriginal contains:";
+	for (unsigned i=0; i< myvector.size(); i++) {
+		std::cout << ' ' << myvectorOriginal.at(i);
+	}
+	std::cout << '\n';
+	if (myvector[myvector.size() - 1] == myvectorOriginal[myvectorOriginal.size() - 1] && myvector[0] == myvectorOriginal[0])
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(myvectorOriginal);
+		std::cout << "received ";
+		viewAll(myvector);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test front vector<int> ******************" << std::endl;
+	myvector.clear();
+	myvectorOriginal.clear();
+
+	myvector.push_back(78);
+	myvector.push_back(16);
+	myvectorOriginal.push_back(78);
+	myvectorOriginal.push_back(16);
+
+	// now front equals 78, and back 16
+
+	myvector.front() -= myvector.back();
+	myvectorOriginal.front() -= myvectorOriginal.back();
+	std::cout << "myvector.front() is now " << myvector.front() << '\n';
+	std::cout << "Original.front() is now " << myvectorOriginal.front() << '\n';
+	if (myvector.front() == myvectorOriginal.front())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(myvectorOriginal);
+		std::cout << "received ";
+		viewAll(myvector);
+
+		mistakes++;
+	}
+	std::cout << '\n';
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test back vector<int> ******************" << std::endl;
+	myvector.clear();
+	myvectorOriginal.clear();
+
+	myvector.push_back(10);
+	myvectorOriginal.push_back(10);
+	while (myvector.back() != 0)
+	{
+		myvector.push_back ( myvector.back() -1 );
+	}
+	while (myvectorOriginal.back() != 0)
+	{
+		myvectorOriginal.push_back ( myvectorOriginal.back() -1 );
+	}
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size() ; i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	std::cout << "Original contains:";
+	for (unsigned i=0; i<myvectorOriginal.size() ; i++)
+		std::cout << ' ' << myvectorOriginal[i];
+	std::cout << '\n';
+
+	if (myvector.front() == myvectorOriginal.front() && myvector.back() == myvectorOriginal.back())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(myvectorOriginal);
+		std::cout << "received ";
+		viewAll(myvector);
+
+		mistakes++;
+	}
+	std::cout << '\n';
+
+
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test assign vector<int> ******************" << std::endl;
+	ft::vector<int> first;
+	ft::vector<int> second;
+	ft::vector<int> third;
+	std::vector<int> firstOriginal;
+	std::vector<int> secondOriginal;
+	std::vector<int> thirdOriginal;
+
+	first.assign (7,100);             // 7 ints with a value of 100
+	firstOriginal.assign (7,100);             // 7 ints with a value of 100
+
+	ft::vector<int>::iterator it;
+	it=first.begin()+1;
+	std::vector<int>::iterator itOriginal;
+	itOriginal=firstOriginal.begin()+1;
+
+	second.assign (it,first.end()-1); // the 5 central values of first
+	secondOriginal.assign (itOriginal,firstOriginal.end()-1); // the 5 central values of first
+
+	int myints[] = {1776,7,4};
+	third.assign (myints,myints+3);   // assigning from array.
+	int myintsOriginal[] = {1776,7,4};
+	thirdOriginal.assign (myintsOriginal,myintsOriginal+3);   // assigning from array.
+
+	std::cout << "Size of first: " << int (first.size()) << '\n';
+	std::cout << "Size of second: " << int (second.size()) << '\n';
+	std::cout << "Size of third: " << int (third.size()) << '\n';
+	std::cout << "Size of firstOriginal: " << int (firstOriginal.size()) << '\n';
+	std::cout << "Size of secondOriginal: " << int (secondOriginal.size()) << '\n';
+	std::cout << "Size of thirdOriginal: " << int (thirdOriginal.size()) << '\n';
+
+	if (int (first.size()) == int (firstOriginal.size()) &&
+		int (second.size()) == int (secondOriginal.size()) &&
+		int (third.size()) == int (thirdOriginal.size()))
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		mistakes++;
+	}
+	std::cout << '\n';
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test pop_back vector<int> ******************" << std::endl;
+
+	myvector.clear();
+	myvectorOriginal.clear();
+	sum =0;
+	sumOriginal = 0;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+	myvectorOriginal.push_back (100);
+	myvectorOriginal.push_back (200);
+	myvectorOriginal.push_back (300);
+
+	while (!myvector.empty())
+	{
+		sum+=myvector.back();
+		myvector.pop_back();
+	}
+	while (!myvectorOriginal.empty())
+	{
+		sumOriginal+=myvectorOriginal.back();
+		myvectorOriginal.pop_back();
+	}
+
+	std::cout << "The elements of myvector add up to " << sum << '\n';
+	std::cout << "The elements of Original add up to " << sumOriginal << '\n';
+
+	if (sum == sumOriginal)
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		mistakes++;
+	}
+	std::cout << '\n';
+
+
+	std::cout << "Test " << i++ << std::endl;
+	std::cout << "****************** Test pop_back vector<int> ******************" << std::endl;
+	myvector.clear();
+	myvector.resize(3, 100);
+	myvectorOriginal.clear();
+	myvectorOriginal.resize(3, 100);
+
+	it = myvector.begin();
+	it = myvector.insert ( it , 200 );
+	itOriginal = myvectorOriginal.begin();
+	itOriginal = myvectorOriginal.insert ( itOriginal , 200 );
+
+	myvector.insert (it,2,300);
+	myvectorOriginal.insert (itOriginal,2,300);
+
+	// "it" no longer valid, get a new one:
+	it = myvector.begin();
+	itOriginal = myvectorOriginal.begin();
+	std::vector<int> anothervector (2,400);
+	std::vector<int> anothervectorOriginal (2,400);
+	myvector.insert (it+2,anothervector.begin(),anothervector.end());
+	myvectorOriginal.insert (itOriginal+2,anothervectorOriginal.begin(),anothervectorOriginal.end());
+	int myarray [] = { 501,502,503 };
+	myvector.insert (myvector.begin(), myarray, myarray+3);
+	int myarrayOriginal [] = { 501,502,503 };
+	myvectorOriginal.insert (myvectorOriginal.begin(), myarrayOriginal, myarrayOriginal+3);
+
+
+	std::cout << "myvector contains:";
+	for (it=myvector.begin(); it<myvector.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+	std::cout << "Original contains:";
+	for (itOriginal=myvectorOriginal.begin(); itOriginal<myvectorOriginal.end(); itOriginal++)
+		std::cout << ' ' << *itOriginal;
+	std::cout << '\n';
+
 
 	std::cout << "\nMistakes=" << mistakes << std::endl;
 
