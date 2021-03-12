@@ -12,17 +12,15 @@ namespace ft
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
-		typedef T   value_type;
-
 		public:
-
+			typedef T   							value_type;
 			typedef ft::iterator<T>  				iterator;
 			typedef ft::const_iterator<T>  			const_iterator;
 			typedef ft::reverse_iterator<T>			reverse_iterator;
 			typedef ft::const_reverse_iterator<T>	const_reverse_iterator;
 			typedef std::allocator<value_type>		allocator_type;
-			typedef value_type						reference;
-			typedef const value_type				const_reference;
+			typedef value_type &					reference;
+			typedef const value_type &				const_reference;
 			typedef memVector<T,
 							allocator_type,
 							size_t >				memVector;
@@ -68,6 +66,30 @@ namespace ft
 					_buffer[i] = x[i];
 					++i;
 				}
+			}
+
+			vector & operator=(const vector & x) {
+				if (this != &x) {
+					if (_buffer) {
+						memVector::fullDestruct(_buffer, _size, _capacity, allocator);
+					}
+					allocator = x.allocator;
+					_capacity = x.capacity();
+					_size = x.size();
+					_buffer = allocator.allocate(_capacity);
+					for (size_t i = 0; i < _size; ++i) {
+						allocator.construct(_buffer + i, *(x.m_array + i));
+					}
+				}
+				return *this;
+			}
+
+			reference operator[](size_t n)
+			{
+				return *(_buffer + n);
+			}
+			const_reference operator[](size_t n) const {
+				return *(_buffer + n);
 			}
 
 			iterator begin(){
@@ -134,48 +156,36 @@ namespace ft
 				_capacity = n;
 			}
 
-			reference operator[] (size_t n){
-				return _buffer[n];
-			}
-			const_reference operator[] (size_t n) const{
-				return _buffer[n];
-			}
 			reference at (size_t n){
 				if (n > _size){
 					throw std::out_of_range("");
 				}
-				return reference(_buffer[n]);
+				return operator[](n);
 			}
 			const_reference at (size_t n) const{
 				if (n > _size){
 					throw std::out_of_range("");
 				}
-				return const_reference(_buffer[n]);
+				return operator[](n);
 			}
 
 			reference front(){
 				if (_size != 0) {
-					return reference(_buffer[0]);
+					return *_buffer;
 				}
 				return 0;
 			}
 			const_reference front() const{
 				if (_size != 0) {
-					return const_reference(_buffer[0]);
+					return *_buffer;
 				}
 				return 0;
 			}
 			reference back(){
-				if (_size != 0) {
-					return reference(_buffer[_size - 1]);
-				}
-				return 0;
+				return *(_buffer + _size - 1);
 			}
 			const_reference back() const{
-				if (_size != 0) {
-					return const_reference(_buffer[_size - 1]);
-				}
-				return 0;
+				return *(_buffer + _size - 1);
 			}
 
 			template <class InputIterator>
@@ -293,7 +303,7 @@ namespace ft
 			}
 
 			~vector(){
-				delete [] _buffer;
+				memVector::deleteAll(_buffer, _size, _capacity, allocator);
 			}
 
 		private:
