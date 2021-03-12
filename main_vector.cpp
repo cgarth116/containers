@@ -145,6 +145,7 @@ int main(){
 
 		mistakes++;
 	}
+
 	vectorOur.insert (vectorOur.end(),10,100);
 	std::cout << "2. size: " << vectorOur.size() << '\n';
 	vectorOriginal.insert (vectorOriginal.end(),10,100);
@@ -177,7 +178,7 @@ int main(){
 	}
 
 	std::cout << "Test " << i++ << std::endl;
-	std::cout << "****************** Test max_size vector<int> ******************" << std::endl;
+	std::cout << "****************** Test max_size/capacity vector<int> ******************" << std::endl;
 	ft::vector<int> vectorCOur;
 	std::vector<int> vectorCOriginal;
 

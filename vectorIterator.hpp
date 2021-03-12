@@ -20,6 +20,9 @@ namespace ft{
 		bool operator!=(iterator const & rhs){
 			return _index != rhs._index;
 		};
+		T *	operator->() const {
+			return _index;
+		}
 		iterator & operator+=(size_t n) {
 			_index += n;
 			return *this;
@@ -77,6 +80,9 @@ namespace ft{
 		bool operator!=(reverse_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		T *	operator->() const {
+			return _index;
+		}
 		reverse_iterator & operator+=(size_t n) {
 			_index -= n;
 			return *this;
@@ -134,6 +140,9 @@ namespace ft{
 		bool operator!=(const_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		T *	operator->() const {
+			return _index;
+		}
 		const_iterator & operator+=(size_t n) {
 			_index += n;
 			return *this;
@@ -186,6 +195,9 @@ namespace ft{
 		bool operator!=(const_reverse_iterator const & rhs){
 			return _index != rhs._index;
 		};
+		T *	operator->() const {
+			return _index;
+		}
 		const_reverse_iterator & operator+=(size_t n) {
 			_index -= n;
 			return *this;
@@ -232,4 +244,4 @@ namespace ft{
 		T * _index;
 	};
 }
-#endif //VECTORITERATOR_HPP
+#endif

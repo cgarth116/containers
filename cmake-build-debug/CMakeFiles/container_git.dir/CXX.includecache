@@ -12,13 +12,23 @@ vector
 vector.hpp
 /Users/cgarth/project/container_git/vector.hpp
 
+/Users/cgarth/project/container_git/memVector.hpp
+stdexcept
+-
+memory
+-
+
 /Users/cgarth/project/container_git/vector.hpp
+memory
+-
 iostream
 -
 stdexcept
 -
 vectorIterator.hpp
 /Users/cgarth/project/container_git/vectorIterator.hpp
+memVector.hpp
+/Users/cgarth/project/container_git/memVector.hpp
 
 /Users/cgarth/project/container_git/vectorIterator.hpp
 iostream

@@ -86,6 +86,9 @@
 		<Unit filename="/Users/cgarth/project/container_git/main_vector.cpp">
 			<Option target="container_git"/>
 		</Unit>
+		<Unit filename="/Users/cgarth/project/container_git/memVector.hpp">
+			<Option target="container_git"/>
+		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/vector.hpp">
 			<Option target="container_git"/>
 		</Unit>

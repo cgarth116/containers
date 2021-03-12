@@ -3,5 +3,6 @@
 
 CMakeFiles/container_git.dir/main_vector.cpp.o
  /Users/cgarth/project/container_git/main_vector.cpp
+ /Users/cgarth/project/container_git/memVector.hpp
  /Users/cgarth/project/container_git/vector.hpp
  /Users/cgarth/project/container_git/vectorIterator.hpp

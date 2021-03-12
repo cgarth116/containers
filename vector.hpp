@@ -1,13 +1,15 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include <memory>
 #include <iostream>
 #include <stdexcept>
 #include "vectorIterator.hpp"
+#include "memVector.hpp"
 
 namespace ft
 {
-	template <class T>
+	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 		typedef T   value_type;
@@ -21,19 +23,23 @@ namespace ft
 			typedef std::allocator<value_type>		allocator_type;
 			typedef value_type						reference;
 			typedef const value_type				const_reference;
+			typedef memVector<T,
+							allocator_type,
+							size_t >				memVector;
+			typedef std::ptrdiff_t					difference_type;
 
 			explicit vector (const allocator_type& alloc = allocator_type()){
 				_size = 0;
-				_capasity = 1;
+				_capacity = 1;
 				_buffer = new T[_size];
 			}
 			explicit vector (size_t n,
 							const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type()){
 				_size = n;
-				_capasity = 1;
+				_capacity = 1;
 				if (n != 0) {
-					_capasity = n;
+					_capacity = n;
 				}
 				_buffer = new T[_size];
 				while (n != 0){
@@ -46,7 +52,7 @@ namespace ft
 		   			const allocator_type& alloc = allocator_type()){
 				size_t i = 0;
 				_size = last - first;
-				_capasity = _size;
+				_capacity = _size;
 				_buffer = new T[_size];
 				while (first != last){
 					_buffer[i++] = *first;
@@ -56,7 +62,7 @@ namespace ft
 			vector (const vector& x){
 				size_t i = 0;
 				_size = x.size();
-				_capasity = x.capacity();
+				_capacity = x.capacity();
 				_buffer = new T[_size];
 				while (i != _size){
 					_buffer[i] = x[i];
@@ -105,7 +111,7 @@ namespace ft
 				if (_size == n){
 					return;
 				}
-				if (n > _capasity){
+				if (n > _capacity){
 					reserve(n);
 				}
 				if (_size < n) {
@@ -116,16 +122,16 @@ namespace ft
 				}
 			}
 			size_t capacity() const{
-				return _capasity;
+				return _capacity;
 			}
 			bool empty() const{
 				return _size == 0;
 			}
 			void reserve (size_t n){
-				if (_capasity < n){
-					//todo change _capadity
+				if (_capacity < n){
+					_buffer = memVector::realloc(_buffer, _size, _capacity, n, allocator);
 				}
-				_capasity = n;
+				_capacity = n;
 			}
 
 			reference operator[] (size_t n){
@@ -194,59 +200,51 @@ namespace ft
 				}
 			}
 			void push_back (const value_type& val){
-				if (_size == _capasity) {
-					reserve(_capasity * 2);
+				if (_size == _capacity) {
+					reserve(_capacity * 2);
 				}
-				insert(end(), val);
+				allocator.construct(_buffer + _size, val);
+				++_size;
+				//insert(end(), val);
 			}
 			void pop_back(){
 				if (_size != 0){
-					//todo delete
-					*(end() - 1) = 0;
-					//delete _buffer[_size - 1];
+					allocator.destroy(_buffer + _size - 1);
 					_size--;
 				}
 			}
 			iterator insert (iterator position,
 							const value_type& val){
-				if (_size + 1 > _capasity) {
-					reserve(_size * 2);
-				}
+				value_type * const		pos		= position.operator->();
+				const difference_type	delta	= pos - _buffer;
 
-				iterator it = end();
-				iterator tmp;
-				while (it != position){
-					tmp = it;
-					*it = *(--tmp);
-					--it;
+				if (_size == _capacity) {
+					reserve(_capacity * 2);
 				}
-				*it = val;
+				std::memmove(_buffer + delta + 1,
+							_buffer + delta,
+							(_size - delta) * sizeof(value_type));
+				allocator.construct(_buffer + delta, val);
 				_size++;
-				return it;
+				return iterator(_buffer + delta);
 			}
 			void insert (iterator position,
 						size_t n,
 						const value_type& val) {
-				if (_size + n > _capasity) {
+				value_type * const		pos		= position.operator->();
+				const difference_type	delta	= pos - _buffer;
+
+				if (_size + n > _capacity) {
 					reserve(_size + n);
 				}
-				if (position == end()){
-					while (n > 0){
-						push_back(val);
-						--n;
-					}
+				std::memmove(_buffer + delta + n,
+						_buffer + delta,
+						(_size - delta) * sizeof(value_type)
+				);
+				for (size_t i = 0; i < n; ++i) {
+					allocator.construct(_buffer + delta + i, val);
 				}
-				else {
-					iterator it = end();
-					--it;
-					while (it != position) {
-						std::cout << *(it + n) << "|" << *(it) << std::endl;
-						*(it + n) = *it;
-						*it = val;
-						_size++;
-						--it;
-					}
-				}
+				_size += n;
 			}
 
 			template <class InputIterator>
@@ -294,11 +292,15 @@ namespace ft
 				_size = 0;
 			}
 
+			~vector(){
+				delete [] _buffer;
+			}
 
 		private:
-			size_t	_size;
-			size_t	_capasity;
-			T *		_buffer;
+			size_t			_size;
+			size_t			_capacity;
+			T *				_buffer;
+			allocator_type	allocator;
 	};
 }
 
