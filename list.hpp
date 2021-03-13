@@ -33,6 +33,10 @@ namespace ft
             explicit list (const Alloc& alloc = Alloc()){
 				Node *nodeEnd = new Node();
 
+				//Node *nodeEnd = alloc.rebind(1);
+				//nodeEnd->node = alloc.allocate();
+				//alloc.construct(nodeEnd->node, 0);
+
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
 				_listBegin = nodeEnd;
@@ -444,6 +448,7 @@ namespace ft
             size_t			_sizelist;
             size_t			_sizeNode;
 			allocator_type	_allocator;
+
     };
 
 	template < class T, class Alloc >

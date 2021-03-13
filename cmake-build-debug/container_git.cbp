@@ -86,10 +86,16 @@
 		<Unit filename="/Users/cgarth/project/container_git/listIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/main_vector.cpp">
+		<Unit filename="/Users/cgarth/project/container_git/main.cpp">
 			<Option target="container_git"/>
 		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/memVector.hpp">
+			<Option target="container_git"/>
+		</Unit>
+		<Unit filename="/Users/cgarth/project/container_git/queue.hpp">
+			<Option target="container_git"/>
+		</Unit>
+		<Unit filename="/Users/cgarth/project/container_git/stack.hpp">
 			<Option target="container_git"/>
 		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/vector.hpp">
