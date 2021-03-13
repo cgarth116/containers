@@ -1,7 +1,3 @@
-//
-// Created by Caeneus Garth on 3/11/21.
-//
-
 #include <memory>
 #include <iostream>
 #include <stdexcept>
@@ -15,10 +11,10 @@ namespace ft
 	{
 		public:
 			typedef T   							value_type;
-			typedef ft::iterator<T>  				iterator;
-			typedef ft::const_iterator<T>  			const_iterator;
-			typedef ft::reverse_iterator<T>			reverse_iterator;
-			typedef ft::const_reverse_iterator<T>	const_reverse_iterator;
+			typedef ft::vectorIterator<T>  				iterator;
+			typedef ft::const_vectorIterator<T>  			const_iterator;
+			typedef ft::reverse_vectorIterator<T>			reverse_iterator;
+			typedef ft::const_reverse_vectorIterator<T>	const_reverse_iterator;
 			typedef Alloc							allocator_type;
 			typedef typename Alloc::reference		reference;
 			typedef typename Alloc::const_reference	const_reference;
@@ -53,15 +49,16 @@ namespace ft
 			template <class InputIterator>
 			vector (InputIterator first,
 		   			InputIterator last,
-		   			const allocator_type& alloc = allocator_type()){
-				size_t i = 0;
-				_size = last - first;
-				_capacity = _size;
+		   			const allocator_type& alloc = allocator_type(),
+					typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+				size_t n = 0;
+				_size = 0;
+				_capacity = 1;
 				_allocator = alloc;
+
 				_buffer = _allocator.allocate(_capacity);
 				while (first != last){
-					_buffer[i++] = *first;
-					++first;
+					_allocator.construct(_buffer + n++, *first++);
 				}
 			}
 			vector (const vector& x){
@@ -292,12 +289,9 @@ namespace ft
 				return iterator(_buffer + delta);
 			}
 			void clear(){
-				iterator it = begin();
-				iterator ite = end();
-				while (it != ite){
-					*(it++) = 0;
+				while (_size != 0){
+					pop_back();
 				}
-				_size = 0;
 			}
 			void swap (vector& x){
 				if (x == *this)

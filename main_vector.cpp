@@ -32,7 +32,7 @@ void viewAllOriginal(std::vector<T> tmp)
 	std::cout << " |" << std::endl;
 }
 
-int main(){
+size_t test(){
 	size_t i = 1;
 	size_t mistakes = 0;
 
@@ -706,9 +706,15 @@ int main(){
 
 		mistakes++;
 	}
+	return mistakes;
+}
+
+int main(){
 
 
-	std::cout << "\nMistakes=" << mistakes << std::endl;
+	std::cout << "\nMistakes=" << test() << std::endl;
+	std::cout << "\nCheck leaks in another terminal" << std::endl;
+	getchar();
 
 	return 0;
 }

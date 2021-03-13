@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/cgarth/project/container_git/list.hpp">
+			<Option target="container_git"/>
+		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/listIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
@@ -90,6 +93,9 @@
 			<Option target="container_git"/>
 		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/vector.hpp">
+			<Option target="container_git"/>
+		</Unit>
+		<Unit filename="/Users/cgarth/project/container_git/vectorIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/CMakeLists.txt">

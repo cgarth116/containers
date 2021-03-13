@@ -9,7 +9,7 @@
 
 namespace ft
 {
-	template <class T>
+	template <class T, class Alloc = std::allocator<T> >
 	struct Node{
 		Node(): nodeNext(NULL), nodePrevious(NULL) {}
 		Node(const T& t)
@@ -18,13 +18,13 @@ namespace ft
 			nodeNext = NULL;
 			nodePrevious = NULL;
 		}
-		T node; //сама нода
-		Node *nodeNext; //следующий элемент
-		Node *nodePrevious; //предыдущий элемент
+		T		node; //сама нода
+		Node	*nodeNext; //следующий элемент
+		Node	*nodePrevious; //предыдущий элемент
 	};
 
 	template <class T>
-    		class iterator: public std::iterator<std::input_iterator_tag, T>{
+			class iterator: public std::iterator<std::input_iterator_tag, T>{
     public:
         iterator(): _index(NULL) {};
         iterator(Node<T> * index): _index(index) {};
