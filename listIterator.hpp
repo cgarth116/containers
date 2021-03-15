@@ -18,6 +18,7 @@ namespace ft
 			nodeNext = NULL;
 			nodePrevious = NULL;
 		}
+
 		T		node; //сама нода
 		Node	*nodeNext; //следующий элемент
 		Node	*nodePrevious; //предыдущий элемент
