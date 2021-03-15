@@ -33,10 +33,6 @@ namespace ft
             explicit list (const Alloc& alloc = Alloc()){
 				Node *nodeEnd = new Node();
 
-				//Node *nodeEnd = alloc.rebind(1);
-				//nodeEnd->node = alloc.allocate();
-				//alloc.construct(nodeEnd->node, 0);
-
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
 				_listBegin = nodeEnd;
