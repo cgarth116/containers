@@ -2,7 +2,9 @@
 #include <map>
 #include "map.hpp"
 
-bool fncomp (char lhs, char rhs) {return lhs<rhs;}
+bool fncomp (char lhs, char rhs) {
+	return lhs<rhs;
+}
 
 struct classcomp {
 	bool operator() (const char& lhs, const char& rhs) const
@@ -35,6 +37,24 @@ void viewAllOriginal(std::map<Key, T> tmp)
 	std::cout << " |" << std::endl;
 }
 
+//class A {
+//public:
+//		A() : a(10) {}
+//
+//	A & operator=(int other) {a = other; return *this;}
+//public:
+//	int a;
+//
+//	};
+//
+//std::ostream& operator<< (std::ostream &out, const A &a)
+//{
+//	// Поскольку operator<< является другом класса Point, то мы имеем прямой доступ к членам Point
+//	out << a.a;
+//	return out;
+//}
+
+
 size_t test(){
 	size_t mistakes = 0;
 	size_t i = 1;
@@ -42,29 +62,39 @@ size_t test(){
 	std::cout << "\nTest " << i++ << std::endl;
 	std::cout << "****************** Test constructor map<char,int> ******************" << std::endl;
 
-	std::map<char,int> firstOur;
+	ft::map<char,int> firstOur;
 	std::map<char,int> firstOriginal;
 
-	firstOur['a']=10;
-	firstOur['b']=30;
-	firstOur['c']=50;
-	firstOur['d']=70;
 
-	firstOriginal['a']=10;
-	firstOriginal['b']=30;
-	firstOriginal['c']=50;
-	firstOriginal['d']=70;
+//	std::cout << firstOur.begin()._data->first << std::endl;
 
-	viewAllOriginal(firstOriginal);
 
-	std::map<char,int> secondOriginal (firstOriginal.begin(),firstOriginal.end());
+//	std::map<char, A> f;
+	firstOur['a'];
+//	firstOur['b']=30;
+//	firstOur['c']=50;
+//	firstOur['d']=70;
 
-	std::map<char,int> thirdOriginal (secondOriginal);
+//	f['a'];
+//	f['b'] = 30;
+//	viewAllOriginal(f);
 
-	std::map<char,int,classcomp> fourthOriginal;                 // class as Compare
+//	firstOriginal['a'];
+//	firstOriginal['b']=30;
+//	firstOriginal['c']=50;
+//	firstOriginal['d']=70;
 
-	bool(*fn_pt)(char,char) = fncomp;
-	std::map<char,int,bool(*)(char,char)> fifthOriginal (fn_pt);
+//	viewAll(firstOur);
+//	viewAllOriginal(firstOriginal);
+
+//	std::map<char,int> secondOriginal (firstOriginal.begin(),firstOriginal.end());
+//
+//	std::map<char,int> thirdOriginal (secondOriginal);
+//
+//	std::map<char,int,classcomp> fourthOriginal;                 // class as Compare
+//
+//	bool(*fn_pt)(char,char) = fncomp;
+//	std::map<char,int,bool(*)(char,char)> fifthOriginal (fn_pt);
 
 
 
@@ -75,7 +105,9 @@ size_t test(){
 
 int main(){
 
-	std::cout << "\nMistakes=" << test() << std::endl;
+	size_t result = test();
+
+	std::cout << "\nMistakes=" << result << std::endl;
 	//std::cout << "\nCheck leaks in another terminal" << std::endl;
 	//getchar();
 
