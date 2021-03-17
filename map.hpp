@@ -36,64 +36,49 @@ namespace ft
 				_buffer = alloc_rebind(alloc).allocate(1);
 				alloc_rebind(alloc).construct(_buffer);
 				_compare = comp;
-				std::cout << _buffer->_data->first << std::endl;
-				std::cout << _buffer->_data->second << std::endl;
-			};
+			}
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
 				 const allocator_type& alloc = allocator_type()){
 				_buffer = alloc_rebind(alloc).allocate(1);
-			};
+			}
 			map (const map& x){
 
-			};
+			}
 
-			map& operator= (const map& rhs){
+			map& operator=(const map& rhs){
 				if (*this == rhs){
 					return (*this);
 				}
 				//clear();
-				insert(rhs.begin(), rhs.end());
+				//insert(rhs.begin(), rhs.end());
 				return *this;
 			}
 
 			mapped_type & operator[](const key_type & key) {
-				return (*((this->insert(
-						std::make_pair(key,mapped_type()) )).first)).second;
+				_buffer->insertNode(std::make_pair(key,mapped_type()));
+				return (_buffer->_data)->second;
 			}
 
 
-			Node begin(){
+			iterator begin(){
 				//if (!_node->_left) {
 					return _buffer;
 				//}
 			//
-			};
+			}
+
+//			iterator begin(){
+//				return iterator(_buffer);
+//			};
 
 			iterator end(){
 				//if (!_node->_right) {
 					return _buffer;
 				//}
 				//return maximum(_node->_right);
-			};
-
-		//вставка ноды
-		template < typename value_type , typename allocator_type>
-		Node insert(Node & node, value_type & value){      // node — корень поддерева, value — вставляемый ключ
-			if (!node){
-				return Node(value);                        // подвесим Node с value
-			} else {
-				if (value < node.key) {
-					node.left = insert(node.left, value);
-				} else {
-					if (value > node.key) {
-						node.right = insert(node.right, value);
-					}
-				}
 			}
-			return node;
-		};
 
 		private:
 

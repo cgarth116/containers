@@ -276,7 +276,7 @@ namespace ft
                 return it;
             }
             void swap (list & x){
-                list tmp;
+            	list tmp;
                 tmp = *this;
                 *this = x;
                 x = tmp;
@@ -466,12 +466,12 @@ namespace ft
 			++lIt;
 		}
 		return (lIt == lIte && rIt == rIte);
-	}
+	};
 
 	template < class T, class Alloc >
 	bool operator!=(const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
 		return !operator==(lhs, rhs);
-	}
+	};
 
 	template < class T, class Alloc >
 	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
@@ -493,26 +493,26 @@ namespace ft
 			++rIt;
 		}
 		return (lIt == lIte && rIt != rIte);
-	}
+	};
 
 	template < class T, class Alloc >
 	bool operator<=(const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
 		return (!operator<(rhs, lhs));
-	}
+	};
 
 	template < class T, class Alloc >
 	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
 		return operator<(rhs, lhs);
-	}
+	};
 
 	template < class T, class Alloc >
 	bool operator>=(const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
 		return (!operator<(lhs, rhs));
-	}
+	};
 
 	template <class T, class Alloc>
-	void swap (list<T,Alloc>& x, list<T,Alloc>& y){
+	void swap (ft::list<T,Alloc>& x, ft::list<T,Alloc>& y){
 		x.swap(y);
-	}
+	};
 }
 

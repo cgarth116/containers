@@ -9,12 +9,19 @@ namespace ft{
 
 		Node(): _parent(NULL), _left(NULL), _right(NULL) {
 			_data = allocator_type().allocate(1);
+			allocator_type().construct(_data);
 		}
 		Node(const value_type & value) :  _parent(NULL), _left(NULL), _right(NULL)
 		{
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data, value);
 		}
+
+		void insertNode(value_type value){
+			_data = allocator_type().allocate(1);
+			allocator_type().construct(_data, value);
+		}
+
 
 		value_type *			_data;
 		Node *					_parent;
@@ -32,41 +39,25 @@ namespace ft{
 		typedef Node<value_type, allocator_type>								Node;
 		public:
 			mapIterator() : _index(NULL) {};
-			mapIterator(Node * index): _index(index){};
+			mapIterator(const mapIterator & rhs){
+				*this = rhs;
+			};
+
+			mapIterator(Node * rhs) : _index(rhs){}
 			mapIterator & operator=(const mapIterator & rhs) {
 				if (this != &rhs){
 					_index = rhs._index;
 				}
 				return *this;
 			}
-			value_type & operator*(){
-				return *_index;
+			_reference operator*(){
+				return *_index->_data;
 			}
+			_pointer operator->(){
+				return _index->_data;
+			}
+			virtual ~mapIterator(){}
 
-
-//
-//			mapIterator(const mapIterator & rhs) {
-//				*this = rhs;
-//			}
-//			mapIterator & operator=(const mapIterator & rhs){
-//				if (this != &rhs){
-//					_node = rhs._node;
-//				}
-//				return *this;
-//			}
-//
-//			mapIterator(Node * rhs) {
-//				_node = rhs;
-//			}
-//
-//			_reference operator*(){
-//				return *(_node->_data);
-//			}
-//
-//			_pointer  operator->(){
-//				return _node->_data;
-//			}
-//
 //			mapIterator & operator++() {
 //				Node * tmp;
 //				if (_node->_right){
@@ -138,6 +129,6 @@ namespace ft{
 			}
 
 
-		_pointer _index;
+		Node * _index;
 	};
 }

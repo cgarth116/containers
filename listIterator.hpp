@@ -9,6 +9,7 @@
 
 namespace ft
 {
+
 	template <class T, class Alloc = std::allocator<T> >
 	struct Node{
 		Node(): nodeNext(NULL), nodePrevious(NULL) {}

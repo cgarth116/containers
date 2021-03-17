@@ -2784,6 +2784,7 @@ int test(){
 
 		mistakes++;
 	}
+
 	return mistakes;
 }
 

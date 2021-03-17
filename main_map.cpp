@@ -37,23 +37,6 @@ void viewAllOriginal(std::map<Key, T> tmp)
 	std::cout << " |" << std::endl;
 }
 
-//class A {
-//public:
-//		A() : a(10) {}
-//
-//	A & operator=(int other) {a = other; return *this;}
-//public:
-//	int a;
-//
-//	};
-//
-//std::ostream& operator<< (std::ostream &out, const A &a)
-//{
-//	// Поскольку operator<< является другом класса Point, то мы имеем прямой доступ к членам Point
-//	out << a.a;
-//	return out;
-//}
-
 
 size_t test(){
 	size_t mistakes = 0;
@@ -63,20 +46,15 @@ size_t test(){
 	std::cout << "****************** Test constructor map<char,int> ******************" << std::endl;
 
 	ft::map<char,int> firstOur;
-	std::map<char,int> firstOriginal;
+//	std::map<char,int> firstOriginal;
 
 
-//	std::cout << firstOur.begin()._data->first << std::endl;
 
+	firstOur['X'] =56;
+	firstOur['b']=30;
+	firstOur['c']=50;
+	firstOur['d']=70;
 
-//	std::map<char, A> f;
-	firstOur['a'];
-//	firstOur['b']=30;
-//	firstOur['c']=50;
-//	firstOur['d']=70;
-
-//	f['a'];
-//	f['b'] = 30;
 //	viewAllOriginal(f);
 
 //	firstOriginal['a'];
