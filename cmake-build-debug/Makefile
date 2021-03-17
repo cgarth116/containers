@@ -143,32 +143,32 @@ container_git/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/build
 .PHONY : container_git/fast
 
-main_map.o: main_map.cpp.o
+main.o: main.cpp.o
 
-.PHONY : main_map.o
+.PHONY : main.o
 
 # target to build an object file
-main_map.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_map.cpp.o
-.PHONY : main_map.cpp.o
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-main_map.i: main_map.cpp.i
+main.i: main.cpp.i
 
-.PHONY : main_map.i
+.PHONY : main.i
 
 # target to preprocess a source file
-main_map.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_map.cpp.i
-.PHONY : main_map.cpp.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-main_map.s: main_map.cpp.s
+main.s: main.cpp.s
 
-.PHONY : main_map.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-main_map.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_map.cpp.s
-.PHONY : main_map.cpp.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -179,9 +179,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... container_git"
-	@echo "... main_map.o"
-	@echo "... main_map.i"
-	@echo "... main_map.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 

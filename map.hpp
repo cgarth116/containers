@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include "mapIterator.hpp"
 
-
 namespace ft
 {
 
@@ -57,8 +56,7 @@ namespace ft
 			}
 
 			mapped_type & operator[](const key_type & key) {
-				_buffer->insertNode(std::make_pair(key,mapped_type()));
-				return (_buffer->_data)->second;
+				return _buffer->insertNode(std::make_pair(key,mapped_type()))->second;
 			}
 
 
@@ -78,6 +76,21 @@ namespace ft
 					return _buffer;
 				//}
 				//return maximum(_node->_right);
+			}
+
+			std::pair<iterator,bool> insert (const value_type& val){
+				if (!_buffer->_parent){
+
+				}
+			}
+
+			iterator insert (iterator position, const value_type& val){
+
+			}
+
+			template <class InputIterator>
+			void insert (InputIterator first, InputIterator last){
+
 			}
 
 		private:

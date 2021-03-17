@@ -1,5 +1,4 @@
 #include <iostream>
-
 namespace ft{
 
 	typedef std::ptrdiff_t					difference_type;
@@ -17,9 +16,10 @@ namespace ft{
 			allocator_type().construct(_data, value);
 		}
 
-		void insertNode(value_type value){
+		value_type * insertNode(value_type value){
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data, value);
+			return _data;
 		}
 
 

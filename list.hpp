@@ -35,7 +35,6 @@ namespace ft
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
-				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
 				_sizeNode = sizeof(Node);
@@ -47,7 +46,6 @@ namespace ft
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
-				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
 				_sizeNode = sizeof(Node);
@@ -64,7 +62,6 @@ namespace ft
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
-				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
 				_sizeNode = sizeof(Node);
@@ -79,7 +76,6 @@ namespace ft
 
 				nodeEnd->nodePrevious = nodeEnd;
 				nodeEnd->nodeNext = nodeEnd;
-				_listBegin = nodeEnd;
 				_listEnd = nodeEnd;
 				_sizelist = 0;
 				_sizeNode = sizeof(Node);
@@ -197,7 +193,7 @@ namespace ft
                     }
                     else{
                         node->nodePrevious = _listEnd;
-                        _listBegin->nodeNext = node;
+						_listEnd->nodeNext = node;
                     }
                     node->nodeNext = _listEnd;
                     _listEnd->nodePrevious = node;
@@ -439,7 +435,6 @@ namespace ft
             }
 
         private:
-            Node *			_listBegin;
             Node *			_listEnd;
             size_t			_sizelist;
             size_t			_sizeNode;

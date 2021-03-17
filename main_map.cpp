@@ -50,10 +50,13 @@ size_t test(){
 
 
 
-	firstOur['X'] =56;
-	firstOur['b']=30;
-	firstOur['c']=50;
-	firstOur['d']=70;
+	firstOur['X'] = 30;
+
+	std::cout << firstOur.begin()->first << " | " << firstOur.begin()->second << std::endl;
+//	firstOur.insert(std::pair<char, int>('s',42));
+	//	firstOur['b']=30;
+//	firstOur['c']=50;
+//	firstOur['d']=70;
 
 //	viewAllOriginal(f);
 
