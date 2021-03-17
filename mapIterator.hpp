@@ -10,18 +10,18 @@ namespace ft{
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data);
 		}
-		Node(const value_type & value) :  _parent(NULL), _left(NULL), _right(NULL)
-		{
-			_data = allocator_type().allocate(1);
-			allocator_type().construct(_data, value);
-		}
+//		Node(const value_type & value) :  _parent(NULL), _left(NULL), _right(NULL)
+//		{
+//			_data = allocator_type().allocate(1);
+//			allocator_type().construct(_data(value));
+//		}
 
 		value_type * insertNode(value_type value){
+
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data, value);
 			return _data;
 		}
-
 
 		value_type *			_data;
 		Node *					_parent;

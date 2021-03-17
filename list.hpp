@@ -2,10 +2,17 @@
 #include <iostream>
 #include "listIterator.hpp"
 
-namespace ft
-{
+namespace ft {
 //template<bool Cond, class T = void> struct enable_if {};
 //template<class T> struct enable_if<true, T> { typedef T type; };
+
+
+	template< typename T >
+	inline void	swap(T & x, T & y) {
+		T	tmp(x);
+		x = y;
+		y = tmp;
+	}
 
     template <class T, class Alloc = std::allocator<T> >
     class list
@@ -272,10 +279,9 @@ namespace ft
                 return it;
             }
             void swap (list & x){
-            	list tmp;
-                tmp = *this;
-                *this = x;
-                x = tmp;
+				ft::swap(_allocator, x._allocator);
+            	ft::swap(_listEnd, x._listEnd);
+            	ft::swap(_sizelist, x._sizelist);
             }
             void resize (size_t n, value_type val = value_type ()){
                 if (n >= _sizelist){

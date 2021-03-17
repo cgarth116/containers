@@ -56,26 +56,66 @@ namespace ft
 			}
 
 			mapped_type & operator[](const key_type & key) {
-				return _buffer->insertNode(std::make_pair(key,mapped_type()))->second;
+				return insertNode(std::make_pair(key,mapped_type()))->second;
+				//return _buffer->insertNode(std::make_pair(key,mapped_type()))->second;
 			}
 
 
 			iterator begin(){
-				//if (!_node->_left) {
 					return _buffer;
-				//}
-			//
 			}
 
-//			iterator begin(){
-//				return iterator(_buffer);
-//			};
-
 			iterator end(){
-				//if (!_node->_right) {
 					return _buffer;
-				//}
-				//return maximum(_node->_right);
+			}
+
+			value_type * insertNode(value_type value,
+						   			const key_compare& comp = key_compare(),
+						   			const allocator_type& alloc = allocator_type()){
+//				if (!search(_buffer, value.first)){
+//					return;
+//				}
+				Node * newNode = alloc_rebind(alloc).allocate(1);
+				alloc_rebind(alloc).construct(newNode);
+				newNode->insertNode(value);
+				insert(_buffer, newNode);
+				_buffer = newNode; // todo / для первой ноды пока так
+				return newNode->_data;
+			}
+
+			void insert(Node * x, Node * z) {           // x — корень поддерева, z — вставляемый элемент
+				while (x != nullptr) {
+					if (z->_data->first > x->_data->first) {
+						if (x->_right != nullptr) {
+							x = x->_right;
+						} else {
+							z->_parent = x;
+							x->_right = z;
+							break;
+						}
+					} else {
+						if (z->_data->first < x->_data->first) {
+							if (x->_left != nullptr) {
+								x = x->_left;
+							} else {
+								z->_parent = x;
+								x->_left = z;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			Node search(Node * x, key_type k) {
+				if (x == nullptr || k == x->_data.first) {
+					return x;
+				}
+				if (k < x->_data.first) {
+					return search(x->_left, k);
+				} else {
+					return search(x->_right, k);
+				}
 			}
 
 			std::pair<iterator,bool> insert (const value_type& val){

@@ -2785,6 +2785,57 @@ int test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test swap iterator test list<std::string> ******************" << std::endl;
+	B.clear();
+	B2.clear();
+	BOrigin.clear();
+	BOrigin2.clear();
+	B.push_front("это просто");
+	B.push_front("ооооо");
+	B.push_front("ой");
+	B2.push_front("это сложно");
+	B2.push_front("яяяяя");
+	B2.push_front("ай");
+	B2.push_front("ай1");
+	B2.push_front("ай2");
+	BOrigin.push_front("это просто");
+	BOrigin.push_front("ооооо");
+	BOrigin.push_front("ой");
+	BOrigin2.push_front("это сложно");
+	BOrigin2.push_front("яяяяя");
+	BOrigin2.push_front("ай");
+	BOrigin2.push_front("ай1");
+	BOrigin2.push_front("ай2");
+	viewAll(B);
+	viewAll(B2);
+	viewAllOriginal(BOrigin);
+	viewAllOriginal(BOrigin2);
+	ft::list<std::string>::iterator itb = B.begin();
+	ft::list<std::string>::iterator itb2 = B2.begin();
+	ft::list<std::string>::iterator itbTmp = ++itb;
+	ft::list<std::string>::iterator itbTmp2 = ++itb2;
+	std::cout << *itbTmp << " | " << *itbTmp2 << std::endl;
+	B.swap(B2);
+	BOrigin.swap(BOrigin2);
+	std::cout << "*Swap*" << std::endl;
+	std::cout << *(++itb) << " | " << *(++itb2) << std::endl;
+	viewAll(B);
+	viewAll(B2);
+	viewAllOriginal(BOrigin);
+	viewAllOriginal(BOrigin2);
+	if ((++itbTmp) == itb && (++itbTmp2) == itb2 && B.front() == BOrigin.front() && B2.front() == BOrigin2.front())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(BOrigin);
+		std::cout << "received ";
+		viewAll(B);
+
+		mistakes++;
+	}
+
 	return mistakes;
 }
 

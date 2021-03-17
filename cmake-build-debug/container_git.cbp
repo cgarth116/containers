@@ -86,7 +86,7 @@
 		<Unit filename="/Users/cgarth/project/container_git/listIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/main.cpp">
+		<Unit filename="/Users/cgarth/project/container_git/main_map.cpp">
 			<Option target="container_git"/>
 		</Unit>
 		<Unit filename="/Users/cgarth/project/container_git/map.hpp">
