@@ -47,6 +47,7 @@ namespace ft
 			}
 
 			map& operator=(const map& rhs){
+				//todo корректно проверить можно на viewAll(firstOur);
 				if (*this == rhs){
 					return (*this);
 				}
@@ -62,11 +63,14 @@ namespace ft
 
 
 			iterator begin(){
-					return _buffer;
+				return iterator(minimumNode(_buffer));
+
+				return iterator(_buffer);
 			}
 
 			iterator end(){
-					return _buffer;
+				return iterator((maximumNode(_buffer)));
+				//return iterator(_buffer);
 			}
 
 			value_type * insertNode(value_type value,
@@ -77,9 +81,11 @@ namespace ft
 //				}
 				Node * newNode = alloc_rebind(alloc).allocate(1);
 				alloc_rebind(alloc).construct(newNode);
-				newNode->insertNode(value);
-				insert(_buffer, newNode);
-				_buffer = newNode; // todo / для первой ноды пока так
+				newNode->insertNode(value);//создаем полностью ноду с ключом
+				insert(_buffer, newNode);//вставляем ноду в дерево
+				if (_buffer->_parent == NULL) {
+					_buffer = newNode; // корневая нода
+				}
 				return newNode->_data;
 			}
 
@@ -118,20 +124,46 @@ namespace ft
 				}
 			}
 
-			std::pair<iterator,bool> insert (const value_type& val){
-				if (!_buffer->_parent){
+//			std::pair<iterator,bool> insert (const value_type& val){
+//				if (!_buffer->_parent){
+//
+//				}
+//			}
+//
+//			iterator insert (iterator position, const value_type& val){
+//
+//			}
+//
+//			template <class InputIterator>
+//			void insert (InputIterator first, InputIterator last){
+//
+//			}
 
-				}
+
+
+
+// section test
+		void viewAllNode(iterator node) {
+			if (node.getTreeNode()) {
+				viewAllNode(node.getTreeNode()->_left);
+				std::cout << (*node).first << " ";
+				viewAllNode(node.getTreeNode()->_right);
 			}
+		}
 
-			iterator insert (iterator position, const value_type& val){
-
+		Node * minimumNode(iterator node){
+			if (!node.getTreeNode()->_left){
+				return node.getTreeNode();
 			}
-
-			template <class InputIterator>
-			void insert (InputIterator first, InputIterator last){
-
+			return minimumNode(node.getTreeNode()->_left);
 			}
+		Node * maximumNode(iterator node){
+			if (!node.getTreeNode()->_right) {
+				return node.getTreeNode();
+			}
+			return maximumNode(node.getTreeNode()->_right);
+		}
+
 
 		private:
 

@@ -14,27 +14,19 @@ struct classcomp {
 template <typename Key, typename T>
 void viewAll(ft::map<Key, T> tmp)
 {
-	size_t k = 0;
-	std::cout << "ft:map<Key,T>: \n";
 	for (typename ft::map<Key, T>::iterator it=tmp.begin(); it != tmp.end(); ++it)
 	{
-		std::cout << it->first << " | " << it->second << "\n";
-		k++;
+		std::cout << (*it).first << " | " << (*it).second << std::endl;
 	}
-	std::cout << " |" << std::endl;
 }
 
 template <typename Key, typename T>
 void viewAllOriginal(std::map<Key, T> tmp)
 {
-	size_t k = 0;
 	std::cout << "std::map<Key,T>: \n";
-	for (typename std::map<Key, T>::iterator it=tmp.begin(); it != tmp.end(); ++it)
-	{
-		std::cout << it->first << " | " << it->second << "\n";
-		k++;
+	for (typename std::map<Key, T>::iterator it=tmp.begin(); it != tmp.end(); ++it){
+		std::cout << (*it).first << " | " << (*it).second << "\n";
 	}
-	std::cout << " |" << std::endl;
 }
 
 
@@ -46,26 +38,42 @@ size_t test(){
 	std::cout << "****************** Test constructor map<char,int> ******************" << std::endl;
 
 	ft::map<char,int> firstOur;
-//	std::map<char,int> firstOriginal;
+	std::map<char,int> firstOriginal;
 
+
+
+	firstOriginal['X'] = 30;
+	firstOriginal['c']=50;
+	firstOriginal['A']=70;
+	firstOriginal['b']=30;
+	firstOriginal['d']=70;
 
 
 	firstOur['X'] = 30;
+	firstOur['c']=50;
+	firstOur['A']=70;
+	firstOur['b']=30;
+	firstOur['d']=70;
+	firstOur.viewAllNode(firstOur.begin());
+	std::cout << "\n" <<std::endl;
+	viewAllOriginal(firstOriginal);
 
-	std::cout << firstOur.begin()->first << " | " << firstOur.begin()->second << std::endl;
-//	firstOur.insert(std::pair<char, int>('s',42));
-	//	firstOur['b']=30;
-//	firstOur['c']=50;
-//	firstOur['d']=70;
 
-//	viewAllOriginal(f);
+	std::cout << "min :" << (*firstOur.begin()).first << std::endl;
+	std::cout << "max :" << (*firstOur.end()).first << std::endl;
 
-//	firstOriginal['a'];
-//	firstOriginal['b']=30;
-//	firstOriginal['c']=50;
-//	firstOriginal['d']=70;
+//	ft::map<char,int>::iterator it=firstOur.begin();
+//	++it;
+//	++it;
+//	++it;
 
-//	viewAll(firstOur);
+
+	for (typename ft::map<char, int>::iterator it=firstOur.begin(); it != firstOur.end(); ++it)
+	{
+		std::cout << (*it).first << " | " << (*it).second << std::endl;
+	}
+
+	//	viewAll(firstOur);
 //	viewAllOriginal(firstOriginal);
 
 //	std::map<char,int> secondOriginal (firstOriginal.begin(),firstOriginal.end());

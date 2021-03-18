@@ -6,7 +6,7 @@ namespace ft{
 	template < typename value_type, typename allocator_type >
 	struct Node{
 
-		Node(): _parent(NULL), _left(NULL), _right(NULL) {
+		Node(): _parent(nullptr), _left(nullptr), _right(nullptr) {
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data);
 		}
@@ -39,37 +39,75 @@ namespace ft{
 		typedef Node<value_type, allocator_type>								Node;
 		public:
 			mapIterator() : _index(NULL) {};
+			mapIterator(Node * rhs) : _index(rhs){}
 			mapIterator(const mapIterator & rhs){
 				*this = rhs;
 			};
 
-			mapIterator(Node * rhs) : _index(rhs){}
 			mapIterator & operator=(const mapIterator & rhs) {
 				if (this != &rhs){
 					_index = rhs._index;
 				}
 				return *this;
 			}
+			bool operator!=(const mapIterator & rhs){
+				return _index != rhs._index;
+			}
 			_reference operator*(){
-				return *_index->_data;
+				return *(_index->_data);
 			}
 			_pointer operator->(){
 				return _index->_data;
 			}
+			Node * getTreeNode(){
+				return _index;
+			}
+
 			virtual ~mapIterator(){}
 
-//			mapIterator & operator++() {
+			mapIterator operator++() {
+				Node * tmp;
+				if (_index->_right){
+					_index = minimumNode(_index->_right);
+					return _index;
+				}
+				tmp = _index->_parent;
+				while (tmp && _index == tmp->_right){
+					_index = tmp;
+					tmp = tmp->_parent;
+				}
+				_index = tmp;
+				return _index;
+			}
+
+//			mapIterator operator--() {
+//				Node * x = _index;
 //				Node * tmp;
-//				if (_node->_right){
-//					return min(_node->right);
+//				if (!x->_left){
+//					return mapIterator(maximumNode(x->_left));
 //				}
-//				tmp = _node->parent;
-//				while (tmp && _node == tmp->right){
-//					_node = tmp;
-//					tmp = tmp->parent;
+//				tmp = x->_parent;
+//				while (tmp && x == tmp->_left){
+//					x = tmp;
+//					tmp = tmp->_parent;
 //				}
-//				return tmp;
+//				return mapIterator(tmp);
 //			}
+
+			Node * minimumNode(mapIterator node){
+				if (!node.getTreeNode()->_left){
+					return node.getTreeNode();
+				}
+				return minimumNode(node.getTreeNode()->_left);
+			}
+			Node * maximumNode(mapIterator node){
+				if (!node.getTreeNode()->_right) {
+					return node.getTreeNode();
+				}
+				return maximumNode(node.getTreeNode()->_right);
+			}
+
+
 ////			mapIterator operator++(int){
 ////				vectorIterator tmp(_index);
 ////				++_index;
