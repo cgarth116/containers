@@ -35,6 +35,12 @@ namespace ft
 				_buffer = alloc_rebind(alloc).allocate(1);
 				alloc_rebind(alloc).construct(_buffer);
 				_compare = comp;
+
+				//создаем end ноду
+				_endNode = alloc_rebind(alloc).allocate(1);
+				alloc_rebind(alloc).construct(_endNode);
+				_endNode->_right = _endNode;
+				_endNode->_left = _endNode;
 			}
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last,
@@ -64,27 +70,26 @@ namespace ft
 
 			iterator begin(){
 				return iterator(minimumNode(_buffer));
-
-				return iterator(_buffer);
 			}
 
 			iterator end(){
-				return iterator((maximumNode(_buffer)));
-				//return iterator(_buffer);
+				return iterator(_endNode);
 			}
 
 			value_type * insertNode(value_type value,
 						   			const key_compare& comp = key_compare(),
 						   			const allocator_type& alloc = allocator_type()){
-//				if (!search(_buffer, value.first)){
-//					return;
-//				}
 				Node * newNode = alloc_rebind(alloc).allocate(1);
 				alloc_rebind(alloc).construct(newNode);
 				newNode->insertNode(value);//создаем полностью ноду с ключом
-				insert(_buffer, newNode);//вставляем ноду в дерево
-				if (_buffer->_parent == NULL) {
+				//insert(_buffer, newNode);//вставляем ноду в дерево
+				//std::cout << "parent in insert:" <<_buffer->_parent << std::endl;
+				if (_endNode->_parent == NULL) {
 					_buffer = newNode; // корневая нода
+					_buffer->_right = _endNode;
+					_endNode->_parent = _buffer; //досоздаем end ноду
+				} else {
+					insert(_buffer, newNode);//вставляем ноду в дерево
 				}
 				return newNode->_data;
 			}
@@ -92,11 +97,18 @@ namespace ft
 			void insert(Node * x, Node * z) {           // x — корень поддерева, z — вставляемый элемент
 				while (x != nullptr) {
 					if (z->_data->first > x->_data->first) {
-						if (x->_right != nullptr) {
+						if (x->_right != nullptr && x->_right != _endNode) {
 							x = x->_right;
 						} else {
-							z->_parent = x;
-							x->_right = z;
+							if (x->_right == _endNode) {
+								x->_right = z;
+								z->_parent = x;
+								z->_right = _endNode;
+								_endNode->_parent = z;
+							} else {
+								z->_parent = x;
+								x->_right = z;
+							}
 							break;
 						}
 					} else {
@@ -170,5 +182,6 @@ namespace ft
 			allocator_type	_allocator;
 			key_compare		_compare;
 			Node * 			_buffer;
+			Node *			_endNode;
 	};
 }

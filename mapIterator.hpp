@@ -16,7 +16,7 @@ namespace ft{
 //			allocator_type().construct(_data(value));
 //		}
 
-		value_type * insertNode(value_type value){
+		value_type * insertNode(const value_type & value){
 
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data, value);
@@ -53,6 +53,9 @@ namespace ft{
 			bool operator!=(const mapIterator & rhs){
 				return _index != rhs._index;
 			}
+			bool operator==(const mapIterator & rhs){
+				return _index == rhs._index;
+			}
 			_reference operator*(){
 				return *(_index->_data);
 			}
@@ -68,8 +71,10 @@ namespace ft{
 			mapIterator operator++() {
 				Node * tmp;
 				if (_index->_right){
-					_index = minimumNode(_index->_right);
-					return _index;
+					if (_index->_right == _index->_right->_right){
+						return _index = _index->_right;
+					}
+					return _index = minimumNode(_index->_right);
 				}
 				tmp = _index->_parent;
 				while (tmp && _index == tmp->_right){
@@ -102,7 +107,7 @@ namespace ft{
 			}
 			Node * maximumNode(mapIterator node){
 				if (!node.getTreeNode()->_right) {
-					return node.getTreeNode();
+					return node.getTreeNode()->_parent;
 				}
 				return maximumNode(node.getTreeNode()->_right);
 			}

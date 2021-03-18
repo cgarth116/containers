@@ -38,40 +38,40 @@ size_t test(){
 	std::cout << "****************** Test constructor map<char,int> ******************" << std::endl;
 
 	ft::map<char,int> firstOur;
-	std::map<char,int> firstOriginal;
+//	std::map<char,int> firstOriginal;
 
-
-
-	firstOriginal['X'] = 30;
-	firstOriginal['c']=50;
-	firstOriginal['A']=70;
-	firstOriginal['b']=30;
-	firstOriginal['d']=70;
+//	firstOriginal['X'] = 30;
+//	firstOriginal['c']=50;
+//	firstOriginal['A']=70;
+//	firstOriginal['b']=30;
+//	firstOriginal['d']=70;
 
 
 	firstOur['X'] = 30;
+
 	firstOur['c']=50;
+
 	firstOur['A']=70;
 	firstOur['b']=30;
+
 	firstOur['d']=70;
-	firstOur.viewAllNode(firstOur.begin());
-	std::cout << "\n" <<std::endl;
-	viewAllOriginal(firstOriginal);
+//	viewAllOriginal(firstOriginal);
 
+	//viewAll(firstOur);
 
-	std::cout << "min :" << (*firstOur.begin()).first << std::endl;
-	std::cout << "max :" << (*firstOur.end()).first << std::endl;
-
-//	ft::map<char,int>::iterator it=firstOur.begin();
-//	++it;
-//	++it;
-//	++it;
-
-
-	for (typename ft::map<char, int>::iterator it=firstOur.begin(); it != firstOur.end(); ++it)
-	{
+	ft::map<char, int>::iterator it=firstOur.begin();
+	ft::map<char, int>::iterator ite=firstOur.end();
+	while (it != ite){
 		std::cout << (*it).first << " | " << (*it).second << std::endl;
+		++it;
 	}
+
+
+//	for (typename ft::map<char, int>::iterator it=firstOur.begin(); it != firstOur.end(); ++it)
+//	{
+//		std::cout << it.getTreeNode() << std::endl;
+//		std::cout << (*it).first << " | " << (*it).second << std::endl;
+//	}
 
 	//	viewAll(firstOur);
 //	viewAllOriginal(firstOriginal);
