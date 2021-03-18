@@ -54,10 +54,23 @@ namespace ft
 
 			map& operator=(const map& rhs){
 				//todo корректно проверить можно на viewAll(firstOur);
-				if (*this == rhs){
-					return (*this);
+//				if (*this == rhs){
+//					return (*this);
+//				}
+				//clear();mk
+				if (rhs._endNode->_parent != nullptr){
+					insertNode(*(rhs._buffer->_data));
+
+
+//					iterator it = rhs.;
+//					iterator ite = rhs._endNode;
+//					while (it != ite){
+//						if (it != _buffer){
+//							insert(_buffer,it);
+//						}
+//						++it;
+//					}
 				}
-				//clear();
 				//insert(rhs.begin(), rhs.end());
 				return *this;
 			}

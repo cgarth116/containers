@@ -38,6 +38,7 @@ size_t test(){
 	std::cout << "****************** Test constructor map<char,int> ******************" << std::endl;
 
 	ft::map<char,int> firstOur;
+	ft::map<char,int> firstOur2;
 //	std::map<char,int> firstOriginal;
 
 //	firstOriginal['X'] = 30;
@@ -66,6 +67,8 @@ size_t test(){
 		++it;
 	}
 
+	firstOur2 = firstOur;
+	std::cout << firstOur2.begin().getTreeNode()  << std::endl;
 
 //	for (typename ft::map<char, int>::iterator it=firstOur.begin(); it != firstOur.end(); ++it)
 //	{
