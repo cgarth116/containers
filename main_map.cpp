@@ -79,11 +79,11 @@ size_t test(){
 
 	//viewAll(firstOur);
 
-	ft::map<char, int>::iterator it=firstOur.begin();
-	ft::map<char, int>::iterator ite=firstOur.end();
-	while (it != ite){
-		std::cout << (*it).first << " | " << (*it).second << std::endl;
-		++it;
+	ft::map<char, int>::iterator itOur=firstOur.begin();
+	ft::map<char, int>::iterator iteOur=firstOur.end();
+	while (itOur != iteOur){
+		std::cout << (*itOur).first << " | " << (*itOur).second << std::endl;
+		++itOur;
 	}
 
 	std::cout << "Size :" << firstOur.size() << " | " << firstOriginal.size() << std::endl;
@@ -114,6 +114,66 @@ size_t test(){
 //
 //	bool(*fn_pt)(char,char) = fncomp;
 //	std::map<char,int,bool(*)(char,char)> fifthOriginal (fn_pt);
+
+	std::cout << "*****************************************************" << std::endl;
+	ft::map<char,int> mymapOur;
+	std::map<char,int> mymap;
+
+	// first insert function version (single parameter):
+	mymapOur.insert ( std::pair<char,int>('a',100) );
+	mymapOur.insert ( std::pair<char,int>('z',200) );
+	mymap.insert ( std::pair<char,int>('a',100) );
+	mymap.insert ( std::pair<char,int>('z',200) );
+
+	std::pair<ft::map<char,int>::iterator,bool> retOur;
+	std::pair<std::map<char,int>::iterator,bool> ret;
+
+	retOur = mymapOur.insert ( std::pair<char,int>('z',500) );
+	ret = mymap.insert ( std::pair<char,int>('z',500) );
+
+	if (retOur.second==false) {
+		std::cout << "OUR element 'z' already existed\n";
+		std::cout << " with a value of " << retOur.first->second << '\n';
+	}
+	if (ret.second==false) {
+		std::cout << "Original element 'z' already existed\n";
+		std::cout << " with a value of " << ret.first->second << '\n';
+	}
+
+	// second insert function version (with hint position):
+	ft::map<char,int>::iterator itOur1 = mymapOur.begin();
+	mymapOur.insert(itOur1, std::pair<char,int>('b',300));  // max efficiency inserting
+	mymapOur.insert(itOur1, std::pair<char,int>('c',400));  // no max efficiency inserting
+
+
+	std::map<char,int>::iterator it = mymap.begin();
+	mymap.insert(it, std::pair<char,int>('b',300));  // max efficiency inserting
+	mymap.insert(it, std::pair<char,int>('c',400));  // no max efficiency inserting
+
+	// third insert function version (range insertion):
+	ft::map<char,int> anothermapOur;
+	anothermapOur.insert(mymapOur.begin(),++++(mymapOur.begin()));
+
+	std::map<char,int> anothermap;
+	anothermap.insert(mymap.begin(),++++mymap.begin());
+
+	// showing contents:
+	std::cout << "Our mymap contains:\n";
+	for (itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+
+	std::cout << "Original mymap contains:\n";
+	for (it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
+	std::cout << "Our anothermap contains:\n";
+	for (itOur=anothermapOur.begin(); itOur!=anothermapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "anothermap contains:\n";
+	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
+
 
 
 

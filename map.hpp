@@ -34,10 +34,13 @@ namespace ft
 			typedef ft::const_reverse_mapIterator<value_type, allocator_type>	const_reverse_iterator;
 			typedef typename allocator_type::template rebind<Node>::other		alloc_rebind;
 
+			//Constructors
 			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()){
+
+				_allocator = alloc;
+				_compare = comp;
 				_buffer = alloc_rebind(alloc).allocate(1);
 				alloc_rebind(alloc).construct(_buffer);
-				_compare = comp;
 
 				//создаем first ноду
 				_firstNode = alloc_rebind(alloc).allocate(1);
@@ -55,8 +58,30 @@ namespace ft
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
-				 const allocator_type& alloc = allocator_type()){
-				_buffer = alloc_rebind(alloc).allocate(1);
+				 const allocator_type& alloc = allocator_type(),
+				 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) :map(){
+//				_allocator = alloc;
+//				_compare = comp;
+//
+//				_buffer = alloc_rebind(_allocator).allocate(1);
+//				alloc_rebind(_allocator).construct(_buffer);
+//				//создаем first ноду
+//				_firstNode = alloc_rebind(_allocator).allocate(1);
+//				alloc_rebind(_allocator).construct(_firstNode);
+//				_firstNode->_right = _firstNode;
+//				_firstNode->_left = _firstNode;
+//				_firstNode->_parent = _endNode;
+//				//создаем end ноду
+//				_endNode = alloc_rebind(_allocator).allocate(1);
+//				alloc_rebind(_allocator).construct(_endNode);
+//				_endNode->_right = _endNode;
+//				_endNode->_left = _endNode;
+//				_sizeMap = 0;
+
+				while (first != last){
+					insertNode(*(first.getTreeNode())->_data,_compare,_allocator);
+					++first;
+				}
 			}
 			map (const map& rhs){
 				_allocator = rhs._allocator;
@@ -81,16 +106,16 @@ namespace ft
 			}
 
 			map& operator=(const map& rhs){
-				//todo clear();
 				if (this == &rhs){
 					return *this;
 				}
+				//todo clear();
 				//clear();
 				if (rhs.size() != 0){
 					const_iterator it = rhs.begin();
 					const_iterator ite = rhs.end();
 					while (it != ite){
-						insertNode(*(it.getTreeNode())->_data,_compare,_allocator);
+						insert(*(it.getTreeNode()->_data));
 						++it;
 					}
 				}
@@ -98,9 +123,8 @@ namespace ft
 			}
 
 			mapped_type & operator[](const key_type & key) {
-				return insertNode(std::make_pair(key,mapped_type()))->second;
+				return ((insert(std::make_pair(key, mapped_type()))).first)->second;
 			}
-
 
 			//Iterators:
 			iterator begin(){
@@ -139,69 +163,23 @@ namespace ft
 				return std::numeric_limits<size_t>::max() / (sizeof(Node) + sizeof(*(_buffer->_data)) );
 			}
 
-
-			value_type * insertNode(value_type value,
-						   			const key_compare& comp = key_compare(),
-						   			const allocator_type& alloc = allocator_type()){
-				Node * newNode = alloc_rebind(alloc).allocate(1);
-				alloc_rebind(alloc).construct(newNode);
-				newNode->insertNode(value);//создаем полностью ноду с ключом
-				if (_endNode->_parent == NULL) {
-					_buffer = newNode; // корневая нода
-					_buffer->_left = _firstNode;
-					_buffer->_right = _endNode;
-					_firstNode->_parent = _buffer; //досоздаем first ноду
-					_endNode->_parent = _buffer; //досоздаем end ноду
-					++_sizeMap;
-				} else {
-					insert(_buffer, newNode);//вставляем ноду в дерево
+			//Modifiers
+			std::pair<iterator,bool> insert (const value_type& value){
+				return tryInsertNode(_buffer, value);
+			}
+			iterator insert (iterator position, const value_type& value){
+				return tryInsertNode(position, value).first;
+			}
+			template <class InputIterator>
+			void insert (InputIterator first,
+						InputIterator last,
+						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+				while(first != last){
+					tryInsertNode(_buffer, *first);
+					++first;
 				}
-				return newNode->_data;
 			}
 
-			void insert(Node * x, Node * z) {           // x — корень поддерева, z — вставляемый элемент
-				while (x != nullptr) {
-					if (z->_data->first != x->_data->first) {
-						if (z->_data->first > x->_data->first) {
-							if (x->_right != nullptr && x->_right != _endNode) {
-								x = x->_right;
-							} else {
-								if (x->_right == _endNode) {
-									x->_right = z;
-									z->_parent = x;
-									z->_right = _endNode;
-									_endNode->_parent = z;
-								} else {
-									z->_parent = x;
-									x->_right = z;
-								}
-								break;
-							}
-						} else {
-							if (z->_data->first < x->_data->first) {
-								if (x->_left != nullptr && x->_left != _firstNode) {
-									x = x->_left;
-								} else {
-									if (x->_left == _firstNode) {
-										x->_left = z;
-										z->_parent = x;
-										z->_left = _firstNode;
-										_firstNode->_parent = z;
-									} else {
-										z->_parent = x;
-										x->_left = z;
-									}
-									break;
-								}
-							}
-						}
-					} else {
-						--_sizeMap;
-						break;
-					}
-				}
-				++_sizeMap;
-			}
 
 			Node search(Node * x, key_type k) {
 				if (x == nullptr || k == x->_data.first) {
@@ -263,6 +241,74 @@ namespace ft
 
 
 		private:
+
+			std::pair<iterator,bool> tryInsertNode(iterator position, const value_type& value){
+			Node * newNode = alloc_rebind(_allocator).allocate(1);
+			alloc_rebind(_allocator).construct(newNode);
+			newNode->insertNode(value);//создаем полностью ноду с ключом
+			if (_endNode->_parent == NULL) {
+				_buffer = newNode; // корневая нода
+				_buffer->_left = _firstNode;
+				_buffer->_right = _endNode;
+				_firstNode->_parent = _buffer; //досоздаем first ноду
+				_endNode->_parent = _buffer; //досоздаем end ноду
+				++_sizeMap;
+				return std::make_pair(_buffer ,true);
+			} else {
+				Node * tmp = insertOneNode(position.getTreeNode(), newNode); //пробуем вставить ноду в дерево
+				if (newNode == tmp){
+					return std::make_pair(newNode, true);
+				}
+				_allocator.destroy(newNode->_data);//элемент существует поэтому уничтожаем ноду
+				alloc_rebind(_allocator).destroy(newNode);
+				return std::make_pair(tmp, false);
+			}
+		}
+
+			Node * insertOneNode(Node * x, Node * z) {           // x — корень поддерева, z — вставляемый элемент
+			while (x != nullptr) {
+				if (z->_data->first != x->_data->first) {
+					if (z->_data->first > x->_data->first) {
+						if (x->_right != nullptr && x->_right != _endNode) {
+							x = x->_right;
+						} else {
+							if (x->_right == _endNode) {
+								x->_right = z;
+								z->_parent = x;
+								z->_right = _endNode;
+								_endNode->_parent = z;
+							} else {
+								z->_parent = x;
+								x->_right = z;
+							}
+							break;
+						}
+					} else {
+						if (z->_data->first < x->_data->first) {
+							if (x->_left != nullptr && x->_left != _firstNode) {
+								x = x->_left;
+							} else {
+								if (x->_left == _firstNode) {
+									x->_left = z;
+									z->_parent = x;
+									z->_left = _firstNode;
+									_firstNode->_parent = z;
+								} else {
+									z->_parent = x;
+									x->_left = z;
+								}
+								break;
+							}
+						}
+					}
+				} else {
+					return x;
+				}
+			}
+			++_sizeMap;
+			return z;
+		}
+
 
 			allocator_type	_allocator;
 			key_compare		_compare;
