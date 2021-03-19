@@ -125,7 +125,7 @@ namespace ft
 				return _sizeMap;
 			}
 			size_type max_size() const{
-
+				return std::numeric_limits<size_t>::max() / (sizeof(Node) + sizeof(*(_buffer->_data)) );
 			}
 
 
