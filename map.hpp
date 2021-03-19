@@ -58,8 +58,8 @@ namespace ft
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
-				 const allocator_type& alloc = allocator_type(),
-				 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) :map(){
+				const allocator_type& alloc = allocator_type(),
+				typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) :map(){
 //				_allocator = alloc;
 //				_compare = comp;
 //
@@ -160,7 +160,6 @@ namespace ft
 				return _sizeMap;
 			}
 			size_type max_size() const{
-				//return _allocator.max_size();
 				return std::numeric_limits<size_t>::max() / (sizeof(Node) + sizeof(*(_buffer->_data)) );
 			}
 
@@ -168,13 +167,14 @@ namespace ft
 			std::pair<iterator,bool> insert (const value_type& value){
 				return tryInsertNode(_buffer, value);
 			}
-			iterator insert (iterator position, const value_type& value){
+			iterator insert (iterator position,
+							const value_type& value){
 				return tryInsertNode(position, value).first;
 			}
 			template <class InputIterator>
 			void insert (InputIterator first,
 						InputIterator last,
-						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+						typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
 				while(first != last){
 					tryInsertNode(_buffer, *first);
 					++first;
@@ -187,7 +187,8 @@ namespace ft
 			size_type erase (const key_type& k){
 
 			}
-			void erase (iterator first, iterator last){
+			void erase (iterator first,
+			   			iterator last){
 				while (first != last) {
 					erase((*(first++)).first);
 				}
@@ -196,19 +197,13 @@ namespace ft
 				erase(begin(), end());
 			}
 
-
-			Node search(Node * x, key_type k) {
-				if (x == nullptr || k == x->_data.first) {
-					return x;
-				}
-				if (k < x->_data.first) {
-					return search(x->_left, k);
-				} else {
-					return search(x->_right, k);
-				}
+			//Operations
+			iterator find (const key_type& key){
+				return iterator(search(_buffer, key));
 			}
-
-
+			const_iterator find (const key_type& key) const{
+				return const_iterator(search(_buffer, key));
+			}
 
 // section test
 		void viewAllNode(iterator node) {
@@ -219,23 +214,23 @@ namespace ft
 			}
 		}
 
-		Node * minimumNode(iterator node){
-			if (!node.getTreeNode()->_left){
-				return node.getTreeNode();
-			}
-			return minimumNode(node.getTreeNode()->_left);
-			}
-		Node * maximumNode(iterator node){
-			if (!node.getTreeNode()->_right) {
-				return node.getTreeNode();
-			}
-			return maximumNode(node.getTreeNode()->_right);
-		}
-
+//		Node * minimumNode(iterator node){
+//			if (!node.getTreeNode()->_left){
+//				return node.getTreeNode();
+//			}
+//			return minimumNode(node.getTreeNode()->_left);
+//			}
+//		Node * maximumNode(iterator node){
+//			if (!node.getTreeNode()->_right) {
+//				return node.getTreeNode();
+//			}
+//			return maximumNode(node.getTreeNode()->_right);
+//		}
 
 		private:
 
-			std::pair<iterator,bool> tryInsertNode(iterator position, const value_type& value){
+			std::pair<iterator,bool> tryInsertNode(iterator position,
+										  			const value_type& value){
 			Node * newNode = alloc_rebind(_allocator).allocate(1);
 			alloc_rebind(_allocator).construct(newNode);
 			newNode->insertNode(value);//создаем полностью ноду с ключом
@@ -257,8 +252,8 @@ namespace ft
 				return std::make_pair(tmp, false);
 			}
 		}
-
-			Node * insertOneNode(Node * x, Node * z) {           // x — корень поддерева, z — вставляемый элемент
+			Node * insertOneNode(Node * x,
+								Node * z) {           // x — корень поддерева, z — вставляемый элемент
 			while (x != nullptr) {
 				if (z->_data->first != x->_data->first) {
 					if (z->_data->first > x->_data->first) {
@@ -301,7 +296,22 @@ namespace ft
 			++_sizeMap;
 			return z;
 		}
-
+			Node * search(Node * x,
+						  const key_type& key) {
+				if (key == x->_data->first) {
+					return x;
+				}
+				if (x == nullptr ||
+						x == end().getTreeNode() ||
+						x == begin().getTreeNode()){
+					return end().getTreeNode();
+				}
+				if (key < x->_data->first) {
+					return search(x->_left, key);
+				} else {
+					return search(x->_right, key);
+				}
+			}
 
 			allocator_type	_allocator;
 			key_compare		_compare;

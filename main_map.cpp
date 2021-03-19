@@ -186,7 +186,8 @@ size_t test(){
 
 //	mymapOur.clear();
 
-
+	std::cout << (*(firstOur.find('S'))).first << std::endl;
+	std::cout << (*(firstOur.find('A'))).first << std::endl;
 	mistakes++;
 
 	return mistakes;
