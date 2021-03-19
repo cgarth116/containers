@@ -45,6 +45,9 @@ size_t test(){
 	ft::map<std::map<int, float>,std::map<int, float> > firstOur1;
 	std::map<std::map<int, float>,std::map<int, float> > firstOriginal1;
 
+	ft::map<std::string,int> firstOur3;
+	std::map<std::string,int> firstOriginal3;
+
 	std::cout << "our begin:" << firstOur.begin()->first << std::endl;
 	std::cout << "our end:" << firstOur.end()->first << std::endl;
 	std::cout << "original begin:" << firstOriginal.begin()->first << std::endl;
@@ -93,6 +96,13 @@ size_t test(){
 						"\n" << firstOur1.max_size() <<
 						"\n" << firstOriginal1.max_size()<<
 						std::endl;
+
+	std::cout << "Size :" << firstOur3.size() << " | " << firstOriginal3.size() << std::endl;
+
+	std::cout << "MaxSize :\n" << firstOur3.max_size() <<
+			  "\n" << firstOriginal3.max_size() <<
+			  std::endl;
+
 
 
 	viewAll(firstOur);
@@ -174,7 +184,7 @@ size_t test(){
 		std::cout << it->first << " => " << it->second << '\n';
 
 
-
+//	mymapOur.clear();
 
 
 	mistakes++;

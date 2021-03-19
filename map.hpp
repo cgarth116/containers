@@ -160,6 +160,7 @@ namespace ft
 				return _sizeMap;
 			}
 			size_type max_size() const{
+				//return _allocator.max_size();
 				return std::numeric_limits<size_t>::max() / (sizeof(Node) + sizeof(*(_buffer->_data)) );
 			}
 
@@ -180,6 +181,21 @@ namespace ft
 				}
 			}
 
+			void erase (iterator position){
+				erase((*position).first);
+			}
+			size_type erase (const key_type& k){
+
+			}
+			void erase (iterator first, iterator last){
+				while (first != last) {
+					erase((*(first++)).first);
+				}
+			}
+			void clear(){
+				erase(begin(), end());
+			}
+
 
 			Node search(Node * x, key_type k) {
 				if (x == nullptr || k == x->_data.first) {
@@ -191,29 +207,6 @@ namespace ft
 					return search(x->_right, k);
 				}
 			}
-
-			void deleteTree(Node **root) {
-				if (*root) {
-					deleteTree(&((*root)->left));
-					deleteTree(&((*root)->right));
-					_allocator.destroy(*root);
-				}
-		}
-//			std::pair<iterator,bool> insert (const value_type& val){
-//				if (!_buffer->_parent){
-//
-//				}
-//			}
-//
-//			iterator insert (iterator position, const value_type& val){
-//
-//			}
-//
-//			template <class InputIterator>
-//			void insert (InputIterator first, InputIterator last){
-//
-//			}
-
 
 
 
