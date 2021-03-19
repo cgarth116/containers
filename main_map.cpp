@@ -39,7 +39,12 @@ size_t test(){
 
 	ft::map<char,int> firstOur;
 	ft::map<char,int> firstOur2;
-//	std::map<char,int> firstOriginal;
+	std::map<char,int> firstOriginal;
+
+	std::cout << "our begin:" << firstOur.begin()->first << std::endl;
+	std::cout << "our end:" << firstOur.end()->first << std::endl;
+	std::cout << "original begin:" << firstOriginal.begin()->first << std::endl;
+	std::cout << "original end:" << firstOriginal.end()->first << std::endl;
 
 //	firstOriginal['X'] = 30;
 //	firstOriginal['c']=50;
@@ -49,13 +54,21 @@ size_t test(){
 
 
 	firstOur['X'] = 30;
-
+	firstOriginal['X'] = 30;
 	firstOur['c']=50;
-
+	firstOriginal['c']=50;
 	firstOur['A']=70;
-	firstOur['b']=30;
+	firstOriginal['A']=70;
+	std::cout << "our begin:" << firstOur.begin()->first << std::endl;
+	std::cout << "our end:" << firstOur.end()->first << std::endl;
+	std::cout << "original begin:" << firstOriginal.begin()->first << std::endl;
+	std::cout << "original end:" << firstOriginal.end()->first << std::endl;
 
-	firstOur['d']=70;
+//	firstOur['c']=50;
+//	firstOur['A']=70;
+//	firstOur['b']=30;
+//
+//	firstOur['d']=70;
 //	viewAllOriginal(firstOriginal);
 
 	//viewAll(firstOur);
@@ -67,8 +80,8 @@ size_t test(){
 		++it;
 	}
 
-	firstOur2 = firstOur;
-	std::cout << firstOur2.begin().getTreeNode()  << std::endl;
+	std::cout << "Size :" << firstOur.size() << " | " << firstOriginal.size() << std::endl;
+
 
 //	for (typename ft::map<char, int>::iterator it=firstOur.begin(); it != firstOur.end(); ++it)
 //	{
