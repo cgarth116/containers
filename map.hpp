@@ -87,7 +87,6 @@ namespace ft
 
 			mapped_type & operator[](const key_type & key) {
 				return insertNode(std::make_pair(key,mapped_type()))->second;
-				//return _buffer->insertNode(std::make_pair(key,mapped_type()))->second;
 			}
 
 
@@ -150,38 +149,43 @@ namespace ft
 
 			void insert(Node * x, Node * z) {           // x — корень поддерева, z — вставляемый элемент
 				while (x != nullptr) {
-					if (z->_data->first > x->_data->first) {
-						if (x->_right != nullptr && x->_right != _endNode) {
-							x = x->_right;
-						} else {
-							if (x->_right == _endNode) {
-								x->_right = z;
-								z->_parent = x;
-								z->_right = _endNode;
-								_endNode->_parent = z;
+					if (z->_data->first != x->_data->first) {
+						if (z->_data->first > x->_data->first) {
+							if (x->_right != nullptr && x->_right != _endNode) {
+								x = x->_right;
 							} else {
-								z->_parent = x;
-								x->_right = z;
-							}
-							break;
-						}
-					} else {
-						if (z->_data->first < x->_data->first) {
-							if (x->_left != nullptr && x->_left != _firstNode) {
-								x = x->_left;
-							} else {
-								if (x->_left == _firstNode) {
-									x->_left = z;
+								if (x->_right == _endNode) {
+									x->_right = z;
 									z->_parent = x;
-									z->_left = _firstNode;
-									_firstNode->_parent = z;
+									z->_right = _endNode;
+									_endNode->_parent = z;
 								} else {
 									z->_parent = x;
-									x->_left = z;
+									x->_right = z;
 								}
 								break;
 							}
+						} else {
+							if (z->_data->first < x->_data->first) {
+								if (x->_left != nullptr && x->_left != _firstNode) {
+									x = x->_left;
+								} else {
+									if (x->_left == _firstNode) {
+										x->_left = z;
+										z->_parent = x;
+										z->_left = _firstNode;
+										_firstNode->_parent = z;
+									} else {
+										z->_parent = x;
+										x->_left = z;
+									}
+									break;
+								}
+							}
 						}
+					} else {
+						--_sizeMap;
+						break;
 					}
 				}
 				++_sizeMap;

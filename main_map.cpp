@@ -54,6 +54,8 @@ size_t test(){
 //	firstOriginal['b']=30;
 //	firstOriginal['d']=70;
 
+	std::cout << "[]:" << firstOur['X'] << std::endl;
+	std::cout << "[]:" << firstOur['X'] << std::endl;
 
 	firstOur['X'] = 30;
 	firstOriginal['X'] = 30;
