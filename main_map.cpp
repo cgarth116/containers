@@ -14,9 +14,11 @@ struct classcomp {
 template <typename Key, typename T>
 void viewAll(ft::map<Key, T> tmp)
 {
-	for (typename ft::map<Key, T>::iterator it=tmp.begin(); it != tmp.end(); ++it)
-	{
+	ft::map<char, int>::iterator it=tmp.begin();
+	ft::map<char, int>::iterator ite=tmp.end();
+	while (it != ite){
 		std::cout << (*it).first << " | " << (*it).second << std::endl;
+		++it;
 	}
 }
 
@@ -91,6 +93,9 @@ size_t test(){
 						"\n" << firstOur1.max_size() <<
 						"\n" << firstOriginal1.max_size()<<
 						std::endl;
+
+
+	viewAll(firstOur);
 
 //	for (typename ft::map<char, int>::iterator it=firstOur.begin(); it != firstOur.end(); ++it)
 //	{

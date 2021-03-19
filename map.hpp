@@ -58,30 +58,42 @@ namespace ft
 				 const allocator_type& alloc = allocator_type()){
 				_buffer = alloc_rebind(alloc).allocate(1);
 			}
-			map (const map& x){
+			map (const map& rhs){
+				_allocator = rhs._allocator;
+				_compare = rhs._compare;
 
+				_buffer = alloc_rebind(_allocator).allocate(1);
+				alloc_rebind(_allocator).construct(_buffer);
+				//создаем first ноду
+				_firstNode = alloc_rebind(_allocator).allocate(1);
+				alloc_rebind(_allocator).construct(_firstNode);
+				_firstNode->_right = _firstNode;
+				_firstNode->_left = _firstNode;
+				_firstNode->_parent = _endNode;
+				//создаем end ноду
+				_endNode = alloc_rebind(_allocator).allocate(1);
+				alloc_rebind(_allocator).construct(_endNode);
+				_endNode->_right = _endNode;
+				_endNode->_left = _endNode;
+				_sizeMap = 0;
+
+				*this = rhs;
 			}
 
 			map& operator=(const map& rhs){
-				//todo корректно проверить можно на viewAll(firstOur);
-//				if (*this == rhs){
-//					return (*this);
-//				}
-				//clear();mk
-				if (rhs._endNode->_parent != nullptr){
-					insertNode(*(rhs._buffer->_data));
-
-
-//					iterator it = rhs.;
-//					iterator ite = rhs._endNode;
-//					while (it != ite){
-//						if (it != _buffer){
-//							insert(_buffer,it);
-//						}
-//						++it;
-//					}
+				//todo clear();
+				if (this == &rhs){
+					return *this;
 				}
-				//insert(rhs.begin(), rhs.end());
+				//clear();
+				if (rhs.size() != 0){
+					const_iterator it = rhs.begin();
+					const_iterator ite = rhs.end();
+					while (it != ite){
+						insertNode(*(it.getTreeNode())->_data,_compare,_allocator);
+						++it;
+					}
+				}
 				return *this;
 			}
 
