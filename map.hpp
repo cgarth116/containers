@@ -247,6 +247,12 @@ namespace ft
 				}
 				return it;
 			}
+			std::pair<const_iterator,const_iterator> equal_range (const key_type& key) const{
+				return std::make_pair(lower_bound(key), upper_bound(key));
+			}
+			std::pair<iterator,iterator> equal_range (const key_type& key){
+				return std::make_pair(lower_bound(key), upper_bound(key));
+			}
 
 // section test
 		void viewAllNode(iterator node) {
