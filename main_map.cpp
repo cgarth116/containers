@@ -188,6 +188,14 @@ size_t test(){
 
 	std::cout << (*(firstOur.find('S'))).first << std::endl;
 	std::cout << (*(firstOur.find('A'))).first << std::endl;
+
+	std::cout << "COunt:" << firstOur.count('q') << std::endl;
+	std::cout << "COunt:" << firstOur.count('c') << std::endl;
+
+	viewAll(firstOur);
+
+	std::cout << "lower:" << (*(firstOur.lower_bound('X'))).first << std::endl;
+	std::cout << "upper:" << (*(firstOur.upper_bound('c'))).first << std::endl;
 	mistakes++;
 
 	return mistakes;

@@ -35,10 +35,9 @@ namespace ft
 			typedef typename allocator_type::template rebind<Node>::other		alloc_rebind;
 
 			//Constructors
-			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()){
-
-				_allocator = alloc;
-				_compare = comp;
+			explicit map (const key_compare& comp = key_compare(),
+				 		const allocator_type& alloc = allocator_type()):
+						_allocator(alloc), _keyCompare(comp), _valueCompare(comp){
 				_buffer = alloc_rebind(alloc).allocate(1);
 				alloc_rebind(alloc).construct(_buffer);
 
@@ -56,7 +55,8 @@ namespace ft
 				_sizeMap = 0;
 			}
 			template <class InputIterator>
-			map (InputIterator first, InputIterator last,
+			map (InputIterator first,
+				InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type(),
 				typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) :map(){
@@ -79,14 +79,12 @@ namespace ft
 //				_sizeMap = 0;
 
 				while (first != last){
-					insertNode(*(first.getTreeNode())->_data,_compare,_allocator);
+					insertNode(*(first.getTreeNode())->_data,_keyCompare,_allocator);
 					++first;
 				}
 			}
-			map (const map& rhs){
-				_allocator = rhs._allocator;
-				_compare = rhs._compare;
-
+			map (const map& rhs):
+					_allocator(rhs._allocator), _keyCompare(rhs._keyCompare), _valueCompare(rhs._valueCompare){
 				_buffer = alloc_rebind(_allocator).allocate(1);
 				alloc_rebind(_allocator).construct(_buffer);
 				//создаем first ноду
@@ -197,12 +195,57 @@ namespace ft
 				erase(begin(), end());
 			}
 
+			//Observers
+			key_compare key_comp() const{
+				return _keyCompare;
+			}
+			value_compare value_comp() const{
+				return _valueCompare;
+			}
+
 			//Operations
 			iterator find (const key_type& key){
 				return iterator(search(_buffer, key));
 			}
 			const_iterator find (const key_type& key) const{
 				return const_iterator(search(_buffer, key));
+			}
+			size_type count (const key_type & key) const{
+				if (search(_buffer, key) != end().getTreeNode())
+					return 1;
+				return 0;
+			}
+			iterator lower_bound (const key_type& key){
+				iterator it = begin();
+				iterator ite = end();
+				while (it != ite && _keyCompare(it->first, key)){
+					++it;
+				}
+				return it;
+			}
+			const_iterator lower_bound (const key_type& key) const{
+				const_iterator it = begin();
+				const_iterator ite = end();
+				while (it != ite && _keyCompare(it->first, key)){
+					++it;
+				}
+				return it;
+			}
+			iterator upper_bound (const key_type& key){
+				iterator it = lower_bound(key);
+				iterator ite = end();
+				while(it != ite && !_keyCompare(key, it->first)){
+					++it;
+				}
+				return it;
+			}
+			const_iterator upper_bound (const key_type& key) const{
+				const_iterator it = lower_bound(key);
+				const_iterator ite = end();
+				while(it != ite && !_keyCompare(key, it->first)){
+					++it;
+				}
+				return it;
 			}
 
 // section test
@@ -312,12 +355,45 @@ namespace ft
 					return search(x->_right, key);
 				}
 			}
+		Node * search(Node * x,
+					  const key_type& key)const {
+			if (key == x->_data->first) {
+				return x;
+			}
+			if (x == nullptr ||
+				x == end().getTreeNode() ||
+				x == begin().getTreeNode()){
+				return end().getTreeNode();
+			}
+			if (key < x->_data->first) {
+				return search(x->_left, key);
+			} else {
+				return search(x->_right, key);
+			}
+		}
 
 			allocator_type	_allocator;
-			key_compare		_compare;
+			key_compare		_keyCompare;
+			value_compare	_valueCompare;
 			Node * 			_buffer;
 			Node *			_firstNode;
 			Node *			_endNode;
 			size_t 			_sizeMap;
+	};
+
+	template <class Key, class T, class Compare, class Alloc>
+	class map<Key,T,Compare,Alloc>::value_compare
+									: public std::binary_function<value_type,value_type,bool>{
+	protected:
+		Compare comp;
+	public:
+		typedef bool result_type;
+		typedef value_type first_argument_type;
+		typedef value_type second_argument_type;
+		value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+		bool operator() (const value_type& x, const value_type& y) const
+		{
+			return comp(x.first, y.first);
+		}
 	};
 }
