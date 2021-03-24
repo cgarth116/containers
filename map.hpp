@@ -4,6 +4,9 @@
 #include <stdexcept>
 #include "mapIterator.hpp"
 
+template <class T>
+struct  is_input_iterator: public std::__has_iterator_category_convertible_to<T, std::input_iterator_tag>{};
+
 namespace ft
 {
 
@@ -59,7 +62,7 @@ namespace ft
 				InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type(),
-				typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) :map(){
+				typename std::enable_if<is_input_iterator<InputIterator>::value>::type* = 0) :map(){
 //				_allocator = alloc;
 //				_compare = comp;
 //
@@ -172,7 +175,7 @@ namespace ft
 			template <class InputIterator>
 			void insert (InputIterator first,
 						InputIterator last,
-						typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+						typename std::enable_if<is_input_iterator<InputIterator>::value>::type* = 0){
 				while(first != last){
 					tryInsertNode(_buffer, *first);
 					++first;

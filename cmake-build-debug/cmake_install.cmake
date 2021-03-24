@@ -1,4 +1,4 @@
-# Install script for directory: /Users/cgarth/project/container_git
+# Install script for directory: /Users/irbish/school21_work/conteiners/container_git
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/cgarth/project/container_git/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/irbish/school21_work/conteiners/container_git/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
