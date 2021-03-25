@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <stdexcept>
 #include "mapIterator.hpp"
+#include <list>
 
 namespace ft
 {
@@ -33,7 +34,8 @@ namespace ft
 			typedef ft::reverse_mapIterator<value_type, allocator_type>			reverse_iterator;
 			typedef ft::const_reverse_mapIterator<value_type, allocator_type>	const_reverse_iterator;
 			typedef typename allocator_type::template rebind<Node>::other		alloc_rebind;
-
+			static const bool	_black	= true;
+			static const bool	_red	= false;
 			//Constructors
 			explicit map (const key_compare& comp = key_compare(),
 				 		const allocator_type& alloc = allocator_type()):
@@ -183,7 +185,7 @@ namespace ft
 				erase((*position).first);
 			}
 			size_type erase (const key_type& k){
-
+				//todo
 			}
 			void erase (iterator first,
 			   			iterator last){
@@ -276,75 +278,239 @@ namespace ft
 //			return maximumNode(node.getTreeNode()->_right);
 //		}
 
+		void viewTree() {
+				Node * tmp = _buffer;
+				std::list<Node *> q;
+				std::list<Node *> qTmp;
+			printf("%c(%d)\n", tmp->_data->first,tmp->_color);
+			q.push_back(tmp->_left);
+			q.push_back(tmp->_right);
+
+			while (q.size() != 0) {
+				qTmp.clear();
+				while (q.size() != 0) {
+					tmp = q.front();
+					q.pop_front();
+					if (tmp == nullptr || tmp == _firstNode || tmp == _endNode){
+						printf("()");
+					} else {
+						printf("%c(%d) ", tmp->_data->first,tmp->_color);
+					}
+					if (tmp->_left != nullptr && tmp != _firstNode && tmp != _endNode) {
+						qTmp.push_back(tmp->_left);
+					}
+					if (tmp->_right != nullptr && tmp != _firstNode && tmp != _endNode) {
+						qTmp.push_back(tmp->_right);
+					}
+				}
+				std::cout << "\n" << std::endl;
+				q.assign(qTmp.begin(),qTmp.end());
+			}
+		}
+
+
 		private:
 
 			std::pair<iterator,bool> tryInsertNode(iterator position,
 										  			const value_type& value){
-			Node * newNode = alloc_rebind(_allocator).allocate(1);
-			alloc_rebind(_allocator).construct(newNode);
-			newNode->insertNode(value);//создаем полностью ноду с ключом
-			if (_endNode->_parent == NULL) {
-				_buffer = newNode; // корневая нода
-				_buffer->_left = _firstNode;
-				_buffer->_right = _endNode;
-				_firstNode->_parent = _buffer; //досоздаем first ноду
-				_endNode->_parent = _buffer; //досоздаем end ноду
-				++_sizeMap;
-				return std::make_pair(_buffer ,true);
-			} else {
-				Node * tmp = insertOneNode(position.getTreeNode(), newNode); //пробуем вставить ноду в дерево
-				if (newNode == tmp){
-					return std::make_pair(newNode, true);
+				Node * newNode = alloc_rebind(_allocator).allocate(1);
+				alloc_rebind(_allocator).construct(newNode);
+				newNode->insertNode(value);//создаем полностью ноду с ключом
+				if (_endNode->_parent == NULL) {
+					_buffer = newNode; // корневая нода
+					_buffer->_left = _firstNode;
+					_buffer->_right = _endNode;
+					_buffer->_color = _black;
+					_firstNode->_parent = _buffer; //досоздаем first ноду
+					_endNode->_parent = _buffer; //досоздаем end ноду
+					++_sizeMap;
+					return std::make_pair(_buffer ,true);
+				} else {
+					Node * tmp = insertOneNode(position.getTreeNode(), newNode); //пробуем вставить ноду в дерево
+					if (newNode == tmp){
+						return std::make_pair(newNode, true);
+					}
+					_allocator.destroy(newNode->_data);//элемент существует поэтому уничтожаем ноду
+					alloc_rebind(_allocator).destroy(newNode);
+					return std::make_pair(tmp, false);
 				}
-				_allocator.destroy(newNode->_data);//элемент существует поэтому уничтожаем ноду
-				alloc_rebind(_allocator).destroy(newNode);
-				return std::make_pair(tmp, false);
 			}
-		}
 			Node * insertOneNode(Node * x,
 								Node * z) {           // x — корень поддерева, z — вставляемый элемент
-			while (x != nullptr) {
-				if (z->_data->first != x->_data->first) {
-					if (z->_data->first > x->_data->first) {
-						if (x->_right != nullptr && x->_right != _endNode) {
-							x = x->_right;
-						} else {
-							if (x->_right == _endNode) {
-								x->_right = z;
-								z->_parent = x;
-								z->_right = _endNode;
-								_endNode->_parent = z;
+				while (x != nullptr) {
+					if (z->_data->first != x->_data->first) {
+						if (z->_data->first > x->_data->first) {
+							if (x->_right != nullptr && x->_right != _endNode) {
+								x = x->_right;
 							} else {
-								z->_parent = x;
-								x->_right = z;
-							}
-							break;
-						}
-					} else {
-						if (z->_data->first < x->_data->first) {
-							if (x->_left != nullptr && x->_left != _firstNode) {
-								x = x->_left;
-							} else {
-								if (x->_left == _firstNode) {
-									x->_left = z;
+								if (x->_right == _endNode) {
+									x->_right = z;
 									z->_parent = x;
-									z->_left = _firstNode;
-									_firstNode->_parent = z;
+									z->_right = _endNode;
+									_endNode->_parent = z;
 								} else {
 									z->_parent = x;
-									x->_left = z;
+									x->_right = z;
 								}
 								break;
 							}
+						} else {
+							if (z->_data->first < x->_data->first) {
+								if (x->_left != nullptr && x->_left != _firstNode) {
+									x = x->_left;
+								} else {
+									if (x->_left == _firstNode) {
+										x->_left = z;
+										z->_parent = x;
+										z->_left = _firstNode;
+										_firstNode->_parent = z;
+									} else {
+										z->_parent = x;
+										x->_left = z;
+									}
+									break;
+								}
+							}
+						}
+					} else {
+						return x;
+					}
+				}
+				++_sizeMap;
+				fixColor(z);
+				return z;
+			}
+
+			void fixColor(Node * node){
+				//todo возможно if не нужен тк корень вставляется отдельно
+//				if (node == _buffer){
+//					return;
+//				}
+				// далее все предки упоминаются относительно node
+				while (node->_parent && node->_parent->_color == _red ) { //"отец" красный нарушается свойство 3
+					if (node->_parent->_parent->_left == node->_parent) { //"отец" — левый ребенок
+						if (node->_parent->_parent->_right && node->_parent->_parent->_right != _endNode) { //есть "дядя"
+							if (node->_parent->_parent->_right->_color == _red) { //"дядя" красный
+								node->_parent->_color = _black;
+								node->_parent->_parent->_right->_color = _black;
+								node->_parent->_parent->_color = _red;
+								node = node->_parent->_parent;
+							} else {
+								if (node->_parent->_right == node) { // node — правый сын
+									rightRotate(node->_parent->_parent);
+								}
+							}
+						} else { // случай, когда нет "дяди"
+							if (node->_parent->_right == node) { // node — правый сын
+								node = node->_parent;
+								leftRotate(node);
+							}
+							node->_parent->_color = _black;
+							node->_parent->_parent->_color = _red;
+							rightRotate(node->_parent->_parent);
+						}
+					} else { // "отец" — правый ребенок
+						if (node->_parent->_parent->_left && node->_parent->_parent->_left != _firstNode) { //есть "дядя"
+							if (node->_parent->_parent->_left->_color == _red) { //"дядя" красный
+								node->_parent->_color = _black;
+								node->_parent->_parent->_left->_color = _black;
+								node->_parent->_parent->_color = _red;
+								node = node->_parent->_parent;
+							} else {
+								if (node->_parent->_left == node) { // node — правый сын
+									leftRotate(node->_parent->_parent);
+								}
+							}
+						} else { // нет "дяди"
+							if (node->_parent->_left == node) { //node — левый ребенок
+								node = node->_parent;
+								rightRotate(node);
+							}
+							node->_parent->_color = _black;
+							node->_parent->_parent->_color = _red;
+							leftRotate(node->_parent->_parent);
 						}
 					}
-				} else {
-					return x;
 				}
+				_buffer->_color = _black;// восстанавливаем свойство корня
 			}
-			++_sizeMap;
-			return z;
-		}
+
+			void leftRotate(Node * node){
+
+				Node *tmp = node->_right;
+
+				tmp->_parent = node->_parent; /* при этом, возможно, tmp становится корнем дерева */
+				if (tmp->_parent == NULL){
+					_buffer = tmp;
+				}
+				if (node->_parent != NULL) {
+					if (node->_parent->_left==node)
+						node->_parent->_left = tmp;
+					else
+						node->_parent->_right = tmp;
+				}
+
+				node->_right = tmp->_left;
+				if (tmp->_left != NULL)
+					tmp->_left->_parent = node;
+
+				node->_parent = tmp;
+				tmp->_left = node;
+
+//				Node * son = father->_right;
+//				Node * grandfather = father->_parent;
+//				son->_parent = grandfather;
+//				if (father == grandfather->_left){ //если отец левый сын
+//					grandfather->_left = son;
+//				} else {
+//					grandfather->_right = son;
+//				}
+//				father->_right = son->_left;
+//				if (son->_left){
+//					son->_left->_parent = father;
+//				}
+//				son->_left = father;
+//				father->_parent = son;
+			}
+			void rightRotate(Node *node){
+
+				Node *tmp = node->_left;
+
+				tmp->_parent = node->_parent; /* при этом, возможно, tmp становится корнем дерева */
+				if (tmp->_parent == NULL){
+					_buffer = tmp;
+				}
+				if (node->_parent != NULL) {
+					if (node->_parent->_left==node)
+						node->_parent->_left = tmp;
+					else
+						node->_parent->_right = tmp;
+				}
+
+				node->_left = tmp->_right;
+				if (tmp->_right != NULL)
+					tmp->_right->_parent = node;
+
+				node->_parent = tmp;
+				tmp->_right = node;
+
+
+//				Node * son = father->_left;
+//				Node * grandfather = father->_parent;
+//				son->_parent = grandfather;
+//				if (father == grandfather->_right){ //если отец правый сын
+//					grandfather->_right = son;
+//				} else {
+//					grandfather->_left = son;
+//				}
+//				father->_left = son->_right;
+//				if (son->_right){
+//					son->_right->_parent = father;
+//				}
+//				son->_right = father;
+//				father->_parent = son;
+			}
+
 			Node * search(Node * x,
 						  const key_type& key) {
 				if (key == x->_data->first) {
@@ -361,8 +527,8 @@ namespace ft
 					return search(x->_right, key);
 				}
 			}
-		Node * search(Node * x,
-					  const key_type& key)const {
+			Node * search(Node * x,
+					 	 const key_type& key)const {
 			if (key == x->_data->first) {
 				return x;
 			}

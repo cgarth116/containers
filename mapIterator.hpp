@@ -6,7 +6,10 @@ namespace ft{
 	template < typename value_type, typename allocator_type >
 	struct Node{
 
-		Node(): _parent(nullptr), _left(nullptr), _right(nullptr) {
+		static const bool	_black	= true;
+		static const bool	_red	= false;
+
+		Node(): _parent(nullptr), _left(nullptr), _right(nullptr), _color(_red) {
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data);
 		}
@@ -27,6 +30,7 @@ namespace ft{
 		Node *					_parent;
 		Node * 					_left;
 		Node *					_right;
+		bool 					_color; //true - black, false - red
 	};
 
 
