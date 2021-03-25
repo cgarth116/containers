@@ -54,7 +54,7 @@ size_t test(){
 	firstOur['B']=74750;
 	firstOur['C']=74750;
 	firstOur['D']=74750;
-	firstOur['I']=74750;
+	firstOur['E']=74750;
 	firstOur['F']=74750;
 //	firstOur['G']=74750;
 //	firstOur['H']=74750;

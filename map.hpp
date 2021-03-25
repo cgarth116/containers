@@ -294,7 +294,7 @@ namespace ft
 					if (tmp == nullptr || tmp == _firstNode || tmp == _endNode){
 						printf("()");
 					} else {
-						printf("%c(%d) ", tmp->_data->first,tmp->_color);
+						printf("%c(%d)(father=%c) ", tmp->_data->first,tmp->_color, tmp->_parent->_data->first);
 					}
 					if (tmp->_left != nullptr && tmp != _firstNode && tmp != _endNode) {
 						qTmp.push_back(tmp->_left);
@@ -398,6 +398,7 @@ namespace ft
 							} else {
 								if (node->_parent->_right == node) { // node — правый сын
 									rightRotate(node->_parent->_parent);
+
 								}
 							}
 						} else { // случай, когда нет "дяди"
@@ -418,7 +419,7 @@ namespace ft
 								node = node->_parent->_parent;
 							} else {
 								if (node->_parent->_left == node) { // node — правый сын
-									leftRotate(node->_parent->_parent);
+									//leftRotate(node->_parent->_parent);
 								}
 							}
 						} else { // нет "дяди"
@@ -456,21 +457,6 @@ namespace ft
 
 				node->_parent = tmp;
 				tmp->_left = node;
-
-//				Node * son = father->_right;
-//				Node * grandfather = father->_parent;
-//				son->_parent = grandfather;
-//				if (father == grandfather->_left){ //если отец левый сын
-//					grandfather->_left = son;
-//				} else {
-//					grandfather->_right = son;
-//				}
-//				father->_right = son->_left;
-//				if (son->_left){
-//					son->_left->_parent = father;
-//				}
-//				son->_left = father;
-//				father->_parent = son;
 			}
 			void rightRotate(Node *node){
 
@@ -493,22 +479,6 @@ namespace ft
 
 				node->_parent = tmp;
 				tmp->_right = node;
-
-
-//				Node * son = father->_left;
-//				Node * grandfather = father->_parent;
-//				son->_parent = grandfather;
-//				if (father == grandfather->_right){ //если отец правый сын
-//					grandfather->_right = son;
-//				} else {
-//					grandfather->_left = son;
-//				}
-//				father->_left = son->_right;
-//				if (son->_right){
-//					son->_right->_parent = father;
-//				}
-//				son->_right = father;
-//				father->_parent = son;
 			}
 
 			Node * search(Node * x,
