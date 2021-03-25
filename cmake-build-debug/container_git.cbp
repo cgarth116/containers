@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/Users/cgarth/project/container_git/cmake-build-debug"/>
+				<Option working_dir="/Users/cgarth/project/cont/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/Users/cgarth/project/container_git/cmake-build-debug"/>
+				<Option working_dir="/Users/cgarth/project/cont/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/Users/cgarth/project/container_git/cmake-build-debug"/>
+				<Option working_dir="/Users/cgarth/project/cont/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="container_git">
-				<Option output="/Users/cgarth/project/container_git/cmake-build-debug/container_git" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/cgarth/project/container_git/cmake-build-debug"/>
+				<Option output="/Users/cgarth/project/cont/cmake-build-debug/container_git" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/cgarth/project/cont/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -52,15 +52,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 container_git"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 container_git"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="container_git/fast">
-				<Option output="/Users/cgarth/project/container_git/cmake-build-debug/container_git" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/cgarth/project/container_git/cmake-build-debug"/>
+				<Option output="/Users/cgarth/project/cont/cmake-build-debug/container_git" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/cgarth/project/cont/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -73,44 +73,44 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 container_git/fast"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/container_git/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 container_git/fast"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/cgarth/project/cont/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/cgarth/project/container_git/list.hpp">
+		<Unit filename="/Users/cgarth/project/cont/list.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/listIterator.hpp">
+		<Unit filename="/Users/cgarth/project/cont/listIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/main_map.cpp">
+		<Unit filename="/Users/cgarth/project/cont/main_map.cpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/map.hpp">
+		<Unit filename="/Users/cgarth/project/cont/map.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/mapIterator.hpp">
+		<Unit filename="/Users/cgarth/project/cont/mapIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/memVector.hpp">
+		<Unit filename="/Users/cgarth/project/cont/memVector.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/queue.hpp">
+		<Unit filename="/Users/cgarth/project/cont/queue.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/stack.hpp">
+		<Unit filename="/Users/cgarth/project/cont/stack.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/vector.hpp">
+		<Unit filename="/Users/cgarth/project/cont/vector.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/vectorIterator.hpp">
+		<Unit filename="/Users/cgarth/project/cont/vectorIterator.hpp">
 			<Option target="container_git"/>
 		</Unit>
-		<Unit filename="/Users/cgarth/project/container_git/CMakeLists.txt">
+		<Unit filename="/Users/cgarth/project/cont/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
