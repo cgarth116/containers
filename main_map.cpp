@@ -43,14 +43,14 @@ size_t test(){
 	ft::map<char,int> firstOur;
 
 	firstOur['X'] = 30;
-//	firstOur['c']=50;
+	firstOur['c']=50;
 	firstOur['A']=70;
 
-
-//	firstOur['e']=770;
-//	firstOur['f']=7560;
-//	firstOur['g']=7450;
-//	firstOur['y']=74650;
+	firstOur['X'] = 30;
+	firstOur['e']=770;
+	firstOur['f']=7560;
+	firstOur['g']=7450;
+	firstOur['y']=74650;
 	firstOur['B']=74750;
 	firstOur['C']=74750;
 	firstOur['D']=74750;

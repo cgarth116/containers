@@ -282,7 +282,7 @@ namespace ft
 				Node * tmp = _buffer;
 				std::list<Node *> q;
 				std::list<Node *> qTmp;
-			printf("%c(%d)\n", tmp->_data->first,tmp->_color);
+			std::cout << tmp->_data->first << "(" << tmp->_color << ")" << std::endl;
 			q.push_back(tmp->_left);
 			q.push_back(tmp->_right);
 
@@ -291,12 +291,16 @@ namespace ft
 				while (q.size() != 0) {
 					tmp = q.front();
 					q.pop_front();
-					if (tmp == nullptr || tmp == _firstNode || tmp == _endNode){
-						printf("()");
+					if (tmp == nullptr ||
+						tmp == _firstNode ||
+						tmp == _endNode){
+						std::cout << "()";
 					} else {
-						printf("%c(%d)(father=%c) ", tmp->_data->first,tmp->_color, tmp->_parent->_data->first);
+						std::cout << tmp->_data->first << "(" << tmp->_color << ")father=" << tmp->_parent->_data->first;
 					}
-					if (tmp->_left != nullptr && tmp != _firstNode && tmp != _endNode) {
+					if (tmp->_left != nullptr &&
+						tmp != _firstNode &&
+						tmp != _endNode) {
 						qTmp.push_back(tmp->_left);
 					}
 					if (tmp->_right != nullptr && tmp != _firstNode && tmp != _endNode) {
@@ -308,9 +312,8 @@ namespace ft
 			}
 		}
 
-
 		private:
-
+			//Basic operations with our Node
 			std::pair<iterator,bool> tryInsertNode(iterator position,
 										  			const value_type& value){
 				Node * newNode = alloc_rebind(_allocator).allocate(1);
@@ -380,28 +383,17 @@ namespace ft
 				fixColor(z);
 				return z;
 			}
-
 			void fixColor(Node * node){
-				//todo возможно if не нужен тк корень вставляется отдельно
-//				if (node == _buffer){
-//					return;
-//				}
-				// далее все предки упоминаются относительно node
+				Node * uncle;
 				while (node->_parent && node->_parent->_color == _red ) { //"отец" красный нарушается свойство 3
 					if (node->_parent->_parent->_left == node->_parent) { //"отец" — левый ребенок
-						if (node->_parent->_parent->_right && node->_parent->_parent->_right != _endNode) { //есть "дядя"
-							if (node->_parent->_parent->_right->_color == _red) { //"дядя" красный
+						uncle = node->_parent->_parent->_right;
+						if (uncle && uncle != _endNode && uncle->_color == _red) { //есть красный "дядя"
 								node->_parent->_color = _black;
-								node->_parent->_parent->_right->_color = _black;
+								uncle->_color = _black;
 								node->_parent->_parent->_color = _red;
 								node = node->_parent->_parent;
-							} else {
-								if (node->_parent->_right == node) { // node — правый сын
-									rightRotate(node->_parent->_parent);
-
-								}
-							}
-						} else { // случай, когда нет "дяди"
+						} else { // случай, когда нет "дяди" или он черный
 							if (node->_parent->_right == node) { // node — правый сын
 								node = node->_parent;
 								leftRotate(node);
@@ -411,19 +403,14 @@ namespace ft
 							rightRotate(node->_parent->_parent);
 						}
 					} else { // "отец" — правый ребенок
-						if (node->_parent->_parent->_left && node->_parent->_parent->_left != _firstNode) { //есть "дядя"
-							if (node->_parent->_parent->_left->_color == _red) { //"дядя" красный
-								node->_parent->_color = _black;
-								node->_parent->_parent->_left->_color = _black;
-								node->_parent->_parent->_color = _red;
-								node = node->_parent->_parent;
-							} else {
-								if (node->_parent->_left == node) { // node — правый сын
-									//leftRotate(node->_parent->_parent);
-								}
-							}
-						} else { // нет "дяди"
-							if (node->_parent->_left == node) { //node — левый ребенок
+						uncle = node->_parent->_parent->_left;
+						if (uncle && uncle != _endNode && uncle->_color == _red) { //есть красный "дядя"
+							node->_parent->_color = _black;
+							uncle->_color = _black;
+							node->_parent->_parent->_color = _red;
+							node = node->_parent->_parent;
+						} else { // случай, когда нет "дяди" или он черный
+							if (node->_parent->_left == node) { // node — левый сын
 								node = node->_parent;
 								rightRotate(node);
 							}
@@ -435,9 +422,7 @@ namespace ft
 				}
 				_buffer->_color = _black;// восстанавливаем свойство корня
 			}
-
 			void leftRotate(Node * node){
-
 				Node *tmp = node->_right;
 
 				tmp->_parent = node->_parent; /* при этом, возможно, tmp становится корнем дерева */
@@ -459,7 +444,6 @@ namespace ft
 				tmp->_left = node;
 			}
 			void rightRotate(Node *node){
-
 				Node *tmp = node->_left;
 
 				tmp->_parent = node->_parent; /* при этом, возможно, tmp становится корнем дерева */
