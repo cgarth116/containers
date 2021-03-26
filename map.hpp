@@ -8,6 +8,14 @@
 namespace ft
 {
 
+
+	template< typename T >
+	inline void	swap(T & x, T & y) {
+		T	tmp(x);
+		x = y;
+		y = tmp;
+	}
+
 	template <class Key,                                   // map::key_type
 			class T,                                       // map::mapped_type
 			class Compare = std::less<Key>,                     // map::key_compare
@@ -122,10 +130,6 @@ namespace ft
 				return *this;
 			}
 
-			mapped_type & operator[](const key_type & key) {
-				return ((insert(std::make_pair(key, mapped_type()))).first)->second;
-			}
-
 			//Iterators:
 			iterator begin(){
 				return iterator(_firstNode->_parent);
@@ -163,6 +167,11 @@ namespace ft
 				return std::numeric_limits<size_t>::max() / (sizeof(Node) + sizeof(*(_buffer->_data)) );
 			}
 
+			//Element access
+			mapped_type & operator[](const key_type & key) {
+			return ((insert(std::make_pair(key, mapped_type()))).first)->second;
+		}
+
 			//Modifiers
 			std::pair<iterator,bool> insert (const value_type& value){
 				return tryInsertNode(_buffer, value);
@@ -184,8 +193,90 @@ namespace ft
 			void erase (iterator position){
 				erase((*position).first);
 			}
-			size_type erase (const key_type& k){
-				//todo
+			size_type erase (const key_type& key){
+				if (_sizeMap != 0) {
+					Node *p = find(key).getTreeNode(); // находим узел с ключом key
+					if (p == _endNode){
+						return _sizeMap;
+					}
+					if ((p->_left == NULL || p->_left == _firstNode) &&
+						(p->_right == NULL || p->_right == _endNode)) { //у p нет детей
+						if (p == _buffer) { //p — корень
+							_firstNode->_parent = _endNode;
+							_endNode->_parent = NULL;
+						} else { //ссылку на p у "отца" меняем на NULL или крайнюю ноду
+							if (p == p->_parent->_left) {
+								p->_parent->_left = NULL;
+								if (p->_left == _firstNode) {
+									p->_parent->_left = _firstNode;
+									_firstNode->_parent = p->_parent;
+								}
+							} else {
+								p->_parent->_right = NULL;
+								if (p->_right == _endNode) {
+									p->_parent->_right = _endNode;
+									_endNode->_parent = p->_parent;
+								}
+							}
+						}
+						destroy(p);
+						return --_sizeMap;
+					}
+					Node *y = NULL;
+					if ((p->_left != NULL && p->_right == NULL) || (p->_left == NULL && p->_right != NULL)) {
+						//один ребенок
+						//ссылку на p от "отца" меняем на ребенка p
+						if (p == p->_parent->_left) {
+							if (p->_left == NULL) {
+								p->_parent->_left = p->_right;
+								p->_right->_parent = p->_parent;
+							} else {
+								p->_parent->_left = p->_left;
+								p->_left->_parent = p->_parent;
+							}
+						} else {
+							if (p->_left == NULL) {
+								p->_parent->_right = p->_right;
+								p->_right->_parent = p->_parent;
+							} else {
+								p->_parent->_right = p->_left;
+								p->_left->_parent = p->_parent;
+							}
+						}
+						destroy(p);
+						p = NULL;
+					} else { // два ребенка
+						iterator it = find(key);
+						y = (++it).getTreeNode();//y = вершина, со следующим значением ключа, у нее нет левого ребенка
+						if (y->_right != NULL && y->_right != _endNode) {//y имеет правого ребенка
+							y->_right->_parent = y->_parent; //меняем у него отца
+						}
+						if (y == _buffer) { //y — корень
+							_buffer = y->_right;
+						} else { //у родителя ссылку на y меняем на ссылку на первого ребенка y
+							if (y->_parent->_left == y) {
+								y->_parent->_left = y->_right;
+							} else {
+								y->_parent->_right = y->_right;
+							}
+						}
+					}
+					if (y != p) {
+						p->_color = y->_color;
+						p->_data = y->_data;
+					}
+//				if (y->_colour == _black){ // при удалении черной вершины могла быть нарушена балансировка
+//					fixDeleting(q);
+//				}
+					return --_sizeMap;
+				} else {
+					return 0;
+				}
+			}
+
+			void destroy(Node * tmp){
+				_allocator.destroy(tmp->_data);
+				alloc_rebind(_allocator).destroy(tmp);
 			}
 			void erase (iterator first,
 			   			iterator last){
@@ -195,6 +286,12 @@ namespace ft
 			}
 			void clear(){
 				erase(begin(), end());
+			}
+			void swap (map& x){
+				ft::swap(_buffer, x._buffer);
+				ft::swap(_firstNode, x._firstNode);
+				ft::swap(_endNode, x._endNode);
+				ft::swap(_sizeMap, x._sizeMap);
 			}
 
 			//Observers
@@ -278,38 +375,42 @@ namespace ft
 //			return maximumNode(node.getTreeNode()->_right);
 //		}
 
+		//help metod for view our tree
 		void viewTree() {
-				Node * tmp = _buffer;
-				std::list<Node *> q;
-				std::list<Node *> qTmp;
-			std::cout << tmp->_data->first << "(" << tmp->_color << ")" << std::endl;
-			q.push_back(tmp->_left);
-			q.push_back(tmp->_right);
+				if (_sizeMap != 0) {
+					Node *tmp = _buffer;
+					std::list<Node *> q;
+					std::list<Node *> qTmp;
+					std::cout << tmp->_data->first << "(" << tmp->_color << ")" << std::endl;
+					q.push_back(tmp->_left);
+					q.push_back(tmp->_right);
 
-			while (q.size() != 0) {
-				qTmp.clear();
-				while (q.size() != 0) {
-					tmp = q.front();
-					q.pop_front();
-					if (tmp == nullptr ||
-						tmp == _firstNode ||
-						tmp == _endNode){
-						std::cout << "()";
-					} else {
-						std::cout << tmp->_data->first << "(" << tmp->_color << ")father=" << tmp->_parent->_data->first;
-					}
-					if (tmp->_left != nullptr &&
-						tmp != _firstNode &&
-						tmp != _endNode) {
-						qTmp.push_back(tmp->_left);
-					}
-					if (tmp->_right != nullptr && tmp != _firstNode && tmp != _endNode) {
-						qTmp.push_back(tmp->_right);
+					while (q.size() != 0) {
+						qTmp.clear();
+						while (q.size() != 0) {
+							tmp = q.front();
+							q.pop_front();
+							if (tmp == nullptr ||
+								tmp == _firstNode ||
+								tmp == _endNode) {
+								std::cout << "()";
+							} else {
+								std::cout << tmp->_data->first << "(" << tmp->_color << ")father=" <<
+										  tmp->_parent->_data->first << " ";
+							}
+							if (tmp->_left != nullptr &&
+								tmp != _firstNode &&
+								tmp != _endNode) {
+								qTmp.push_back(tmp->_left);
+							}
+							if (tmp->_right != nullptr && tmp != _firstNode && tmp != _endNode) {
+								qTmp.push_back(tmp->_right);
+							}
+						}
+						std::cout << "\n" << std::endl;
+						q.assign(qTmp.begin(), qTmp.end());
 					}
 				}
-				std::cout << "\n" << std::endl;
-				q.assign(qTmp.begin(),qTmp.end());
-			}
 		}
 
 		private:
