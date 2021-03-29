@@ -109,6 +109,12 @@ namespace ft{
 				return *this;
 			}
 
+			mapIterator operator--(int) {
+				Node * tmp = _index;
+				operator--();
+				return mapIterator(tmp);
+			}
+
 			Node * minimumNode(Node * node){
 				if (!node->_left){
 					return node;
@@ -155,6 +161,7 @@ namespace ft{
 		Node * _index;
 	};
 
+	//todo привести к исправленному виду
 	template < typename value_type, typename allocator_type >
 	class const_mapIterator: public std::iterator<const std::bidirectional_iterator_tag, value_type >{
 
@@ -292,16 +299,27 @@ namespace ft{
 		}
 
 		reverse_mapIterator operator++() {
-			Node * x = _index;
 			Node * tmp;
-			if (!x->_left){
-				return reverse_mapIterator(maximumNode(x->_left));
+			if (_index->_left){
+				if (_index->_left == _index->_left->_left){
+					_index = _index->_left;
+					return *this;
+				}
+				_index = _index->_left;
+				return *this;
 			}
-			tmp = x->_parent;
-			while (tmp && x == tmp->_left){
-				x = tmp;
+			tmp = _index->_parent;
+			while (tmp && _index == tmp->_left){
+				_index = tmp;
 				tmp = tmp->_parent;
 			}
+			_index = tmp;
+			return *this;
+		}
+
+		reverse_mapIterator operator++(int) {
+			Node * tmp = _index;
+			operator--();
 			return reverse_mapIterator(tmp);
 		}
 
@@ -351,6 +369,7 @@ namespace ft{
 		Node * _index;
 	};
 
+	//todo привести к исправленному виду
 	template < typename value_type, typename allocator_type >
 	class const_reverse_mapIterator: public std::iterator<const std::bidirectional_iterator_tag, value_type >{
 

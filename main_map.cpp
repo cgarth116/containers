@@ -252,18 +252,84 @@ size_t test(){
 		mistakes++;
 	}
 
-//	std::cout << "\nTest " << i++ << std::endl;
-//	std::cout << "****************** Test rbegin()/rend() map<char,int> ******************" << std::endl;
-//
-//	ft::map<char,int>::reverse_iterator ritOur;
-//	for (ritOur=mymapOur.rbegin(); ritOur!=mymapOur.rend(); ++ritOur)
-//		std::cout << ritOur->first << " => " << ritOur->second << '\n';
-//	// show content:
-//	std::map<char,int>::reverse_iterator rit;
-//	for (rit=mymapOriginal.rbegin(); rit!=mymapOriginal.rend(); ++rit)
-//		std::cout << rit->first << " => " << rit->second << '\n';
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test rbegin()/rend() map<char,int> ******************" << std::endl;
 
+	ft::map<char,int>::reverse_iterator ritOur;
+	for (ritOur=mymapOur.rbegin(); ritOur!=mymapOur.rend(); ++ritOur)
+		std::cout << ritOur->first << " => " << ritOur->second << '\n';
+	// show content:
+	std::map<char,int>::reverse_iterator rit;
+	for (rit=mymapOriginal.rbegin(); rit!=mymapOriginal.rend(); ++rit)
+		std::cout << rit->first << " => " << rit->second << '\n';
 
+	if (mymapOur.rbegin()->second == mymapOriginal.rbegin()->second)
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		//viewAllOriginal(thirdOriginal);
+		std::cout << "received ";
+		//viewAll(thirdOur);
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test empty() map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	mymapOur['a']=10;
+	mymapOur['b']=20;
+	mymapOur['c']=30;
+	mymapOriginal['a']=10;
+	mymapOriginal['b']=20;
+	mymapOriginal['c']=30;
+
+	while (!mymapOur.empty())
+	{
+		std::cout << mymapOur.begin()->first << " => " << mymapOur.begin()->second << '\n';
+		mymapOur.erase(mymapOur.begin());
+	}
+
+	while (!mymapOriginal.empty())
+	{
+		std::cout << mymapOriginal.begin()->first << " => " << mymapOriginal.begin()->second << '\n';
+		mymapOriginal.erase(mymapOriginal.begin());
+	}
+	if (mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(thirdOriginal);
+		std::cout << "received ";
+		viewAll(thirdOur);
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test size() map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	mymapOur['a']=101;
+	mymapOur['b']=202;
+	mymapOur['c']=303;
+	mymapOriginal['a']=101;
+	mymapOriginal['b']=202;
+	mymapOriginal['c']=303;
+
+	std::cout << "mymapOur.size() is " << mymapOur.size() << '\n';
+	std::cout << "mymapOriginal.size() is " << mymapOriginal.size() << '\n';
+	if (mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(thirdOriginal);
+		std::cout << "received ";
+		viewAll(thirdOur);
+		mistakes++;
+	}
 	return mistakes;
 }
 
