@@ -330,6 +330,67 @@ size_t test(){
 		viewAll(thirdOur);
 		mistakes++;
 	}
+
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test max_size() map<char,int> ******************" << std::endl;
+	int i1;
+	std::map<int,int> mymap;
+
+	if (mymapOur.max_size()>1000){
+		for (i1=0; i1<1000; i1++) mymapOur[i1]=0;
+		std::cout << "The map contains 1000 elements.\n";
+	} else {
+		std::cout << "The map could not hold 1000 elements.\n";
+	}
+
+	if (mymapOriginal.max_size()>1000){
+		for (i1=0; i1<1000; i1++) mymapOriginal[i1]=0;
+		std::cout << "The map contains 1000 elements.\n";
+	} else {
+		std::cout << "The map could not hold 1000 elements.\n";
+	}
+	std::cout << "LOOK with my own eyes"<< std::endl;
+	std::cout << "✅ OK" << std::endl;
+
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test [] map<char,int> ******************" << std::endl;
+
+	ft::map<char,std::string> mymapftOur;
+	std::map<char,std::string> mymapftOriginal;
+
+	mymapftOur['a']="an element";
+	mymapftOur['b']="another element";
+	mymapftOur['c']=mymapftOur['b'];
+	mymapftOriginal['a']="an element";
+	mymapftOriginal['b']="another element";
+	mymapftOriginal['c']=mymapftOriginal['b'];
+
+	std::cout << "mymapfOur['a'] is " << mymapftOur['a'] << '\n';
+	std::cout << "mymapfOur['b'] is " << mymapftOur['b'] << '\n';
+	std::cout << "mymapftOur['c'] is " << mymapftOur['c'] << '\n';
+	std::cout << "mymapftOur['d'] is " << mymapftOur['d'] << '\n';
+
+	std::cout << "mymapftOriginal['a'] is " << mymapftOriginal['a'] << '\n';
+	std::cout << "mymapftOriginal['b'] is " << mymapftOriginal['b'] << '\n';
+	std::cout << "mymapftOriginal['c'] is " << mymapftOriginal['c'] << '\n';
+	std::cout << "mymapftOriginal['d'] is " << mymapftOriginal['d'] << '\n';
+
+	std::cout << "mymapftOur now contains " << mymapftOur.size() << " elements.\n";
+	std::cout << "mymapftOriginal now contains " << mymapftOriginal.size() << " elements.\n";
+
+	if (mymapftOur.size() == mymapftOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapftOriginal);
+		std::cout << "received ";
+		viewAll(mymapftOur);
+		mistakes++;
+	}
+
 	return mistakes;
 }
 
