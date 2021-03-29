@@ -13,14 +13,8 @@ namespace ft{
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data);
 		}
-//		Node(const value_type & value) :  _parent(NULL), _left(NULL), _right(NULL)
-//		{
-//			_data = allocator_type().allocate(1);
-//			allocator_type().construct(_data(value));
-//		}
 
 		value_type * insertNode(const value_type & value){
-
 			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data, value);
 			return _data;
@@ -43,7 +37,7 @@ namespace ft{
 		typedef Node<value_type, allocator_type>								Node;
 		public:
 			mapIterator() : _index(NULL) {};
-			mapIterator(Node * rhs) : _index(rhs){}
+			explicit mapIterator(Node * rhs) : _index(rhs){}
 			mapIterator(const mapIterator & rhs){
 				*this = rhs;
 			};
@@ -72,13 +66,15 @@ namespace ft{
 
 			virtual ~mapIterator(){}
 
-			mapIterator operator++() {
+			mapIterator & operator++() {
 				Node * tmp;
 				if (_index->_right){
 					if (_index->_right == _index->_right->_right){
-						return _index = _index->_right;
+						_index = _index->_right;
+						return *this;
 					}
-					return _index = minimumNode(_index->_right);
+					_index = minimumNode(_index->_right);
+					return *this;
 				}
 				tmp = _index->_parent;
 				while (tmp && _index == tmp->_right){
@@ -86,65 +82,45 @@ namespace ft{
 					tmp = tmp->_parent;
 				}
 				_index = tmp;
-				return _index;
+				return *this;
+			}
+			mapIterator operator++(int) {
+				Node * tmp = _index;
+				operator++();
+				return mapIterator(tmp);
 			}
 
-//			mapIterator operator--() {
-//				Node * x = _index;
-//				Node * tmp;
-//				if (!x->_left){
-//					return mapIterator(maximumNode(x->_left));
-//				}
-//				tmp = x->_parent;
-//				while (tmp && x == tmp->_left){
-//					x = tmp;
-//					tmp = tmp->_parent;
-//				}
-//				return mapIterator(tmp);
-//			}
-
-			Node * minimumNode(mapIterator node){
-				if (!node.getTreeNode()->_left){
-					return node.getTreeNode();
+			mapIterator operator--() {
+				Node * tmp;
+				if (_index->_left){
+					if (_index->_left == _index->_left->_left){
+						_index = _index->_left;
+						return *this;
+					}
+					_index = _index->_left;
+					return *this;
 				}
-				return minimumNode(node.getTreeNode()->_left);
-			}
-			Node * maximumNode(mapIterator node){
-				if (!node.getTreeNode()->_right) {
-					return node.getTreeNode()->_parent;
+				tmp = _index->_parent;
+				while (tmp && _index == tmp->_left){
+					_index = tmp;
+					tmp = tmp->_parent;
 				}
-				return maximumNode(node.getTreeNode()->_right);
+				_index = tmp;
+				return *this;
 			}
 
-
-////			mapIterator operator++(int){
-////				vectorIterator tmp(_index);
-////				++_index;
-////				return tmp;
-////			}
-////			mapIterator operator-(difference_type n) {
-////				vectorIterator it(*this);
-////				it -= n;
-////				return it;
-////			}
-//			mapIterator & operator--() {
-//				Node * tmp;
-//				if (_node->left){
-//					return max(_node->left);
-//				}
-//				tmp = _node->parent;
-//				while (tmp && _node == tmp->left){
-//					_node = tmp;
-//					tmp = tmp->parent;
-//				}
-//			return tmp;
-//			}
-////			mapIterator operator--(int)
-////			{
-////				vectorIterator tmp(_index);
-////				--_index;
-////				return tmp;
-////			}
+			Node * minimumNode(Node * node){
+				if (!node->_left){
+					return node;
+				}
+				return minimumNode(node->_left);
+			}
+			Node * maximumNode(Node * node){
+				if (!node->_right) {
+					return node->_parent;
+				}
+				return maximumNode(node->_right);
+			}
 
 		private:
 
@@ -221,9 +197,11 @@ namespace ft{
 			Node * tmp;
 			if (_index->_right){
 				if (_index->_right == _index->_right->_right){
-					return _index = _index->_right;
+					_index = _index->_right;
+					return *this;
 				}
-				return _index = minimumNode(_index->_right);
+				_index = minimumNode(_index->_right);
+				return *this;
 			}
 			tmp = _index->_parent;
 			while (tmp && _index == tmp->_right){
@@ -231,22 +209,8 @@ namespace ft{
 				tmp = tmp->_parent;
 			}
 			_index = tmp;
-			return _index;
+			return *this;
 		}
-
-//			mapIterator operator--() {
-//				Node * x = _index;
-//				Node * tmp;
-//				if (!x->_left){
-//					return mapIterator(maximumNode(x->_left));
-//				}
-//				tmp = x->_parent;
-//				while (tmp && x == tmp->_left){
-//					x = tmp;
-//					tmp = tmp->_parent;
-//				}
-//				return mapIterator(tmp);
-//			}
 
 		Node * minimumNode(const_mapIterator node){
 			if (!node.getTreeNode()->_left){
@@ -266,7 +230,7 @@ namespace ft{
 	};
 
 	template < typename value_type, typename allocator_type >
-	class reverse_mapIterator: public std::iterator<const std::bidirectional_iterator_tag, value_type >{
+	class reverse_mapIterator: public std::iterator< std::bidirectional_iterator_tag, value_type >{
 
 		typedef std::iterator< std::bidirectional_iterator_tag, value_type >	_stdIt;
 		typedef typename _stdIt::pointer										_pointer;
@@ -274,7 +238,7 @@ namespace ft{
 		typedef Node<value_type, allocator_type>								Node;
 	public:
 		reverse_mapIterator() : _index(NULL) {};
-		reverse_mapIterator(Node * rhs) : _index(rhs){}
+		explicit reverse_mapIterator(Node * rhs) : _index(rhs){}
 		reverse_mapIterator(const reverse_mapIterator & rhs){
 			*this = rhs;
 		};
@@ -303,13 +267,15 @@ namespace ft{
 
 		virtual ~reverse_mapIterator(){}
 
-		reverse_mapIterator operator++() {
+		reverse_mapIterator & operator--() {
 			Node * tmp;
 			if (_index->_right){
 				if (_index->_right == _index->_right->_right){
-					return _index = _index->_right;
+					_index = _index->_right;
+					return *this;
 				}
-				return _index = minimumNode(_index->_right);
+				_index = minimumNode(_index->_right);
+				return *this;
 			}
 			tmp = _index->_parent;
 			while (tmp && _index == tmp->_right){
@@ -317,37 +283,71 @@ namespace ft{
 				tmp = tmp->_parent;
 			}
 			_index = tmp;
-			return _index;
+			return *this;
+		}
+		reverse_mapIterator operator--(int) {
+			Node * tmp = _index;
+			operator--();
+			return reverse_mapIterator(tmp);
 		}
 
-//			mapIterator operator--() {
-//				Node * x = _index;
-//				Node * tmp;
-//				if (!x->_left){
-//					return mapIterator(maximumNode(x->_left));
-//				}
-//				tmp = x->_parent;
-//				while (tmp && x == tmp->_left){
-//					x = tmp;
-//					tmp = tmp->_parent;
-//				}
-//				return mapIterator(tmp);
-//			}
-
-		Node * minimumNode(reverse_mapIterator node){
-			if (!node.getTreeNode()->_left){
-				return node.getTreeNode();
+		reverse_mapIterator operator++() {
+			Node * x = _index;
+			Node * tmp;
+			if (!x->_left){
+				return reverse_mapIterator(maximumNode(x->_left));
 			}
-			return minimumNode(node.getTreeNode()->_left);
+			tmp = x->_parent;
+			while (tmp && x == tmp->_left){
+				x = tmp;
+				tmp = tmp->_parent;
+			}
+			return reverse_mapIterator(tmp);
 		}
-		Node * maximumNode(reverse_mapIterator node){
-			if (!node.getTreeNode()->_right) {
-				return node.getTreeNode()->_parent;
+
+		Node * minimumNode(Node * node){
+			if (!node->_left){
+				return node;
 			}
-			return maximumNode(node.getTreeNode()->_right);
+			return minimumNode(node->_left);
+		}
+		Node * maximumNode(Node * node){
+			if (!node->_right) {
+				return node->_parent;
+			}
+			return maximumNode(node->_right);
 		}
 
 	private:
+
+		//обход всего дерева
+		void preOrderTravers(Node* root, void (*visit)(Node*, void*), void *params) {
+			if (root) {
+				visit(root, params);
+				preOrderTravers(root->left, visit, params);
+				preOrderTravers(root->right, visit, params);
+			}
+		}
+
+		void preOrderTraversRight(Node* root, void (*visit)(Node*, void*), void *params) {
+			if (root){
+				preOrderTravers(root->_right, visit, params);
+			}
+		}
+
+		value_type & getNode(Node *current, void *args) {
+			return current->_data;
+		}
+
+		void deleteTree(Node **root) {
+			if (*root) {
+				deleteTree(&((*root)->left));
+				deleteTree(&((*root)->right));
+				free(*root);
+			}
+		}
+
+
 		Node * _index;
 	};
 
@@ -365,74 +365,74 @@ namespace ft{
 			*this = rhs;
 		};
 
-		const_reverse_mapIterator & operator=(const const_reverse_mapIterator & rhs) {
-			if (this != &rhs){
-				_index = rhs._index;
-			}
-			return *this;
-		}
-		bool operator!=(const const_reverse_mapIterator & rhs){
-			return _index != rhs._index;
-		}
-		bool operator==(const const_reverse_mapIterator & rhs){
-			return _index == rhs._index;
-		}
-		_reference operator*(){
-			return *(_index->_data);
-		}
-		_pointer operator->(){
-			return _index->_data;
-		}
-		Node * getTreeNode(){
-			return _index;
-		}
-
-		virtual ~const_reverse_mapIterator(){}
-
-		const_reverse_mapIterator operator++() {
-			Node * tmp;
-			if (_index->_right){
-				if (_index->_right == _index->_right->_right){
-					return _index = _index->_right;
-				}
-				return _index = minimumNode(_index->_right);
-			}
-			tmp = _index->_parent;
-			while (tmp && _index == tmp->_right){
-				_index = tmp;
-				tmp = tmp->_parent;
-			}
-			_index = tmp;
-			return _index;
-		}
-
-//			mapIterator operator--() {
-//				Node * x = _index;
-//				Node * tmp;
-//				if (!x->_left){
-//					return mapIterator(maximumNode(x->_left));
-//				}
-//				tmp = x->_parent;
-//				while (tmp && x == tmp->_left){
-//					x = tmp;
-//					tmp = tmp->_parent;
-//				}
-//				return mapIterator(tmp);
+//		const_reverse_mapIterator & operator=(const const_reverse_mapIterator & rhs) {
+//			if (this != &rhs){
+//				_index = rhs._index;
 //			}
-
-		Node * minimumNode(const_reverse_mapIterator node){
-			if (!node.getTreeNode()->_left){
-				return node.getTreeNode();
-			}
-			return minimumNode(node.getTreeNode()->_left);
-		}
-		Node * maximumNode(const_reverse_mapIterator node){
-			if (!node.getTreeNode()->_right) {
-				return node.getTreeNode()->_parent;
-			}
-			return maximumNode(node.getTreeNode()->_right);
-		}
-
+//			return *this;
+//		}
+//		bool operator!=(const const_reverse_mapIterator & rhs){
+//			return _index != rhs._index;
+//		}
+//		bool operator==(const const_reverse_mapIterator & rhs){
+//			return _index == rhs._index;
+//		}
+//		_reference operator*(){
+//			return *(_index->_data);
+//		}
+//		_pointer operator->(){
+//			return _index->_data;
+//		}
+//		Node * getTreeNode(){
+//			return _index;
+//		}
+//
+//		virtual ~const_reverse_mapIterator(){}
+//
+//		const_reverse_mapIterator operator++() {
+//			Node * tmp;
+//			if (_index->_right){
+//				if (_index->_right == _index->_right->_right){
+//					return _index = _index->_right;
+//				}
+//				return _index = minimumNode(_index->_right);
+//			}
+//			tmp = _index->_parent;
+//			while (tmp && _index == tmp->_right){
+//				_index = tmp;
+//				tmp = tmp->_parent;
+//			}
+//			_index = tmp;
+//			return _index;
+//		}
+//
+////			mapIterator operator--() {
+////				Node * x = _index;
+////				Node * tmp;
+////				if (!x->_left){
+////					return mapIterator(maximumNode(x->_left));
+////				}
+////				tmp = x->_parent;
+////				while (tmp && x == tmp->_left){
+////					x = tmp;
+////					tmp = tmp->_parent;
+////				}
+////				return mapIterator(tmp);
+////			}
+//
+//		Node * minimumNode(const_reverse_mapIterator node){
+//			if (!node.getTreeNode()->_left){
+//				return node.getTreeNode();
+//			}
+//			return minimumNode(node.getTreeNode()->_left);
+//		}
+//		Node * maximumNode(const_reverse_mapIterator node){
+//			if (!node.getTreeNode()->_right) {
+//				return node.getTreeNode()->_parent;
+//			}
+//			return maximumNode(node.getTreeNode()->_right);
+//		}
+//
 	private:
 		Node * _index;
 	};
