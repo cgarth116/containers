@@ -2836,39 +2836,6 @@ int test(){
 		mistakes++;
 	}
 
-	ft::list<int> my3;
-	std::list<int> test3;
-	my3.clear();
-	test3.clear();
-	for(size_t i = 0; i != 10; i++)
-		my3.push_back(i);
-	for(size_t i = 0; i != 10; i++)
-		test3.push_back(i);
-	ft::list<int>::iterator i7 = my3.begin();
-	std::list<int>::iterator itest7 = test3.begin();
-	viewAll(my3);
-	viewAllOriginal(test3);
-
-	i7++;
-	itest7++;
-
-	viewAll(my3);
-	viewAllOriginal(test3);
-
-	my3.erase(i7++);
-	test3.erase(itest7++);
-
-	viewAll(my3);
-	viewAllOriginal(test3);
-//	i7++;
-//	itest7++;
-//	std::cout << "i7:"<< *i7 <<std::endl;
-//	i7++;
-//	itest7++;
-//	std::cout << "Lol"<<std::endl;
-//	my3.erase(i7);
-//	test3.erase(itest7);
-
 	return mistakes;
 }
 
