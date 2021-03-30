@@ -182,98 +182,101 @@ namespace ft
 			void erase (iterator first,
 			   			iterator last){
 				while (first != last) {
+					//iterator tmp = first;
+					//++tmp;
+					//std::cout << (*first).first << std::endl;
 					erase((*first++).first);
 				}
 			}
 			size_type erase (const key_type& key){
-			if (_sizeMap != 0) {
-				Node *p = find(key).getTreeNode(); // находим узел с ключом key
-				if (p == _endNode){
-					return _sizeMap;
-				}
-				if ((p->_left == NULL || p->_left == _firstNode) &&
-					(p->_right == NULL || p->_right == _endNode)) { //у p нет детей
-					if (p == _buffer) { //p — корень
-						_firstNode->_parent = _endNode;
-						_endNode->_parent = NULL;
-					} else { //ссылку на p у "отца" меняем на NULL или крайнюю ноду
-						if (p == p->_parent->_left) {
-							p->_parent->_left = NULL;
-							if (p->_left == _firstNode) {
-								p->_parent->_left = _firstNode;
-								_firstNode->_parent = p->_parent;
-							}
-						} else {
-							p->_parent->_right = NULL;
-							if (p->_right == _endNode) {
-								p->_parent->_right = _endNode;
-								_endNode->_parent = p->_parent;
+				if (_sizeMap != 0) {
+					Node *p = find(key).getTreeNode(); // находим узел с ключом key
+					if (p == _endNode){
+						return _sizeMap;
+					}
+					if ((p->_left == NULL || p->_left == _firstNode) &&
+						(p->_right == NULL || p->_right == _endNode)) { //у p нет детей
+						if (p == _buffer) { //p — корень
+							_firstNode->_parent = _endNode;
+							_endNode->_parent = NULL;
+						} else { //ссылку на p у "отца" меняем на NULL или крайнюю ноду
+							if (p == p->_parent->_left) {
+								p->_parent->_left = NULL;
+								if (p->_left == _firstNode) {
+									p->_parent->_left = _firstNode;
+									_firstNode->_parent = p->_parent;
+								}
+							} else {
+								p->_parent->_right = NULL;
+								if (p->_right == _endNode) {
+									p->_parent->_right = _endNode;
+									_endNode->_parent = p->_parent;
+								}
 							}
 						}
+						destroy(p);
+						return --_sizeMap;
+					}
+					Node *y = NULL;
+					if ((p->_left != NULL && p->_right == NULL) || (p->_left == NULL && p->_right != NULL)) {
+						//один ребенок
+						//ссылку на p от "отца" меняем на ребенка p
+						if (p == _buffer) { //p — корень
+							if (p->_left != NULL){
+								_buffer = p->_left;
+							} else {
+								_buffer = p->_right;
+							}
+							_buffer->_parent = NULL;;
+						} else {
+							if (p == p->_parent->_left) {
+								if (p->_left == NULL) {
+									p->_parent->_left = p->_right;
+									p->_right->_parent = p->_parent;
+								} else {
+									p->_parent->_left = p->_left;
+									p->_left->_parent = p->_parent;
+								}
+							} else {
+								if (p->_left == NULL) {
+									p->_parent->_right = p->_right;
+									p->_right->_parent = p->_parent;
+							} else {
+									p->_parent->_right = p->_left;
+									p->_left->_parent = p->_parent;
+								}
+							}
+						}
+					} else { // два ребенка
+						iterator it = find(key);
+						y = (++it).getTreeNode();//y = вершина, со следующим значением ключа, у нее нет левого ребенка
+						if (y->_right != NULL && y->_right != _endNode) {//y имеет правого ребенка
+							y->_right->_parent = y->_parent; //меняем у него отца
+						}
+						if (y == _buffer) { //y — корень
+							_buffer = y->_right;
+						} else { //у родителя ссылку на y меняем на ссылку на первого ребенка y
+							if (y->_parent->_left == y) {
+								y->_parent->_left = y->_right;
+							} else {
+								y->_parent->_right = y->_right;
+							}
+						}
+					}
+					if (y != NULL && y != p) {
+						p->_color = y->_color;
+						p->_data = y->_data;
 					}
 					destroy(p);
-					return --_sizeMap;
-				}
-				Node *y = NULL;
-				if ((p->_left != NULL && p->_right == NULL) || (p->_left == NULL && p->_right != NULL)) {
-					//один ребенок
-					//ссылку на p от "отца" меняем на ребенка p
-					if (p == _buffer) { //p — корень
-						if (p->_left != NULL){
-							_buffer = p->_left;
-						} else {
-							_buffer = p->_right;
-						}
-						_buffer->_parent = NULL;;
-					} else {
-						if (p == p->_parent->_left) {
-							if (p->_left == NULL) {
-								p->_parent->_left = p->_right;
-								p->_right->_parent = p->_parent;
-							} else {
-								p->_parent->_left = p->_left;
-								p->_left->_parent = p->_parent;
-							}
-						} else {
-							if (p->_left == NULL) {
-								p->_parent->_right = p->_right;
-								p->_right->_parent = p->_parent;
-							} else {
-								p->_parent->_right = p->_left;
-								p->_left->_parent = p->_parent;
-							}
-						}
-					}
-				} else { // два ребенка
-					iterator it = find(key);
-					y = (++it).getTreeNode();//y = вершина, со следующим значением ключа, у нее нет левого ребенка
-					if (y->_right != NULL && y->_right != _endNode) {//y имеет правого ребенка
-						y->_right->_parent = y->_parent; //меняем у него отца
-					}
-					if (y == _buffer) { //y — корень
-						_buffer = y->_right;
-					} else { //у родителя ссылку на y меняем на ссылку на первого ребенка y
-						if (y->_parent->_left == y) {
-							y->_parent->_left = y->_right;
-						} else {
-							y->_parent->_right = y->_right;
-						}
-					}
-				}
-				if (y != p) {
-					p->_color = y->_color;
-					p->_data = y->_data;
-				}
-				destroy(p);
-				p = NULL;
+					p = NULL;
 //				if (y->_colour == _black){ // при удалении черной вершины могла быть нарушена балансировка
 //					fixDeleting(q);
-//				}
-				return --_sizeMap;
-			} else {
-				return 0;
+//					}
+					return --_sizeMap;
+				} else {
+					return 0;
+				}
 			}
-		}
 			void erase (iterator position){
 				erase((*position).first);
 			}

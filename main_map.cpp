@@ -482,6 +482,80 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test erase(by iterator) map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+
+	// insert some values:
+	mymapOur['a']=10;
+	mymapOur['b']=20;
+	mymapOur['c']=30;
+	mymapOur['d']=40;
+	mymapOur['e']=50;
+	mymapOur['f']=60;
+	mymapOriginal['a']=10;
+	mymapOriginal['b']=20;
+	mymapOriginal['c']=30;
+	mymapOriginal['d']=40;
+	mymapOriginal['e']=50;
+	mymapOriginal['f']=60;
+
+	itOur=mymapOur.find('b');
+	mymapOur.erase (itOur);                   // erasing by iterator
+	itOriginal=mymapOriginal.find('b');
+	mymapOriginal.erase (itOriginal);                   // erasing by iterator
+
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test erase(by key) map<char,int> ******************" << std::endl;
+	mymapOur.viewTree();
+	mymapOur.erase ('c');                  // erasing by key
+	mymapOriginal.erase ('c');                  // erasing by key
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test erase(by range) map<char,int> ******************" << std::endl;
+	itOur=mymapOur.find ('e');
+	mymapOur.erase ( itOur, mymapOur.end() );    // erasing by range
+	itOriginal=mymapOriginal.find ('e');
+	mymapOriginal.erase ( itOriginal, mymapOriginal.end() );    // erasing by range
+
+	// show content:
+	for (itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
+		std::cout << "Our:" << itOur->first << " => " << itOur->second << '\n';
+	for (itOriginal=mymapOriginal.begin(); itOriginal!=mymapOriginal.end(); ++itOriginal)
+		std::cout << "Original:" << itOriginal->first << " => " << itOriginal->second << '\n';
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
 
 	return mistakes;
 }
