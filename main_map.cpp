@@ -603,6 +603,51 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test clear map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+
+	mymapOur['x']=100;
+	mymapOur['y']=200;
+	mymapOur['z']=300;
+	mymapOriginal['x']=100;
+	mymapOriginal['y']=200;
+	mymapOriginal['z']=300;
+
+	std::cout << "mymapOur contains:\n";
+	for (ft::map<char,int>::iterator itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "mymapOriginl contains:\n";
+	for (std::map<char,int>::iterator itOriginal=mymapOriginal.begin(); itOriginal!=mymapOriginal.end(); ++itOriginal)
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+
+	mymapOur.clear();
+	mymapOur['a']=1101;
+	mymapOur['b']=2202;
+	mymapOriginal.clear();
+	mymapOriginal['a']=1101;
+	mymapOriginal['b']=2202;
+
+	std::cout << "mymapOur contains:\n";
+	for (ft::map<char,int>::iterator itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "mymapOriginal contains:\n";
+	for (std::map<char,int>::iterator itOriginal=mymapOriginal.begin(); itOriginal!=mymapOriginal.end(); ++itOriginal)
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
+
 
 	return mistakes;
 }
