@@ -12,7 +12,7 @@ namespace ft {
 		T	tmp(x);
 		x = y;
 		y = tmp;
-	}
+	};
 
     template <class T, class Alloc = std::allocator<T> >
     class list
@@ -471,7 +471,7 @@ namespace ft {
 
 	template < class T, class Alloc >
 	bool operator!=(const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
-		return !operator==(lhs, rhs);
+		return !(lhs == rhs);
 	};
 
 	template < class T, class Alloc >
@@ -498,17 +498,17 @@ namespace ft {
 
 	template < class T, class Alloc >
 	bool operator<=(const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
-		return (!operator<(rhs, lhs));
+		return !(rhs < lhs);
 	};
 
 	template < class T, class Alloc >
 	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
-		return operator<(rhs, lhs);
+		return (rhs < lhs);
 	};
 
 	template < class T, class Alloc >
 	bool operator>=(const list<T,Alloc>& lhs, const list<T,Alloc> & rhs) {
-		return (!operator<(lhs, rhs));
+		return !(lhs < rhs);
 	};
 
 	template <class T, class Alloc>

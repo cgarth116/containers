@@ -41,29 +41,29 @@ namespace ft
 				return *this;
         	}
         	bool operator==(iterator const & rhs){
-            return _index == rhs._index;
-        };
+            	return _index == rhs._index;
+        	};
         	bool operator!=(iterator const & rhs){
-            return _index != rhs._index;
-        };
+           	 return _index != rhs._index;
+       	 	};
         	iterator & operator++(){
-            _index = _index->nodeNext;
-            return *this;
-        };
+          	  _index = _index->nodeNext;
+           	 return *this;
+        	};
         	iterator operator++(int){
-            iterator tmp(_index);
-            _index = _index->nodeNext;
-            return tmp;
-        };
+            	iterator tmp(_index);
+            	_index = _index->nodeNext;
+            	return tmp;
+        	};
        	 	iterator & operator--(){
-            _index= _index->nodePrevious;
-            return *this;
-        };
+            	_index= _index->nodePrevious;
+            	return *this;
+       	 	};
         	iterator operator--(int){
-            iterator tmp(_index);
-            _index= _index->nodePrevious;
-            return tmp;
-        };
+            	iterator tmp(_index);
+            	_index= _index->nodePrevious;
+            	return tmp;
+       	 	};
        		_reference operator*(){
             	return _index->node;
         	};
@@ -83,14 +83,14 @@ namespace ft
 			reverse_iterator(): _index(NULL) {};
 			reverse_iterator(Node<T> * index): _index(index) {};
 			reverse_iterator(const reverse_iterator & rhs){
-			*this = rhs;
-		}
-			reverse_iterator & operator=(const reverse_iterator & rhs){
-			if (this != &rhs){
-				_index = rhs._index;
+				*this = rhs;
 			}
-			return *this;
-		}
+			reverse_iterator & operator=(const reverse_iterator & rhs){
+				if (this != &rhs){
+					_index = rhs._index;
+				}
+				return *this;
+			}
 			bool operator==(reverse_iterator const & rhs){
         	    return _index == rhs._index;
        		};
@@ -124,7 +124,7 @@ namespace ft
 
    			private:
 				Node<T> * _index;
-    	};
+	};
 
 	template <class T>
 	class const_iterator: public std::iterator<const std::input_iterator_tag, T>{
@@ -134,44 +134,44 @@ namespace ft
 			const_iterator(): _index(NULL) {};
 			const_iterator(Node<T> * index): _index(index) {};
 			const_iterator(const const_iterator & rhs){
-			*this = rhs;
-		}
-			const_iterator & operator=(const const_iterator & rhs){
-			if (this != &rhs){
-				_index = rhs._index;
+				*this = rhs;
 			}
-			return *this;
-		}
+			const_iterator & operator=(const const_iterator & rhs){
+				if (this != &rhs){
+					_index = rhs._index;
+				}
+				return *this;
+			}
 			bool operator==(const_iterator const & rhs){
-			return _index == rhs._index;
-		};
+				return _index == rhs._index;
+			};
 			bool operator!=(const_iterator const & rhs){
-			return _index != rhs._index;
-		};
+				return _index != rhs._index;
+			};
 			const_iterator & operator++(){
-			_index = _index->nodeNext;
-			return *this;
-		};
+				_index = _index->nodeNext;
+				return *this;
+			};
 			const_iterator operator++(int){
-			const_iterator tmp(_index);
-			_index = _index->nodeNext;
-			return tmp;
-		};
+				const_iterator tmp(_index);
+				_index = _index->nodeNext;
+				return tmp;
+			};
 			const_iterator & operator--(){
-			_index= _index->nodePrevious;
-			return *this;
-		};
+				_index= _index->nodePrevious;
+				return *this;
+			};
 			const_iterator operator--(int){
 			const_iterator tmp(_index);
-			_index= _index->nodePrevious;
-			return tmp;
-		};
+				_index= _index->nodePrevious;
+				return tmp;
+			};
 			_reference operator*(){
-			return _index->node;
-		};
+				return _index->node;
+			};
 			_pointer operator->(){
-			return &(operator*());
-		}
+				return &(operator*());
+			}
 
 		private:
 			Node<T> * _index;
@@ -185,44 +185,44 @@ namespace ft
 			const_reverse_iterator(): _index(NULL) {};
 			const_reverse_iterator(Node<T> * index): _index(index) {};
 			const_reverse_iterator(const const_reverse_iterator & rhs){
-			*this = rhs;
-		}
-			const_reverse_iterator & operator=(const const_reverse_iterator & rhs){
-			if (this != &rhs){
-				_index = rhs._index;
+				*this = rhs;
 			}
-			return *this;
-		}
+			const_reverse_iterator & operator=(const const_reverse_iterator & rhs){
+				if (this != &rhs){
+					_index = rhs._index;
+				}
+				return *this;
+			}
 			bool operator==(const_reverse_iterator const & rhs){
-			return _index == rhs._index;
-		};
+				return _index == rhs._index;
+			};
 			bool operator!=(const_reverse_iterator const & rhs){
-			return _index != rhs._index;
-		};
+				return _index != rhs._index;
+			};
 			const_reverse_iterator & operator++(){
-			_index= _index->nodePrevious;
-			return *this;
-		};
+				_index= _index->nodePrevious;
+				return *this;
+			};
 			const_reverse_iterator operator++(int){
 			const_reverse_iterator tmp(_index);
-			_index= _index->nodePrevious;
-			return tmp;
-		}
+				_index= _index->nodePrevious;
+				return tmp;
+			}
 			const_reverse_iterator & operator--(){
-			_index = _index->nodeNext;
-			return *this;
-		};
+				_index = _index->nodeNext;
+				return *this;
+			};
 			const_reverse_iterator operator--(int){
 			const_reverse_iterator tmp(_index);
-			_index = _index->nodeNext;
-			return tmp;
-		}
+				_index = _index->nodeNext;
+				return tmp;
+			}
 			_reference operator*(){
-			return _index->node;
-		};
+				return _index->node;
+			};
 			_pointer operator->(){
-			return &(operator*());
-		}
+				return &(operator*());
+			}
 
 		private:
 			Node<T> * _index;

@@ -18,13 +18,19 @@ listIterator.hpp
 iostream
 -
 
-/Users/cgarth/project/cont/main.cpp
+/Users/cgarth/project/cont/main_queue.cpp
+iostream
+-
+queue
+-
+deque
+-
 list
 -
-vector
--
+queue.hpp
+/Users/cgarth/project/cont/queue.hpp
+
+/Users/cgarth/project/cont/queue.hpp
 list.hpp
 /Users/cgarth/project/cont/list.hpp
-cmath
--
 
