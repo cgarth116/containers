@@ -557,6 +557,53 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test swap map<char,int> ******************" << std::endl;
+	ft::map<char,int> fooOur,barOur;
+	std::map<char,int> fooOriginal,barOriginal;
+
+	fooOur['x']=100;
+	fooOur['y']=200;
+
+	barOur['a']=11;
+	barOur['b']=22;
+	barOur['c']=33;
+
+	fooOriginal['x']=100;
+	fooOriginal['y']=200;
+
+	barOriginal['a']=11;
+	barOriginal['b']=22;
+	barOriginal['c']=33;
+
+	fooOur.swap(barOur);
+	fooOriginal.swap(barOriginal);
+
+	std::cout << "Our foo contains:\n";
+	for (ft::map<char,int>::iterator itOur=fooOur.begin(); itOur!=fooOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "Original foo contains:\n";
+	for (std::map<char,int>::iterator itOriginal=fooOriginal.begin(); itOriginal!=fooOriginal.end(); ++itOriginal)
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+	std::cout << "Our bar contains:\n";
+	for (ft::map<char,int>::iterator itOur=barOur.begin(); itOur!=barOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "Original bar contains:\n";
+	for (std::map<char,int>::iterator itOriginal=barOriginal.begin(); itOriginal!=barOriginal.end(); ++itOriginal)
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+	if (fooOur.begin()->first == fooOriginal.begin()->first && fooOur.size() == fooOriginal.size() &&
+			barOur.begin()->first == barOriginal.begin()->first && barOur.size() == barOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(fooOriginal);
+		std::cout << "received ";
+		viewAll(fooOur);
+		mistakes++;
+	}
+
+
 	return mistakes;
 }
 
