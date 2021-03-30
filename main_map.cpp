@@ -789,6 +789,48 @@ size_t test(){
 		}
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test lower_bound/upper_bound map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	ft::map<char,int>::iterator itlowOur,itupOur;
+	std::map<char,int>::iterator itlowOriginal,itupOriginal;
+	mymapOur['a']=20;
+	mymapOur['b']=40;
+	mymapOur['c']=60;
+	mymapOur['d']=80;
+	mymapOur['e']=100;
+
+	mymapOriginal['a']=20;
+	mymapOriginal['b']=40;
+	mymapOriginal['c']=60;
+	mymapOriginal['d']=80;
+	mymapOriginal['e']=100;
+
+	itlowOur=mymapOur.lower_bound ('b');  // itlow points to b
+	itupOur=mymapOur.upper_bound ('d');   // itup points to e (not d!)
+	mymapOur.erase(itlowOur,itupOur);        // erases [itlow,itup)
+
+	itlowOriginal=mymapOriginal.lower_bound ('b');  // itlow points to b
+	itupOriginal=mymapOriginal.upper_bound ('d');   // itup points to e (not d!)
+	mymapOriginal.erase(itlowOriginal,itupOriginal);        // erases [itlow,itup)
+
+	// print content:
+	for (ft::map<char,int>::iterator itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	for (std::map<char,int>::iterator itOriginal=mymapOriginal.begin(); itOriginal!=mymapOriginal.end(); ++itOriginal)
+			std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
 
 	return mistakes;
 }
