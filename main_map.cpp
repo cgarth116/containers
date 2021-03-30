@@ -715,6 +715,50 @@ size_t test(){
 
 	std::cout << "✅ OK - Look eye's)))" << std::endl;
 
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test find map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	mymapOur['a']=50;
+	mymapOur['b']=100;
+	mymapOur['c']=150;
+	mymapOur['d']=200;
+	mymapOriginal['a']=50;
+	mymapOriginal['b']=100;
+	mymapOriginal['c']=150;
+	mymapOriginal['d']=200;
+
+	itOur = mymapOur.find('b');
+	if (itOur != mymapOur.end())
+		mymapOur.erase (itOur);
+
+	itOriginal = mymapOriginal.find('b');
+	if (itOriginal != mymapOriginal.end())
+		mymapOriginal.erase (itOriginal);
+
+	// print content:
+	std::cout << "elements in mymapOur:" << '\n';
+	std::cout << "a => " << mymapOur.find('a')->second << '\n';
+	std::cout << "c => " << mymapOur.find('c')->second << '\n';
+	std::cout << "d => " << mymapOur.find('d')->second << '\n';
+
+	std::cout << "elements in mymapOriginal:" << '\n';
+	std::cout << "a => " << mymapOriginal.find('a')->second << '\n';
+	std::cout << "c => " << mymapOriginal.find('c')->second << '\n';
+	std::cout << "d => " << mymapOriginal.find('d')->second << '\n';
+
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
 	return mistakes;
 }
 
