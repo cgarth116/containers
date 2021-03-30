@@ -84,6 +84,31 @@ size_t test(){
 	}
 
 	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test resize vector<int> ******************" << std::endl;
+	viewAll(vectorOur);
+	viewAllOriginal(vectorOriginal);
+	std::cout << "*Resize*" << std::endl;
+	vectorOur.clear();
+	vectorOur.resize(3,-42);  // 5 default-constructed ints
+	vectorOriginal.clear();
+	vectorOriginal.resize(3,-42);  // 5 default-constructed ints
+
+
+	viewAll(vectorOur);
+	viewAllOriginal(vectorOriginal);
+	if (*vectorOur.begin() == *vectorOriginal.begin() && vectorOur.size() == vectorOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		viewAllOriginal(vectorOriginal);
+		std::cout << "received ";
+		viewAll(vectorOur);
+
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
 	std::cout << "****************** Test rbegin/rend vector<int> ******************" << std::endl;
 	vectorOur.clear();
 	vectorOur.resize(5,0);  // 5 default-constructed ints
@@ -706,15 +731,17 @@ size_t test(){
 
 		mistakes++;
 	}
+
 	return mistakes;
 }
 
 int main(){
 
+	size_t result = test();
 
-	std::cout << "\nMistakes=" << test() << std::endl;
-	std::cout << "\nCheck leaks in another terminal" << std::endl;
-	getchar();
+	std::cout << "\nMistakes=" << result << std::endl;
+//	std::cout << "Check leaks in another terminal" << std::endl;
+//	getchar();
 
 	return 0;
 }

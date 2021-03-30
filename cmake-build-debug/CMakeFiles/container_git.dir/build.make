@@ -77,27 +77,27 @@ include CMakeFiles/container_git.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/container_git.dir/flags.make
 
-CMakeFiles/container_git.dir/main_map.cpp.o: CMakeFiles/container_git.dir/flags.make
-CMakeFiles/container_git.dir/main_map.cpp.o: ../main_map.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/cgarth/project/cont/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/container_git.dir/main_map.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/container_git.dir/main_map.cpp.o -c /Users/cgarth/project/cont/main_map.cpp
+CMakeFiles/container_git.dir/main.cpp.o: CMakeFiles/container_git.dir/flags.make
+CMakeFiles/container_git.dir/main.cpp.o: ../main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/cgarth/project/cont/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/container_git.dir/main.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/container_git.dir/main.cpp.o -c /Users/cgarth/project/cont/main.cpp
 
-CMakeFiles/container_git.dir/main_map.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/container_git.dir/main_map.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cgarth/project/cont/main_map.cpp > CMakeFiles/container_git.dir/main_map.cpp.i
+CMakeFiles/container_git.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/container_git.dir/main.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cgarth/project/cont/main.cpp > CMakeFiles/container_git.dir/main.cpp.i
 
-CMakeFiles/container_git.dir/main_map.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/container_git.dir/main_map.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cgarth/project/cont/main_map.cpp -o CMakeFiles/container_git.dir/main_map.cpp.s
+CMakeFiles/container_git.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/container_git.dir/main.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cgarth/project/cont/main.cpp -o CMakeFiles/container_git.dir/main.cpp.s
 
 # Object files for target container_git
 container_git_OBJECTS = \
-"CMakeFiles/container_git.dir/main_map.cpp.o"
+"CMakeFiles/container_git.dir/main.cpp.o"
 
 # External object files for target container_git
 container_git_EXTERNAL_OBJECTS =
 
-container_git: CMakeFiles/container_git.dir/main_map.cpp.o
+container_git: CMakeFiles/container_git.dir/main.cpp.o
 container_git: CMakeFiles/container_git.dir/build.make
 container_git: CMakeFiles/container_git.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/cgarth/project/cont/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable container_git"

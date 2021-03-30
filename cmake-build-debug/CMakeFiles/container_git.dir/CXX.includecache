@@ -6,29 +6,25 @@
 
 #IncludeRegexTransform: 
 
-/Users/cgarth/project/cont/main_map.cpp
-iostream
--
-map
--
-map.hpp
-/Users/cgarth/project/cont/map.hpp
-
-/Users/cgarth/project/cont/map.hpp
+/Users/cgarth/project/cont/list.hpp
 memory
 -
 iostream
 -
-type_traits
--
-stdexcept
--
-mapIterator.hpp
-/Users/cgarth/project/cont/mapIterator.hpp
-list
+listIterator.hpp
+/Users/cgarth/project/cont/listIterator.hpp
+
+/Users/cgarth/project/cont/listIterator.hpp
+iostream
 -
 
-/Users/cgarth/project/cont/mapIterator.hpp
-iostream
+/Users/cgarth/project/cont/main.cpp
+list
+-
+vector
+-
+list.hpp
+/Users/cgarth/project/cont/list.hpp
+cmath
 -
 

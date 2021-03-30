@@ -130,7 +130,7 @@ namespace ft
 				return reverse_iterator(_endNode->_parent);
 			}
 			const_reverse_iterator rbegin () const{
-				return const_reverse_iteator(_endNode->_parent);
+				return const_reverse_iterator(_endNode->_parent);
 			}
 			iterator end(){
 				return iterator(_endNode);
@@ -182,15 +182,12 @@ namespace ft
 			void erase (iterator first,
 			   			iterator last){
 				while (first != last) {
-					//iterator tmp = first;
-					//++tmp;
-					//std::cout << (*first).first << std::endl;
 					erase((*first++).first);
 				}
 			}
 			size_type erase (const key_type& key){
 				if (_sizeMap != 0) {
-					Node *p = find(key).getTreeNode(); // находим узел с ключом key
+					Node *p = search(_buffer, key);//  find(key).getTreeNode(); // находим узел с ключом key
 					if (p == _endNode){
 						return _sizeMap;
 					}
@@ -241,7 +238,7 @@ namespace ft
 								if (p->_left == NULL) {
 									p->_parent->_right = p->_right;
 									p->_right->_parent = p->_parent;
-							} else {
+								} else {
 									p->_parent->_right = p->_left;
 									p->_left->_parent = p->_parent;
 								}
@@ -273,9 +270,8 @@ namespace ft
 //					fixDeleting(q);
 //					}
 					return --_sizeMap;
-				} else {
-					return 0;
 				}
+				return 0;
 			}
 			void erase (iterator position){
 				erase((*position).first);
@@ -568,13 +564,13 @@ namespace ft
 
 			Node * search(Node * x,
 						  const key_type& key) {
+				if (x == nullptr ||
+					x == _endNode ||
+					x == _firstNode){
+					return _endNode;
+				}
 				if (key == x->_data->first) {
 					return x;
-				}
-				if (x == nullptr ||
-					x == end().getTreeNode() ||
-					x == begin().getTreeNode()){
-					return end().getTreeNode();
 				}
 				if (key < x->_data->first) {
 					return search(x->_left, key);

@@ -58,7 +58,9 @@ namespace ft
 
 				_buffer = _allocator.allocate(_capacity);
 				while (first != last){
-					_allocator.construct(_buffer + n++, *first++);
+					push_back(*first);
+					first++;
+					//_allocator.construct(_buffer + n++, *first++);
 				}
 			}
 			vector (const vector& x){
@@ -137,9 +139,8 @@ namespace ft
 				}
 				if (_size < n) {
 					insert(_buffer + _size, n - _size, val);
-				}
-				else{
-					erase(_buffer + n);
+				} else{
+					erase(_buffer + n, end());
 				}
 			}
 			size_t capacity() const{
