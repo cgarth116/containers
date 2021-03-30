@@ -310,7 +310,7 @@ namespace ft
 				return const_iterator(search(_buffer, key));
 			}
 			size_type count (const key_type & key) const{
-				if (search(_buffer, key) != end().getTreeNode())
+				if (search(_buffer, key) != _endNode)
 					return 1;
 				return 0;
 			}
@@ -584,13 +584,13 @@ namespace ft
 			}
 			Node * search(Node * x,
 					 	 const key_type& key)const {
+				if (x == nullptr ||
+					x == _endNode ||
+					x == _firstNode){
+					return _endNode;
+				}
 				if (key == x->_data->first) {
 					return x;
-				}
-				if (x == nullptr ||
-					x == end().getTreeNode() ||
-					x == begin().getTreeNode()){
-					return end().getTreeNode();
 				}
 				if (key < x->_data->first) {
 					return search(x->_left, key);

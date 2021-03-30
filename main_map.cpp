@@ -759,6 +759,37 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test count map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	char c;
+	mymapOur ['a']=101;
+	mymapOur ['c']=202;
+	mymapOur ['f']=303;
+	mymapOriginal ['a']=101;
+	mymapOriginal ['c']=202;
+	mymapOriginal ['f']=303;
+	for (c='a'; c<'h'; c++)
+	{
+		std::cout << c << ":" << std::endl;
+		if (mymapOur.count(c)>0)
+			std::cout << " is an element of mymapOur.\n";
+		else
+			std::cout << " is not an element of mymapOur.\n";
+		if (mymapOriginal.count(c)>0)
+			std::cout << " is an element of mymapOriginal.\n";
+		else
+			std::cout << " is not an element of mymapOriginal.\n";
+		if (mymapOur.count(c) != mymapOriginal.count(c)){
+			std::cout << "❌FALSE❌ : expected " << std::endl;
+			mistakes++;
+		} else {
+			std::cout << "✅ OK - Look eye's)))" << std::endl;
+		}
+	}
+
+
 	return mistakes;
 }
 
