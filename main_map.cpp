@@ -832,6 +832,44 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test equal_range map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+
+	mymapOur['a']=10;
+	mymapOur['b']=20;
+	mymapOur['c']=30;
+
+	mymapOriginal['a']=10;
+	mymapOriginal['b']=20;
+	mymapOriginal['c']=30;
+	std::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> retOur1;
+	retOur1 = mymapOur.equal_range('b');
+	std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> retOriginal1;
+	retOriginal1 = mymapOriginal.equal_range('b');
+
+	std::cout << "Our lower bound points to: ";
+	std::cout << retOur1.first->first << " => " << retOur1.first->second << '\n';
+	std::cout << "Original lower bound points to: ";
+	std::cout << retOriginal1.first->first << " => " << retOriginal1.first->second << '\n';
+
+	std::cout << "Our upper bound points to: ";
+	std::cout << retOur1.second->first << " => " << retOur1.second->second << '\n';
+	std::cout << "Original upper bound points to: ";
+	std::cout << retOriginal1.second->first << " => " << retOriginal1.second->second << '\n';
+
+	if (retOur1.first->first == retOriginal1.first->first && retOur1.second->first == retOriginal1.second->first)
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
 	return mistakes;
 }
 
