@@ -647,7 +647,73 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test key_comp map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	ft::map<char,int>::key_compare mycompOur = mymapOur.key_comp();
+	std::map<char,int>::key_compare mycompOriginal = mymapOriginal.key_comp();
+	mymapOur['a']=100;
+	mymapOur['b']=200;
+	mymapOur['c']=300;
+	mymapOriginal['a']=100;
+	mymapOriginal['b']=200;
+	mymapOriginal['c']=300;
 
+	std::cout << "mymapOur contains:\n";
+
+	char highestOur = mymapOur.rbegin()->first;     // key value of last element
+
+	itOur = mymapOur.begin();
+	do {
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	} while ( mycompOur((*itOur++).first, highestOur) );
+
+	std::cout << '\n';
+
+	std::cout << "mymapOriginal contains:\n";
+
+	char highestOriginal = mymapOriginal.rbegin()->first;     // key value of last element
+
+	itOriginal = mymapOriginal.begin();
+	do {
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+	} while ( mycompOriginal((*itOriginal++).first, highestOriginal) );
+
+	std::cout << '\n';
+
+	std::cout << "✅ OK - Look eye's)))" << std::endl;
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test value_comp map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	mymapOur['x']=1001;
+	mymapOur['y']=2002;
+	mymapOur['z']=3003;
+	mymapOriginal['x']=1001;
+	mymapOriginal['y']=2002;
+	mymapOriginal['z']=3003;
+
+	std::cout << "mymapOur contains:\n";
+
+	std::pair<char,int> highestOur2 = *mymapOur.rbegin();          // last element
+
+	itOur = mymapOur.begin();
+	do {
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	} while ( mymapOur.value_comp()(*itOur++, highestOur2) );
+
+	std::cout << "mymapOriginal contains:\n";
+
+	std::pair<char,int> highestOriginal2 = *mymapOriginal.rbegin();          // last element
+
+	itOriginal = mymapOriginal.begin();
+	do {
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+	} while ( mymap.value_comp()(*itOriginal++, highestOriginal2) );
+
+	std::cout << "✅ OK - Look eye's)))" << std::endl;
 
 	return mistakes;
 }
