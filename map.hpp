@@ -167,7 +167,7 @@ namespace ft
 			}
 			iterator insert (iterator position,
 							const value_type& value){
-				return tryInsertNode(position, value).first;
+				return insert(value).first;
 			}
 			template <class InputIterator>
 			void insert (InputIterator first,
@@ -569,8 +569,8 @@ namespace ft
 					return x;
 				}
 				if (x == nullptr ||
-						x == end().getTreeNode() ||
-						x == begin().getTreeNode()){
+					x == end().getTreeNode() ||
+					x == begin().getTreeNode()){
 					return end().getTreeNode();
 				}
 				if (key < x->_data->first) {
@@ -581,20 +581,20 @@ namespace ft
 			}
 			Node * search(Node * x,
 					 	 const key_type& key)const {
-			if (key == x->_data->first) {
-				return x;
+				if (key == x->_data->first) {
+					return x;
+				}
+				if (x == nullptr ||
+					x == end().getTreeNode() ||
+					x == begin().getTreeNode()){
+					return end().getTreeNode();
+				}
+				if (key < x->_data->first) {
+					return search(x->_left, key);
+				} else {
+					return search(x->_right, key);
+				}
 			}
-			if (x == nullptr ||
-				x == end().getTreeNode() ||
-				x == begin().getTreeNode()){
-				return end().getTreeNode();
-			}
-			if (key < x->_data->first) {
-				return search(x->_left, key);
-			} else {
-				return search(x->_right, key);
-			}
-		}
 
 			allocator_type	_allocator;
 			key_compare		_keyCompare;

@@ -391,6 +391,98 @@ size_t test(){
 		mistakes++;
 	}
 
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test insert(1) map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
+	// first insert function version (single parameter):
+	mymapOur.insert ( std::pair<char,int>('a',100) );
+	mymapOur.insert ( std::pair<char,int>('z',200) );
+	mymapOriginal.insert ( std::pair<char,int>('a',100) );
+	mymapOriginal.insert ( std::pair<char,int>('z',200) );
+
+	std::pair<ft::map<char,int>::iterator,bool> retOur;
+	retOur = mymapOur.insert ( std::pair<char,int>('z',500) );
+	if (retOur.second==false) {
+		std::cout << "Our element 'z' already existed";
+		std::cout << " with a value of " << retOur.first->second << '\n';
+	}
+	std::pair<std::map<char,int>::iterator,bool> retOriginal;
+	retOriginal = mymapOriginal.insert ( std::pair<char,int>('z',500) );
+	if (retOriginal.second==false) {
+		std::cout << "Original element 'z' already existed";
+		std::cout << " with a value of " << retOriginal.first->second << '\n';
+	}
+
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test insert(2) map<char,int> ******************" << std::endl;
+	// second insert function version (with hint position):
+	ft::map<char,int>::iterator itOur = mymapOur.begin();
+	mymapOur.insert (itOur, std::pair<char,int>('b',300));  // max efficiency inserting
+	mymapOur.insert (itOur, std::pair<char,int>('c',400));  // no max efficiency inserting
+	std::map<char,int>::iterator itOriginal = mymapOriginal.begin();
+	mymapOriginal.insert (itOriginal, std::pair<char,int>('b',300));  // max efficiency inserting
+	mymapOriginal.insert (itOriginal, std::pair<char,int>('c',400));  // no max efficiency inserting
+
+	// showing contents:
+	std::cout << "Our mymap contains:\n";
+	for (itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "Original mymap contains:\n";
+	for (itOriginal=mymapOriginal.begin(); itOriginal!=mymapOriginal.end(); ++itOriginal)
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+
+	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(mymapOriginal);
+		std::cout << "received ";
+		viewAll(mymapOur);
+		mistakes++;
+	}
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test insert(3) map<char,int> ******************" << std::endl;
+	// third insert function version (range insertion):
+	ft::map<char,int> anothermapOur;
+	anothermapOur.insert(mymapOur.begin(),mymapOur.find('c'));
+	std::map<char,int> anothermapOriginal;
+	anothermapOriginal.insert(mymapOriginal.begin(),mymapOriginal.find('c'));
+
+	// showing contents:
+
+	std::cout << "Our anothermap contains:\n";
+	for (itOur=anothermapOur.begin(); itOur!=anothermapOur.end(); ++itOur)
+		std::cout << itOur->first << " => " << itOur->second << '\n';
+	std::cout << "Original anothermap contains:\n";
+	for (itOriginal=anothermapOriginal.begin(); itOriginal!=anothermapOriginal.end(); ++itOriginal)
+		std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+
+	if (anothermapOur.begin()->first == anothermapOriginal.begin()->first && anothermapOur.size() == anothermapOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected " << std::endl;
+		viewAllOriginal(anothermapOriginal);
+		std::cout << "received ";
+		viewAll(anothermapOur);
+		mistakes++;
+	}
+
+
 	return mistakes;
 }
 
