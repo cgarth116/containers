@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <deque>
 #include <list>
 #include "queue.hpp"
 

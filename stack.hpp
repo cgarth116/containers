@@ -1,8 +1,8 @@
-# include "list.hpp"
+# include "vector.hpp"
 
 namespace ft
 {
-	template <class T, class Container = ft::list<T> >
+	template <class T, class Container = ft::vector<T> >
 	class stack
 	{
 	public:

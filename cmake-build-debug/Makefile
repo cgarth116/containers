@@ -143,32 +143,32 @@ container_git/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/build
 .PHONY : container_git/fast
 
-main_queue.o: main_queue.cpp.o
+main_stack.o: main_stack.cpp.o
 
-.PHONY : main_queue.o
+.PHONY : main_stack.o
 
 # target to build an object file
-main_queue.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_queue.cpp.o
-.PHONY : main_queue.cpp.o
+main_stack.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_stack.cpp.o
+.PHONY : main_stack.cpp.o
 
-main_queue.i: main_queue.cpp.i
+main_stack.i: main_stack.cpp.i
 
-.PHONY : main_queue.i
+.PHONY : main_stack.i
 
 # target to preprocess a source file
-main_queue.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_queue.cpp.i
-.PHONY : main_queue.cpp.i
+main_stack.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_stack.cpp.i
+.PHONY : main_stack.cpp.i
 
-main_queue.s: main_queue.cpp.s
+main_stack.s: main_stack.cpp.s
 
-.PHONY : main_queue.s
+.PHONY : main_stack.s
 
 # target to generate assembly for a file
-main_queue.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_queue.cpp.s
-.PHONY : main_queue.cpp.s
+main_stack.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_stack.cpp.s
+.PHONY : main_stack.cpp.s
 
 # Help Target
 help:
@@ -179,9 +179,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... container_git"
-	@echo "... main_queue.o"
-	@echo "... main_queue.i"
-	@echo "... main_queue.s"
+	@echo "... main_stack.o"
+	@echo "... main_stack.i"
+	@echo "... main_stack.s"
 .PHONY : help
 
 
