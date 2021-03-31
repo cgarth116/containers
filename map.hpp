@@ -8,7 +8,6 @@
 namespace ft
 {
 
-
 	template< typename T >
 	inline void	swap(T & x, T & y) {
 		T	tmp(x);
@@ -16,13 +15,12 @@ namespace ft
 		y = tmp;
 	}
 
-	template <class Key,                                   // map::key_type
-			class T,                                       // map::mapped_type
-			class Compare = std::less<Key>,                     // map::key_compare
-			class Alloc = std::allocator<std::pair<const Key,T> > >   // map::allocator_type
+	template <class Key,                                  				 // map::key_type
+			class T,                                     				 // map::mapped_type
+			class Compare = std::less<Key>,                     		 // map::key_compare
+			class Alloc = std::allocator<std::pair<const Key,T> > >   	 // map::allocator_type
 	class map
 	{
-
 		public:
 			typedef Alloc														allocator_type;
 			typedef std::pair< const Key, T >									value_type;
@@ -187,7 +185,7 @@ namespace ft
 			}
 			size_type erase (const key_type& key){
 				if (_sizeMap != 0) {
-					Node *p = search(_buffer, key);//  find(key).getTreeNode(); // находим узел с ключом key
+					Node *p = search(_buffer, key); // находим узел с ключом key
 					if (p == _endNode){
 						return _sizeMap;
 					}
@@ -266,9 +264,9 @@ namespace ft
 					}
 					destroy(p);
 					p = NULL;
-//				if (y->_colour == _black){ // при удалении черной вершины могла быть нарушена балансировка
-//					fixDeleting(q);
-//					}
+					if (y->_colour == _black){ // при удалении черной вершины могла быть нарушена балансировка
+						fixDeleting(p);
+					}
 					return --_sizeMap;
 				}
 				return 0;
@@ -349,6 +347,13 @@ namespace ft
 				return std::make_pair(lower_bound(key), upper_bound(key));
 			}
 
+			~map(){
+				clear();
+				_allocator.destroy(_firstNode->_data);
+				alloc_rebind(_allocator).destroy(_firstNode);
+				_allocator.destroy(_endNode->_data);
+				alloc_rebind(_allocator).destroy(_endNode);
+			}
 // section test
 		void viewAllNode(iterator node) {
 			if (node.getTreeNode()) {
@@ -357,19 +362,6 @@ namespace ft
 				viewAllNode(node.getTreeNode()->_right);
 			}
 		}
-
-//		Node * minimumNode(iterator node){
-//			if (!node.getTreeNode()->_left){
-//				return node.getTreeNode();
-//			}
-//			return minimumNode(node.getTreeNode()->_left);
-//			}
-//		Node * maximumNode(iterator node){
-//			if (!node.getTreeNode()->_right) {
-//				return node.getTreeNode();
-//			}
-//			return maximumNode(node.getTreeNode()->_right);
-//		}
 
 		//help metod for view our tree
 		void viewTree() {
@@ -518,6 +510,10 @@ namespace ft
 					}
 				}
 				_buffer->_color = _black;// восстанавливаем свойство корня
+			}
+			void fixDeleting(Node * node){
+				//in another life
+				//i now algoritm, but it's my choose
 			}
 			void leftRotate(Node * node){
 				Node *tmp = node->_right;

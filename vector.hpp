@@ -10,16 +10,16 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T   							value_type;
+			typedef T   								value_type;
 			typedef ft::vectorIterator<T>  				iterator;
-			typedef ft::const_vectorIterator<T>  			const_iterator;
-			typedef ft::reverse_vectorIterator<T>			reverse_iterator;
+			typedef ft::const_vectorIterator<T>  		const_iterator;
+			typedef ft::reverse_vectorIterator<T>		reverse_iterator;
 			typedef ft::const_reverse_vectorIterator<T>	const_reverse_iterator;
-			typedef Alloc							allocator_type;
-			typedef typename Alloc::reference		reference;
-			typedef typename Alloc::const_reference	const_reference;
-			typedef typename Alloc::pointer			pointer;
-			typedef typename Alloc::const_pointer	const_pointer;
+			typedef Alloc								allocator_type;
+			typedef typename Alloc::reference			reference;
+			typedef typename Alloc::const_reference		const_reference;
+			typedef typename Alloc::pointer				pointer;
+			typedef typename Alloc::const_pointer		const_pointer;
 			typedef memVector<T,
 							allocator_type,
 							size_t >				memVector;
@@ -60,7 +60,6 @@ namespace ft
 				while (first != last){
 					push_back(*first);
 					first++;
-					//_allocator.construct(_buffer + n++, *first++);
 				}
 			}
 			vector (const vector& x){

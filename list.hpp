@@ -151,7 +151,9 @@ namespace ft {
             }
 
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last, typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+            void assign (InputIterator first,
+						 InputIterator last,
+						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
                 if (_sizelist != 0)
                     clear();
                 while (first != last){
@@ -159,7 +161,8 @@ namespace ft {
                     first++;
                 }
             }
-            void assign (size_t n, const value_type& val){
+            void assign (size_t n,
+						 const value_type& val){
                 if (_sizelist != 0)
                     clear();
                 while (n > 0){
@@ -217,7 +220,8 @@ namespace ft {
                     _listEnd->node = _sizelist;
                 }
             }
-            iterator insert (iterator position, const value_type& val){
+            iterator insert (iterator position,
+							 const value_type& val){
                 iterator begin = _listEnd->nodeNext;
                 iterator end = _listEnd;
                 Node * tmp = _listEnd->nodeNext;
@@ -237,14 +241,19 @@ namespace ft {
                 }
                 return _listEnd;
             }
-            void insert (iterator position, size_t n, const value_type& val){
+            void insert (iterator position,
+						 size_t n,
+						 const value_type& val){
                 while (n > 0){
                     position = insert(position, val);
                  n--;
                 }
             }
             template <class InputIterator>
-            void insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
+            void insert (iterator position,
+						 InputIterator first,
+						 InputIterator last,
+						 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
                 while (first != last){
                     position = insert(position, *first);
                     first++;
@@ -253,7 +262,8 @@ namespace ft {
             iterator erase(iterator position){
                 return erase(position, ++position);
             }
-            iterator erase(iterator first, iterator last){
+            iterator erase(iterator first,
+						   iterator last){
                 iterator it = _listEnd->nodeNext;
                 if (_sizelist != 0 && first != _listEnd){
                     Node * tmp;
@@ -297,14 +307,19 @@ namespace ft {
                 erase(_listEnd->nodeNext, _listEnd);
             }
 
-			void splice (iterator position, list & x){
+			void splice (iterator position,
+						list & x){
 				splice(position, x, x.begin(), x.end());
             }
-			void splice (iterator position, list& x, iterator i){
+			void splice (iterator position,
+						list& x, iterator i){
 				iterator in = i;
             	splice(position, x, i, ++in);
             }
-			void splice (iterator position, list& x, iterator first, iterator last){
+			void splice (iterator position,
+						list& x,
+						iterator first,
+						iterator last){
 				while (first != last){
 					insert(position, *first);
 					x.erase(first++);

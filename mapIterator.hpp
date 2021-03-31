@@ -1,8 +1,6 @@
 #include <iostream>
 namespace ft{
 
-	typedef std::ptrdiff_t					difference_type;
-
 	template < typename value_type, typename allocator_type >
 	struct Node{
 
@@ -132,7 +130,6 @@ namespace ft{
 			Node * _index;
 	};
 
-	//todo привести к исправленному виду
 	template < typename value_type, typename allocator_type >
 	class const_mapIterator: public std::iterator<const std::bidirectional_iterator_tag, value_type >{
 
@@ -341,7 +338,6 @@ namespace ft{
 		Node * _index;
 	};
 
-	//todo привести к исправленному виду
 	template < typename value_type, typename allocator_type >
 	class const_reverse_mapIterator: public std::iterator<const std::bidirectional_iterator_tag, value_type >{
 

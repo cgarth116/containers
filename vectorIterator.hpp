@@ -9,7 +9,6 @@
 
 namespace ft{
 
-	typedef std::ptrdiff_t					difference_type;
 	template <class T>
 	class vectorIterator: public std::iterator<std::random_access_iterator_tag, T>{
 		typedef std::iterator< std::random_access_iterator_tag,T > 	_stdIt;
