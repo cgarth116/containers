@@ -107,6 +107,75 @@ size_t test(){
 		mistakes++;
 	}
 
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test front/back queue<char,int> ******************" << std::endl;
+	ft::queue<int> myqueueFrontOur;
+	std::queue<int> myqueueFrontOriginal;
+
+	myqueueFrontOur.push(77);
+	myqueueFrontOur.push(16);
+	myqueueFrontOriginal.push(77);
+	myqueueFrontOriginal.push(16);
+
+	myqueueFrontOur.front() -= myqueueFrontOur.back();    // 77-16=61
+	myqueueFrontOriginal.front() -= myqueueFrontOriginal.back();    // 77-16=61
+	std::cout << "myqueueOur.front() is now " << myqueueFrontOur.front() << '\n';
+	std::cout << "myqueueOriginal.front() is now " << myqueueFrontOriginal.front() << '\n';
+
+	if (myqueueFrontOur.front() == myqueueFrontOriginal.front())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		mistakes++;
+	}
+
+
+	std::cout << "\nTest " << i++ << std::endl;
+	std::cout << "****************** Test push/pop queue<char,int> ******************" << std::endl;
+	ft::queue<int> myqueuePushOur;
+	int myint;
+	std::queue<int> myqueuePushOriginal;
+
+	myqueuePushOur.push(1);
+	myqueuePushOur.push(3);
+	myqueuePushOur.push(13);
+	myqueuePushOur.push(31);
+	myqueuePushOur.push(11);
+	myqueuePushOur.push(10);
+	myqueuePushOur.push(111);
+	myqueuePushOriginal.push(1);
+	myqueuePushOriginal.push(3);
+	myqueuePushOriginal.push(13);
+	myqueuePushOriginal.push(31);
+	myqueuePushOriginal.push(11);
+	myqueuePushOriginal.push(10);
+	myqueuePushOriginal.push(111);
+
+	std::cout << "myqueueOur contains: ";
+	while (!myqueuePushOur.empty())
+	{
+		std::cout << ' ' << myqueuePushOur.front();
+		myqueuePushOur.pop();
+	}
+	std::cout << '\n';
+	std::cout << "myqueueOriginal contains: ";
+	while (!myqueuePushOriginal.empty())
+	{
+		std::cout << ' ' << myqueuePushOriginal.front();
+		myqueuePushOriginal.pop();
+	}
+	std::cout << '\n';
+
+	if (myqueuePushOur.size() == myqueuePushOriginal.size())
+		std::cout << "✅ OK" << std::endl;
+	else
+	{
+		std::cout << "❌FALSE❌ : expected ";
+		mistakes++;
+	}
+
 	return mistakes;
 }
 
