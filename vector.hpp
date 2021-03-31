@@ -51,7 +51,6 @@ namespace ft
 		   			InputIterator last,
 		   			const allocator_type& alloc = allocator_type(),
 					typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0){
-				size_t n = 0;
 				_size = 0;
 				_capacity = 1;
 				_allocator = alloc;

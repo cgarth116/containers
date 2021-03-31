@@ -46,8 +46,6 @@ namespace ft
 			explicit map (const key_compare& comp = key_compare(),
 				 		const allocator_type& alloc = allocator_type()):
 						_allocator(alloc), _keyCompare(comp), _valueCompare(comp){
-				_buffer = alloc_rebind(alloc).allocate(1);
-				alloc_rebind(alloc).construct(_buffer);
 
 				//создаем first ноду
 				_firstNode = alloc_rebind(alloc).allocate(1);
@@ -61,6 +59,7 @@ namespace ft
 				_endNode->_left = _endNode;
 				_sizeMap = 0;
 				_firstNode->_parent = _endNode;
+				_buffer = nullptr;
 			}
 			template <class InputIterator>
 			map (InputIterator first,
@@ -70,8 +69,6 @@ namespace ft
 				typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0):
 					_allocator(alloc), _keyCompare(comp), _valueCompare(comp){
 
-				_buffer = alloc_rebind(_allocator).allocate(1);
-				alloc_rebind(_allocator).construct(_buffer);
 				//создаем first ноду
 				_firstNode = alloc_rebind(_allocator).allocate(1);
 				alloc_rebind(_allocator).construct(_firstNode);
@@ -84,13 +81,12 @@ namespace ft
 				_endNode->_left = _endNode;
 				_sizeMap = 0;
 				_firstNode->_parent = _endNode;
+				_buffer = nullptr;
 
 				insert(first,last);
 			}
 			map (const map& rhs):
 					_allocator(rhs._allocator), _keyCompare(rhs._keyCompare), _valueCompare(rhs._valueCompare){
-				_buffer = alloc_rebind(_allocator).allocate(1);
-				alloc_rebind(_allocator).construct(_buffer);
 				//создаем first ноду
 				_firstNode = alloc_rebind(_allocator).allocate(1);
 				alloc_rebind(_allocator).construct(_firstNode);
@@ -103,6 +99,7 @@ namespace ft
 				_endNode->_left = _endNode;
 				_sizeMap = 0;
 				_firstNode->_parent = _endNode;
+				_buffer = nullptr;
 
 				*this = rhs;
 			}
@@ -165,6 +162,8 @@ namespace ft
 			}
 			iterator insert (iterator position,
 							const value_type& value){
+				Node * tmp = position.getTreeNode();
+				tmp = NULL;
 				return insert(value).first;
 			}
 			template <class InputIterator>
@@ -194,6 +193,7 @@ namespace ft
 						if (p == _buffer) { //p — корень
 							_firstNode->_parent = _endNode;
 							_endNode->_parent = NULL;
+							_buffer = nullptr;
 						} else { //ссылку на p у "отца" меняем на NULL или крайнюю ноду
 							if (p == p->_parent->_left) {
 								p->_parent->_left = NULL;
@@ -242,30 +242,59 @@ namespace ft
 								}
 							}
 						}
+						destroy(p);
+						p = NULL;
 					} else { // два ребенка
 						iterator it = find(key);
-						y = (++it).getTreeNode();//y = вершина, со следующим значением ключа, у нее нет левого ребенка
-						if (y->_right != NULL && y->_right != _endNode) {//y имеет правого ребенка
-							y->_right->_parent = y->_parent; //меняем у него отца
-						}
-						if (y == _buffer) { //y — корень
-							_buffer = y->_right;
-						} else { //у родителя ссылку на y меняем на ссылку на первого ребенка y
-							if (y->_parent->_left == y) {
+						if (p == _buffer) {
+							if (p->_left != NULL && p->_right == _endNode) {
+								y = (--it).getTreeNode();
+								_buffer = p->_left;
+								_buffer->_parent = nullptr;
+								y->_right = _endNode;
+								_endNode->_parent = y;
+								destroy(p);
+							}
+							if (p->_right != NULL && p->_left == _firstNode) {
+								y = (++it).getTreeNode();
+								_buffer = p->_right;
+								_buffer->_parent = nullptr;
+								y->_left = _firstNode;
+								_firstNode->_parent = y;
+								destroy(p);
+							}
+						} else {
+							y = (++it).getTreeNode();//y = вершина, со следующим значением ключа, у нее нет левого ребенка
+							if (y->_right != NULL && y->_right != _endNode) {//y имеет правого ребенка
+								y->_right->_parent = y->_parent; //меняем у него отца
 								y->_parent->_left = y->_right;
+							if (p == p->_parent->_left) {
+								p->_parent->_left = y;
 							} else {
-								y->_parent->_right = y->_right;
+								p->_parent->_right = y;
+							}
+							p->_left->_parent = y;
+								destroy(p);
 							}
 						}
 					}
-					if (y != NULL && y != p) {
-						p->_color = y->_color;
-						p->_data = y->_data;
-					}
-					destroy(p);
-					p = NULL;
-					if (y->_colour == _black){ // при удалении черной вершины могла быть нарушена балансировка
-						fixDeleting(p);
+//					if (y != NULL && y != p) {
+//						y->_parent = p->_parent;
+//						y->_left = p->_left;
+//						y->_right = p->_right;
+//						p->_left->_parent = y;
+//						if (p == p->_parent->_left) {
+//							p->_parent->_left = y;
+//						} else {
+//							p->_parent->_right = y;
+//						}
+//						destroy(p);
+//						p->_color = y->_color;
+//						p->_data = y->_data;
+//						destroy(y);
+//					}
+					if (y != NULL && y->_color == _black){ // при удалении черной вершины могла быть нарушена балансировка
+						fixDeleting();
 					}
 					return --_sizeMap;
 				}
@@ -284,8 +313,8 @@ namespace ft
 				ft::swap(_sizeMap, x._sizeMap);
 			}
 			void destroy(Node * tmp){
-				_allocator.destroy(tmp->_data);
 				alloc_rebind(_allocator).destroy(tmp);
+				alloc_rebind(_allocator).deallocate(tmp, 1);
 			}
 
 			//Observers
@@ -349,10 +378,8 @@ namespace ft
 
 			~map(){
 				clear();
-				_allocator.destroy(_firstNode->_data);
-				alloc_rebind(_allocator).destroy(_firstNode);
-				_allocator.destroy(_endNode->_data);
-				alloc_rebind(_allocator).destroy(_endNode);
+				destroy(_firstNode);
+				destroy(_endNode);
 			}
 // section test
 		void viewAllNode(iterator node) {
@@ -408,64 +435,62 @@ namespace ft
 				Node * newNode = alloc_rebind(_allocator).allocate(1);
 				alloc_rebind(_allocator).construct(newNode);
 				newNode->insertNode(value);//создаем полностью ноду с ключом
-				if (_endNode->_parent == NULL) {
-					_buffer = newNode; // корневая нода
+				Node * tmp = insertOneNode(position, newNode); //пробуем вставить ноду в дерево
+				if (newNode == tmp){
+					return std::make_pair(newNode, true);
+				}
+				destroy(newNode);
+				return std::make_pair(tmp, false);
+			}
+			Node * insertOneNode(Node * x,
+								Node * z) {           // x — корень поддерева, z — вставляемый элемент
+				if (x == nullptr){
+					_buffer = z; // корневая нода
 					_buffer->_left = _firstNode;
 					_buffer->_right = _endNode;
 					_buffer->_color = _black;
 					_firstNode->_parent = _buffer; //досоздаем first ноду
 					_endNode->_parent = _buffer; //досоздаем end ноду
-					++_sizeMap;
-					return std::make_pair(_buffer ,true);
+					_buffer->_parent = nullptr;
 				} else {
-					Node * tmp = insertOneNode(position, newNode); //пробуем вставить ноду в дерево
-					if (newNode == tmp){
-						return std::make_pair(newNode, true);
-					}
-					_allocator.destroy(newNode->_data);//элемент существует поэтому уничтожаем ноду
-					alloc_rebind(_allocator).destroy(newNode);
-					return std::make_pair(tmp, false);
-				}
-			}
-			Node * insertOneNode(Node * x,
-								Node * z) {           // x — корень поддерева, z — вставляемый элемент
-				while (x != nullptr) {
-					if (z->_data->first != x->_data->first) {
-						if (z->_data->first > x->_data->first) {
-							if (x->_right != nullptr && x->_right != _endNode) {
-								x = x->_right;
-							} else {
-								if (x->_right == _endNode) {
-									x->_right = z;
-									z->_parent = x;
-									z->_right = _endNode;
-									_endNode->_parent = z;
+					while (x != nullptr) {
+						if (z->_data->first != x->_data->first) {
+							if (z->_data->first > x->_data->first) {
+								if (x->_right != nullptr && x->_right != _endNode) {
+									x = x->_right;
 								} else {
-									z->_parent = x;
-									x->_right = z;
-								}
-								break;
-							}
-						} else {
-							if (z->_data->first < x->_data->first) {
-								if (x->_left != nullptr && x->_left != _firstNode) {
-									x = x->_left;
-								} else {
-									if (x->_left == _firstNode) {
-										x->_left = z;
+									if (x->_right == _endNode) {
+										x->_right = z;
 										z->_parent = x;
-										z->_left = _firstNode;
-										_firstNode->_parent = z;
+										z->_right = _endNode;
+										_endNode->_parent = z;
 									} else {
 										z->_parent = x;
-										x->_left = z;
+										x->_right = z;
 									}
 									break;
 								}
+							} else {
+								if (z->_data->first < x->_data->first) {
+									if (x->_left != nullptr && x->_left != _firstNode) {
+										x = x->_left;
+									} else {
+										if (x->_left == _firstNode) {
+											x->_left = z;
+											z->_parent = x;
+											z->_left = _firstNode;
+											_firstNode->_parent = z;
+										} else {
+											z->_parent = x;
+											x->_left = z;
+										}
+										break;
+									}
+								}
 							}
+						} else {
+							return x;
 						}
-					} else {
-						return x;
 					}
 				}
 				++_sizeMap;
@@ -511,7 +536,7 @@ namespace ft
 				}
 				_buffer->_color = _black;// восстанавливаем свойство корня
 			}
-			void fixDeleting(Node * node){
+			void fixDeleting(){
 				//in another life
 				//i now algoritm, but it's my choose
 			}

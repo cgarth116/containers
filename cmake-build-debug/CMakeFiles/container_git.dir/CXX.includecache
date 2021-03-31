@@ -6,39 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/Users/cgarth/project/cont/main_stack.cpp
+/Users/cgarth/project/cont/main_map.cpp
 iostream
 -
-stack
+map
 -
-vector
--
-stack.hpp
-/Users/cgarth/project/cont/stack.hpp
+map.hpp
+/Users/cgarth/project/cont/map.hpp
 
-/Users/cgarth/project/cont/memVector.hpp
-stdexcept
--
-memory
--
-
-/Users/cgarth/project/cont/stack.hpp
-vector.hpp
-/Users/cgarth/project/cont/vector.hpp
-
-/Users/cgarth/project/cont/vector.hpp
+/Users/cgarth/project/cont/map.hpp
 memory
 -
 iostream
 -
+type_traits
+-
 stdexcept
 -
-vectorIterator.hpp
-/Users/cgarth/project/cont/vectorIterator.hpp
-memVector.hpp
-/Users/cgarth/project/cont/memVector.hpp
+mapIterator.hpp
+/Users/cgarth/project/cont/mapIterator.hpp
+list
+-
 
-/Users/cgarth/project/cont/vectorIterator.hpp
+/Users/cgarth/project/cont/mapIterator.hpp
 iostream
 -
 
