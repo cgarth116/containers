@@ -10,14 +10,8 @@ namespace ft
 			typedef T					value_type;
 			typedef Container			container_type;
 			typedef size_t				size_type;
-			typedef queue<T, Container> _queue;
 
 			explicit queue (const container_type& ct = container_type()) :_ct(ct){}
-			queue(const _queue & rhs): _ct(rhs._ct) {}
-			_queue &operator=(const _queue & rhs){
-				_ct = rhs._ct;
-				return *this;
-			}
 
 			~queue(){}
 
