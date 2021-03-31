@@ -51,15 +51,27 @@ namespace ft
 	};
 
 	template <class T, class Container>
-	bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+		return (lhs._ct == rhs._ct);
+	}
 	template <class T, class Container>
-	bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs){
+		return (lhs._ct != rhs._ct);
+	}
 	template <class T, class Container>
-	bool operator<  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	bool operator<  (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+		return (lhs._ct < rhs._ct);
+	}
 	template <class T, class Container>
-	bool operator<= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	bool operator<= (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+		return (lhs._ct <= rhs._ct);
+	}
 	template <class T, class Container>
-	bool operator>  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	bool operator>  (const queue<T,Container>& lhs, const queue<T,Container>& rhs){
+		return (lhs._ct > rhs._ct);
+	}
 	template <class T, class Container>
-	bool operator>= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	bool operator>= (const queue<T,Container>& lhs, const queue<T,Container>& rhs){
+		return (lhs._ct >= rhs._ct);
+	}
 }
