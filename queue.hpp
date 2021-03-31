@@ -46,27 +46,20 @@ namespace ft
 				_ct.pop_front();
 			}
 
-
-		friend bool	operator==(const queue<T, Container>& lhs, const queue<T, Container>& rhs) {
-			return (lhs._ct == rhs._ct);
-		}
-		friend bool operator!=(const queue<T, Container>& lhs, const queue<T, Container>& rhs) {
-			return (lhs._ct != rhs._ct);
-		}
-		friend bool	operator<(const queue<T, Container>& lhs, const queue<T, Container>& rhs) {
-			return (lhs._ct < rhs._ct);
-		}
-		friend bool operator>(const queue<T, Container>& lhs, const queue<T, Container>& rhs) {
-			return (lhs._ct > rhs._ct);
-		}
-		friend bool	operator<=(const queue<T, Container>& lhs, const queue<T, Container>& rhs) {
-			return (lhs._ct <= rhs._ct);
-		}
-		friend bool operator>=(const queue<T, Container>& lhs, const queue<T, Container>& rhs) {
-			return (lhs._ct >= rhs._ct);
-		}
-
 		private:
 			container_type _ct;
 	};
+
+	template <class T, class Container>
+	bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+	bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+	bool operator<  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+	bool operator<= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+	bool operator>  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+	bool operator>= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
 }
