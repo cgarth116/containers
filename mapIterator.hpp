@@ -14,18 +14,10 @@ namespace ft{
 
 		value_type * insertNode(const value_type & value){
 			allocator_type().construct(_data, value);
-			//std::cout << "data:" << _data << "|" << _data->first<<std::endl;
 			return _data;
 		}
-
-//		value_type * insertNode(const value_type & value){
-//			allocator_type().construct(_data, value);
-//			return _data;
-//		}
-
 		void destroyData(){
 			allocator_type().destroy(_data);
-			//allocator_type().deallocate(_data, 1);
 		}
 		~Node(){
 			allocator_type().destroy(_data);

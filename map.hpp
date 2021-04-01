@@ -160,6 +160,8 @@ namespace ft
 		}
 		iterator insert (iterator position,
 						 const value_type& value){
+			iterator tmp;
+			tmp = position;
 			return insert(value).first;
 		}
 		template <class InputIterator>

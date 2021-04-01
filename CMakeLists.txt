@@ -3,4 +3,4 @@ project(container_git)
 
 set(CMAKE_CXX_STANDARD 98)
 
-add_executable(container_git main_map.cpp list.hpp vector.hpp listIterator.hpp vectorIterator.hpp memVector.hpp stack.hpp queue.hpp map.hpp mapIterator.hpp)
+add_executable(container_git main_list.cpp list.hpp vector.hpp listIterator.hpp vectorIterator.hpp memVector.hpp stack.hpp queue.hpp map.hpp mapIterator.hpp)
