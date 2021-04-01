@@ -131,7 +131,7 @@ size_t test(){
 	fourthOriginal['c']=50;
 	fourthOriginal['d']=70;
 
-	fourthOur.viewTree();
+	//fourthOur.viewTree();
 
 	if (fourthOur.begin()->first == fourthOriginal.begin()->first && fourthOur.size() == fourthOriginal.size())
 		std::cout << "✅ OK" << std::endl;
@@ -334,6 +334,8 @@ size_t test(){
 
 	std::cout << "\nTest " << i++ << std::endl;
 	std::cout << "****************** Test max_size() map<char,int> ******************" << std::endl;
+	mymapOur.clear();
+	mymapOriginal.clear();
 	int i1;
 	std::map<int,int> mymap;
 
@@ -413,6 +415,9 @@ size_t test(){
 		std::cout << "Original element 'z' already existed";
 		std::cout << " with a value of " << retOriginal.first->second << '\n';
 	}
+
+	std::cout << mymapOur.size()<< std::endl;
+	std::cout << mymapOriginal.size()<< std::endl;
 
 	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
 		std::cout << "✅ OK" << std::endl;
@@ -800,12 +805,22 @@ size_t test(){
 	mymapOur['c']=60;
 	mymapOur['d']=80;
 	mymapOur['e']=100;
+	mymapOur['R']=20;
+	mymapOur['T']=40;
+	mymapOur['y']=60;
+	mymapOur['u']=80;
+	mymapOur['q']=100;
 
 	mymapOriginal['a']=20;
 	mymapOriginal['b']=40;
 	mymapOriginal['c']=60;
 	mymapOriginal['d']=80;
 	mymapOriginal['e']=100;
+	mymapOriginal['R']=20;
+	mymapOriginal['T']=40;
+	mymapOriginal['y']=60;
+	mymapOriginal['u']=80;
+	mymapOriginal['q']=100;
 
 	itlowOur=mymapOur.lower_bound ('b');  // itlow points to b
 	itupOur=mymapOur.upper_bound ('d');   // itup points to e (not d!)
@@ -817,9 +832,9 @@ size_t test(){
 
 	// print content:
 	for (ft::map<char,int>::iterator itOur=mymapOur.begin(); itOur!=mymapOur.end(); ++itOur)
-		std::cout << itOur->first << " => " << itOur->second << '\n';
+		std::cout << "Our :"<<itOur->first << " => " << itOur->second << '\n';
 	for (std::map<char,int>::iterator itOriginal=mymapOriginal.begin(); itOriginal!=mymapOriginal.end(); ++itOriginal)
-			std::cout << itOriginal->first << " => " << itOriginal->second << '\n';
+			std::cout << "Original :"<<itOriginal->first << " => " << itOriginal->second << '\n';
 
 	if (mymapOur.begin()->first == mymapOriginal.begin()->first && mymapOur.size() == mymapOriginal.size())
 		std::cout << "✅ OK" << std::endl;
@@ -878,8 +893,8 @@ int main(){
 	size_t result = test();
 
 	std::cout << "\nMistakes=" << result << std::endl;
-	//std::cout << "\nCheck leaks in another terminal" << std::endl;
-	//getchar();
+	std::cout << "\nCheck leaks in another terminal" << std::endl;
+	getchar();
 
 	return 0;
 }

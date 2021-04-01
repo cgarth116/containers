@@ -143,32 +143,32 @@ container_git/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/build
 .PHONY : container_git/fast
 
-main_stack.o: main_stack.cpp.o
+main_list.o: main_list.cpp.o
 
-.PHONY : main_stack.o
+.PHONY : main_list.o
 
 # target to build an object file
-main_stack.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_stack.cpp.o
-.PHONY : main_stack.cpp.o
+main_list.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_list.cpp.o
+.PHONY : main_list.cpp.o
 
-main_stack.i: main_stack.cpp.i
+main_list.i: main_list.cpp.i
 
-.PHONY : main_stack.i
+.PHONY : main_list.i
 
 # target to preprocess a source file
-main_stack.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_stack.cpp.i
-.PHONY : main_stack.cpp.i
+main_list.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_list.cpp.i
+.PHONY : main_list.cpp.i
 
-main_stack.s: main_stack.cpp.s
+main_list.s: main_list.cpp.s
 
-.PHONY : main_stack.s
+.PHONY : main_list.s
 
 # target to generate assembly for a file
-main_stack.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_stack.cpp.s
-.PHONY : main_stack.cpp.s
+main_list.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container_git.dir/build.make CMakeFiles/container_git.dir/main_list.cpp.s
+.PHONY : main_list.cpp.s
 
 # Help Target
 help:
@@ -179,9 +179,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... container_git"
-	@echo "... main_stack.o"
-	@echo "... main_stack.i"
-	@echo "... main_stack.s"
+	@echo "... main_list.o"
+	@echo "... main_list.i"
+	@echo "... main_list.s"
 .PHONY : help
 
 

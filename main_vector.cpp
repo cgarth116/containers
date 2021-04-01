@@ -740,8 +740,8 @@ int main(){
 	size_t result = test();
 
 	std::cout << "\nMistakes=" << result << std::endl;
-//	std::cout << "Check leaks in another terminal" << std::endl;
-//	getchar();
+	std::cout << "Check leaks in another terminal" << std::endl;
+	getchar();
 
 	return 0;
 }

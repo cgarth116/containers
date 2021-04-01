@@ -134,7 +134,6 @@ size_t test(){
 	std::cout << "\nTest " << i++ << std::endl;
 	std::cout << "****************** Test push/pop queue<char,int> ******************" << std::endl;
 	ft::queue<int> myqueuePushOur;
-	int myint;
 	std::queue<int> myqueuePushOriginal;
 
 	myqueuePushOur.push(1);
@@ -183,8 +182,8 @@ int main(){
 	size_t result = test();
 
 	std::cout << "\nMistakes=" << result << std::endl;
-	//std::cout << "\nCheck leaks in another terminal" << std::endl;
-	//getchar();
+	std::cout << "\nCheck leaks in another terminal" << std::endl;
+	getchar();
 
 	return 0;
 }
