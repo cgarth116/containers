@@ -13,8 +13,8 @@ namespace ft{
 		}
 
 		value_type * insertNode(const value_type & value){
-			_data = allocator_type().allocate(1);
 			allocator_type().construct(_data, value);
+			//std::cout << "data:" << _data << "|" << _data->first<<std::endl;
 			return _data;
 		}
 
@@ -22,13 +22,15 @@ namespace ft{
 //			allocator_type().construct(_data, value);
 //			return _data;
 //		}
-//		void destroyData(){
-//			allocator_type().destroy(_data);
-//		}
-//		~Node(){
-//			allocator_type().destroy(_data);
-//			allocator_type().deallocate(_data, 1);
-//		}
+
+		void destroyData(){
+			allocator_type().destroy(_data);
+			//allocator_type().deallocate(_data, 1);
+		}
+		~Node(){
+			allocator_type().destroy(_data);
+			allocator_type().deallocate(_data, 1);
+		}
 
 		value_type *			_data;
 		Node *					_parent;

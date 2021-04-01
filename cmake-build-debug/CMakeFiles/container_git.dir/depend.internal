@@ -5,3 +5,6 @@ CMakeFiles/container_git.dir/main_map.cpp.o
  /Users/cgarth/project/cont/main_map.cpp
  /Users/cgarth/project/cont/map.hpp
  /Users/cgarth/project/cont/mapIterator.hpp
+ /Users/cgarth/project/cont/memVector.hpp
+ /Users/cgarth/project/cont/vector.hpp
+ /Users/cgarth/project/cont/vectorIterator.hpp

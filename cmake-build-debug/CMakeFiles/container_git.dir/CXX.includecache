@@ -27,8 +27,32 @@ mapIterator.hpp
 /Users/cgarth/project/cont/mapIterator.hpp
 list
 -
+vector.hpp
+/Users/cgarth/project/cont/vector.hpp
 
 /Users/cgarth/project/cont/mapIterator.hpp
+iostream
+-
+
+/Users/cgarth/project/cont/memVector.hpp
+stdexcept
+-
+memory
+-
+
+/Users/cgarth/project/cont/vector.hpp
+memory
+-
+iostream
+-
+stdexcept
+-
+vectorIterator.hpp
+/Users/cgarth/project/cont/vectorIterator.hpp
+memVector.hpp
+/Users/cgarth/project/cont/memVector.hpp
+
+/Users/cgarth/project/cont/vectorIterator.hpp
 iostream
 -
 

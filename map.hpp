@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include "mapIterator.hpp"
 #include <list>
+#include "vector.hpp"
 
 namespace ft
 {
@@ -46,8 +47,6 @@ namespace ft
 		explicit map (const key_compare& comp = key_compare(),
 					  const allocator_type& alloc = allocator_type()):
 				_allocator(alloc), _keyCompare(comp), _valueCompare(comp){
-			_buffer = alloc_rebind(alloc).allocate(1);
-			alloc_rebind(alloc).construct(_buffer);
 
 			//создаем first ноду
 			_firstNode = alloc_rebind(alloc).allocate(1);
@@ -70,8 +69,6 @@ namespace ft
 			 typename std::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0):
 				_allocator(alloc), _keyCompare(comp), _valueCompare(comp){
 
-			_buffer = alloc_rebind(_allocator).allocate(1);
-			alloc_rebind(_allocator).construct(_buffer);
 			//создаем first ноду
 			_firstNode = alloc_rebind(_allocator).allocate(1);
 			alloc_rebind(_allocator).construct(_firstNode);
@@ -89,8 +86,6 @@ namespace ft
 		}
 		map (const map& rhs):
 				_allocator(rhs._allocator), _keyCompare(rhs._keyCompare), _valueCompare(rhs._valueCompare){
-			_buffer = alloc_rebind(_allocator).allocate(1);
-			alloc_rebind(_allocator).construct(_buffer);
 			//создаем first ноду
 			_firstNode = alloc_rebind(_allocator).allocate(1);
 			alloc_rebind(_allocator).construct(_firstNode);
@@ -179,13 +174,19 @@ namespace ft
 
 		void erase (iterator first,
 					iterator last){
+			ft::vector<key_type> tmp;
 			while (first != last) {
-				erase((*first++).first);
+				tmp.push_back((*first++).first);
+			}
+			while(tmp.size()){
+				erase(tmp.back());
+				tmp.pop_back();
 			}
 		}
+
 		size_type erase (const key_type& key){
 			if (_sizeMap != 0) {
-				Node *p = search(_buffer, key);//  find(key).getTreeNode(); // находим узел с ключом key
+				Node *p = search(_buffer, key); // находим узел с ключом key
 				if (p == _endNode){
 					return _sizeMap;
 				}
@@ -194,6 +195,7 @@ namespace ft
 					if (p == _buffer) { //p — корень
 						_firstNode->_parent = _endNode;
 						_endNode->_parent = NULL;
+						_buffer = nullptr;
 					} else { //ссылку на p у "отца" меняем на NULL или крайнюю ноду
 						if (p == p->_parent->_left) {
 							p->_parent->_left = NULL;
@@ -209,7 +211,7 @@ namespace ft
 							}
 						}
 					}
-					//destroy(p);
+					destroy(p);
 					return --_sizeMap;
 				}
 				Node *y = NULL;
@@ -242,6 +244,7 @@ namespace ft
 							}
 						}
 					}
+					destroy(p);
 				} else { // два ребенка
 					iterator it = find(key);
 					y = (++it).getTreeNode();//y = вершина, со следующим значением ключа, у нее нет левого ребенка
@@ -259,23 +262,27 @@ namespace ft
 					}
 				}
 				if (y != NULL && y != p) {
+					p->destroyData();
 					p->_color = y->_color;
-					p->_data = y->_data;
+					p->insertNode(std::make_pair(y->_data->first, y->_data->second));
+					destroy(y);
 				}
-				//destroy(p);
-				//p = NULL;
-//				if (y->_colour == _black){ // при удалении черной вершины могла быть нарушена балансировка
-//					fixDeleting(q);
-//					}
+				if (p->_color == _black){ // при удалении черной вершины могла быть нарушена балансировка
+					fixDeleting();
+				}
 				return --_sizeMap;
+			} else {
+				return 0;
 			}
-			return 0;
 		}
+
 		void erase (iterator position){
 			erase((*position).first);
 		}
 		void clear(){
-			erase(begin(), end());
+			while (_sizeMap){
+				erase(begin());
+			}
 		}
 		void swap (map& x){
 			ft::swap(_buffer, x._buffer);
@@ -356,19 +363,6 @@ namespace ft
 				viewAllNode(node.getTreeNode()->_right);
 			}
 		}
-
-//		Node * minimumNode(iterator node){
-//			if (!node.getTreeNode()->_left){
-//				return node.getTreeNode();
-//			}
-//			return minimumNode(node.getTreeNode()->_left);
-//			}
-//		Node * maximumNode(iterator node){
-//			if (!node.getTreeNode()->_right) {
-//				return node.getTreeNode();
-//			}
-//			return maximumNode(node.getTreeNode()->_right);
-//		}
 
 		//help metod for view our tree
 		void viewTree() {
@@ -517,6 +511,10 @@ namespace ft
 			}
 			_buffer->_color = _black;// восстанавливаем свойство корня
 		}
+		void fixDeleting(){
+			//in another life
+			//i now algoritm, but it's my choose
+		}
 		void leftRotate(Node * node){
 			Node *tmp = node->_right;
 
@@ -561,13 +559,15 @@ namespace ft
 		}
 
 		void destroy(Node * tmp){
-			_allocator.destroy(tmp->_data);
 			alloc_rebind(_allocator).destroy(tmp);
+			alloc_rebind(_allocator).deallocate(tmp, 1);
 		}
+
 
 		Node * search(Node * x,
 					  const key_type& key) {
 			if (x == nullptr ||
+				x == _endNode ||
 				x == _endNode ||
 				x == _firstNode){
 				return _endNode;
